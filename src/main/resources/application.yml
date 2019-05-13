@@ -1,0 +1,93 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:mariadb://localhost:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes;
+    username: jmi
+    password: wkd6034
+    platform: mariadb
+    driver-class-name: org.mariadb.jdbc.Driver
+    dbcp2:
+      validation-query: select 1
+  jpa:
+    generate-ddl: true  #ddl을 자동으로 생성한다.
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+      hibernate.dialect: org.hibernate.dialect.MySQL55Dialect #데이터 베이스 방언 각각 디비별 고유한 기능으로 대체시키는 설정
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type.descriptor.sql: trace
+uploads:
+  resouceImgPath : /home/jang/uploads/resImg
+  filePath: /home/jang/uploads/file
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mariadb://124.53.243.87:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes;
+    username: jmi
+    password: wkd6034
+    platform: mariadb
+    driver-class-name: org.mariadb.jdbc.Driver
+    dbcp2:
+      validation-query: select 1
+  jpa:
+    generate-ddl: true
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+      hibernate.dialect: org.hibernate.dialect.MySQL55Dialect
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type.descriptor.sql: trace
+uploads:
+  resouceImgPath : C:/uploads/resImg
+  filePath: C:/uploads/file
+---
+spring:
+  profiles: real
+  datasource:
+    url: jdbc:mariadb://124.53.243.87:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes;
+    username: jmi
+    password: wkd6034
+    platform: mariadb
+    driver-class-name: org.mariadb.jdbc.Driver
+    dbcp2:
+      validation-query: select 1
+  jpa:
+    generate-ddl: false
+    database: mysql
+    show-sql: false
+    properties:
+      hibernate.format_sql: true
+      hibernate.dialect: org.hibernate.dialect.MySQL55Dialect
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type.descriptor.sql: trace
+uploads:
+  resouceImgPath : /home/ieum/uploads/resImg
+  filePath: /home/ieum/uploads/file
