@@ -37,6 +37,13 @@ public class ProgramApplicationController {
         return map;
     }
 
+    @RequestMapping(value = "/programApp/program/{id}", method = RequestMethod.GET)
+    public Map<String, Object> appList(@PathVariable long id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", programApplicationService.findByProgram(id));
+        return map;
+    }
+
     @RequestMapping(value = "/programApp", method = RequestMethod.POST)
     public Map<String, Object> insert(@RequestBody ProgramApplication programApplication) {
         return programApplicationService.save(programApplication);

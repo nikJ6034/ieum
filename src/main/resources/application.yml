@@ -7,7 +7,7 @@ spring:
 spring:
   profiles: local
   datasource:
-    url: jdbc:mariadb://localhost:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes;
+    url: jdbc:mariadb://localhost:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes&serverTimezone=Asia/Seoul;
     username: jmi
     password: wkd6034
     platform: mariadb
@@ -37,7 +37,7 @@ uploads:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mariadb://124.53.243.87:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes;
+    url: jdbc:mariadb://124.53.243.87:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes&serverTimezone=Asia/Seoul;
     username: jmi
     password: wkd6034
     platform: mariadb
@@ -67,7 +67,7 @@ uploads:
 spring:
   profiles: real
   datasource:
-    url: jdbc:mariadb://124.53.243.87:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes;
+    url: jdbc:mariadb://124.53.243.87:3306/eum_db?autoReconnect=true&characterEncoding=utf8&useUnicode=yes&serverTimezone=Asia/Seoul;
     username: jmi
     password: wkd6034
     platform: mariadb

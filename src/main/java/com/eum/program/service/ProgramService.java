@@ -113,8 +113,9 @@ public class ProgramService {
                     p.setAddressNumber(program.getAddressNumber());
                     p.setContent(program.getContent());
                     p.setStrAppDate(program.getStrAppDate());
-                    p.setEndDate(program.getEndDate());
+                    p.setEndAppDate(program.getEndAppDate());
                     p.setStrDate(program.getStrDate());
+                    p.setEndDate(program.getEndDate());
                     p.setKind(program.getKind());
                     p.setOption(program.getOption());
                     p.setTitle(program.getTitle());

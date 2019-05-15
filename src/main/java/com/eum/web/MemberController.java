@@ -114,10 +114,7 @@ public class MemberController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MenuRole menuRole = new MenuRole();
 		Menu menu = menuService.getMenuByUrl(url);
-		AuthDTO auth = null;
-
-		auth = authService.getAuth();
-
+		AuthDTO auth = authService.getAuth();
 		if(auth.isAdmin()){
 			menuRole.setDeleteRole("Y");
 			menuRole.setModifyRole("Y");

@@ -49,12 +49,6 @@ public class ReservationService {
 		return reservationRepositoryDsl.listByOwn(reservationDateDTO).stream().map(re -> modelMapper.map(re, ReservationDTO.class)).collect(Collectors.toList());
 	}
 	
-	public Map<String, Object> checkDate(Reservation reservation){
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		return map;
-	}
-	
 	public Map<String, Object> insert(Reservation reservation){
 		Map<String, Object> map = new HashMap<String, Object>();
 		long exists = reservationRepositoryDsl.exists(reservation);

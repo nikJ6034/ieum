@@ -8,11 +8,11 @@
                     <b-nav-item to='/login'>로그인</b-nav-item>
                 </template >
                 <template  v-else>
-                    <b-nav-item><template v-if="store.state.ieumUserName">{{store.state.ieumUserName}}님 환영합니다.</template></b-nav-item>
+                    <b-nav-item>{{store.state.ieumUserName}}님 환영합니다.</b-nav-item>
                     <b-nav-item to="/logout">로그아웃</b-nav-item>
                 </template >
-                <b-nav-item>회원가입</b-nav-item>
-                <b-nav-item to="/about">사이트맵</b-nav-item>
+<!--                <b-nav-item>회원가입</b-nav-item>-->
+<!--                <b-nav-item to="/about">사이트맵</b-nav-item>-->
             </b-nav>
         </div>
     </section>
@@ -86,7 +86,7 @@ export default  {
   /* Large desktops and laptops */
 @media (min-width: 1200px) {
     .header .header-container{
-        width: 1170px;
+        width: 1080px;
     }
 }
 

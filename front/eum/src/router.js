@@ -9,6 +9,7 @@ axios.defaults.withCredentials = true;
 const requireAuth = () => (from, to, next) => {
   // const isAuthenticated = false
 	if (store.state.ieumAccessToken) return next()
+    alert("로그인해주세요.");
 	next('/login?returnPath=me')
 }
 
@@ -21,7 +22,7 @@ const requireAdmin = () => (from, to, next) => {
 
 const logout = () => (from, to, next) =>{
 	store.dispatch('LOGOUT');
-	next('/')
+	next('/');
 }
 
 const vueRouter = new Router({
@@ -89,7 +90,8 @@ const vueRouter = new Router({
     {
         path: '/freeBoard/insert',
         name: 'FreeBoardInsert',
-        component: () => import('@/page/freeBoard/FreeBoardInsert.vue')
+        component: () => import('@/page/freeBoard/FreeBoardInsert.vue'),
+        beforeEnter: requireAuth()
     },
     {
         path: '/freeBoard/:id',
@@ -99,7 +101,8 @@ const vueRouter = new Router({
     {
         path: '/freeBoard/modify/:id',
         name: 'FreeBoardModify',
-        component: () => import('@/page/freeBoard/FreeBoardModify.vue')
+        component: () => import('@/page/freeBoard/FreeBoardModify.vue'),
+        beforeEnter: requireAuth()
     },
     {
         path: '/dataRoom',
@@ -109,7 +112,8 @@ const vueRouter = new Router({
     {
         path: '/dataRoom/insert',
         name: 'DataRoomInsert',
-        component: () => import('@/page/dataRoom/DataRoomInsert.vue')
+        component: () => import('@/page/dataRoom/DataRoomInsert.vue'),
+        beforeEnter: requireAdmin()
     },
     {
         path: '/dataRoom/:id',
@@ -119,7 +123,8 @@ const vueRouter = new Router({
     {
         path: '/dataRoom/modify/:id',
         name: 'DataRoomModify',
-        component: () => import('@/page/dataRoom/DataRoomModify.vue')
+        component: () => import('@/page/dataRoom/DataRoomModify.vue'),
+        beforeEnter: requireAdmin()
     },
     {
       path: '/activity',
@@ -159,6 +164,7 @@ const vueRouter = new Router({
 	    path: '/reservation',
 	    name: 'reservation',
 	    component: () => import('@/page/reservation/Reservation.vue'),
+        beforeEnter: requireAuth()
 	},
 	{
 	    path: '/admin/reservation',
@@ -188,6 +194,20 @@ const vueRouter = new Router({
       path: '/admin/program/modify/:id',
       name: 'adminProgramModify',
       component: () => import('@/page/admin/program/ProgramModify.vue'),
+      afterEnter : requireAdmin()
+    },
+    {
+      path: '/admin/program/application/:id',
+      name: 'adminProgramApplication',
+      props : true,
+      component: () => import('@/page/admin/program/ProgramApplication.vue'),
+      afterEnter : requireAdmin()
+    },
+    {
+      path: '/admin/program/application/:id/mng',
+      name: 'adminProgramApplicationMng',
+      props : true,
+      component: () => import('@/page/admin/program/ProgramApplicationList.vue'),
       afterEnter : requireAdmin()
     },
     {
@@ -221,13 +241,13 @@ const vueRouter = new Router({
   ]
 });
 
-function level(m, url){
+function level(m, to){
 	let level = [];
-	if(!url) return level;
+	if(!to) return level;
 	(function find(m){
 		return m.some(function(cm){
 			level[cm.level] = cm;
-			if(cm.url==url){
+			if(cm.url==to.matched[0].path || cm.url == to.path){
 				return true;
 			}else{
 				if(cm.menuList.length > 0){
@@ -253,18 +273,15 @@ vueRouter.beforeEach((to, from, next) => {
   
 });
 
-vueRouter.afterEach((to, from) => {
-  // ...후
+vueRouter.afterEach(async (to, from) => {
+    // ...후
 //  window.console.log("라우터 변경이 일어날 때 후처리 하는 부분 입니다."+from);
-  
-  axios.get(store.getters.restWebPath+"/roleState",{params:{url:to.matched[0].path},responseType: 'json'})
-	.then((respons) =>{
-		const data = respons.data;
-		store.dispatch('LOGINCHECK', {session:data})
-	});
-  
-  store.state.menuLevel = level(store.state.menu,to.matched[0].path);
-  
+
+    let result = await axios.get(store.getters.restWebPath + "/roleState", {params: {url: to.matched[0].path}, responseType: 'json'});
+    const data = result.data;
+    store.dispatch('LOGINCHECK', {session:data});
+    store.state.menuLevel = level(store.state.menu, to);
+
 })
 
 export default vueRouter

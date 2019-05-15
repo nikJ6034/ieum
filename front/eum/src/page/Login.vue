@@ -1,4 +1,4 @@
-<template lang="contactlist-component">
+<template>
 
   <section class="login">
     <div>

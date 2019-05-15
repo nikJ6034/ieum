@@ -1,6 +1,5 @@
 package com.eum.program.service;
 
-import com.eum.attachFile.entity.AttachFile;
 import com.eum.auth.dto.AuthDTO;
 import com.eum.config.oAuth2.AuthService;
 import com.eum.program.dto.ProgramApplicationSearchDTO;
@@ -12,15 +11,15 @@ import com.eum.program.repository.ProgramApplicationRepositoryDsl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ProgramApplicationService {
     @Autowired
     AuthService authService;
@@ -45,9 +44,14 @@ public class ProgramApplicationService {
         Map<String, Object >  map = new HashMap<>();
         Optional<AuthDTO> auth = Optional.ofNullable(authService.getAuth());
         Long memberId = auth.map(AuthDTO::getMemberId).orElse(null);
-        if(applicationRepository.exists(memberId, program) > 0){
+        Long exists = applicationRepository.exists(memberId, program);
+        if(exists > 0 && !auth.get().isAdmin()){
             map.put("exists",true);
-            map.put("programApplication", applicationRepository.findByMemberProgram(memberId,program));
+            if(exists == 1){
+                map.put("programApplication", applicationRepository.findByMemberProgram(memberId,program));
+            }else{
+                map.put("programApplication", null);
+            }
         }else{
             map.put("exists",false);
             map.put("programApplication", new ProgramApplication());
@@ -61,7 +65,7 @@ public class ProgramApplicationService {
         Long memberId = auth.map(AuthDTO::getMemberId).orElse(null);
         ProgramDTO program = programService.one(programApplication.getProgram().getId());
         try {
-            if(applicationRepository.exists(memberId, programApplication.getProgram()) > 0){
+            if(applicationRepository.exists(memberId, programApplication.getProgram()) > 0 && !auth.get().isAdmin()){ //관리자는 중복으로 신청할 수 있다.
                 map.put("msg", "이미 신청하신 프로그램 입니다.");
                 map.put("result", "exists");
             }else if(program.getLimitNumber() != 0 && program.getLimitNumber() <= applicationRepository.appCount(programApplication.getProgram())){
@@ -116,14 +120,19 @@ public class ProgramApplicationService {
         AuthDTO authDTO = authService.getAuth();
         Optional<ProgramApplication> programApplication = applicationRepository.findById(programApplicationId);
         try {
-
+            ProgramApplication programApp = programApplication.get();
             if(authDTO.permission(programApplication.map(ProgramApplication::getMemberId).orElse(0L))){
-                programApplication.ifPresent(pa ->{
-                    pa.setDeleteYN("Y");
-                });
-
-                map.put("msg", "삭제 되었습니다.");
-                map.put("result", "success");
+                if("N".equals(programApplication.get().getDeleteYN())){
+                    programApp.setDeleteYN("Y");
+                    map.put("msg", "삭제 되었습니다.");
+                    map.put("deleteYN", "Y");
+                    map.put("result", "success");
+                }else{
+                    programApp.setDeleteYN("N");
+                    map.put("msg", "복구 되었습니다.");
+                    map.put("deleteYN", "N");
+                    map.put("result", "success");
+                }
             }else{
                 map.put("msg", "권한이 없습니다.");
                 map.put("result", "fail");
@@ -138,4 +147,10 @@ public class ProgramApplicationService {
 
         return map;
     };
+
+    public List<ProgramApplication> findByProgram(Long programId){
+        Program program = new Program();
+        program.setId(programId);
+        return applicationRepository.findByProgram(program);
+    }
 }

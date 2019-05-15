@@ -65,6 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.cors().and()
 		.authorizeRequests()
 		.antMatchers("/oauth/token").permitAll()
+        .antMatchers("/oauth/check_token").permitAll()
 		.requestMatchers(CorsUtils::isPreFlightRequest).permitAll().and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		;

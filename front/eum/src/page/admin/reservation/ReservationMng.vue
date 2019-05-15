@@ -1,4 +1,4 @@
-<template lang="contactlist-component">
+<template>
     <section class="reservationMng">
         <sub-layout>
             <full-calendar
@@ -102,6 +102,9 @@ let _this = null;
                             data.color="#5a5afa";
                         }
 
+                        data.start = new Date(data.start);
+                        data.end = new Date(data.end);
+
                         if(data.deleteYN=="N"){
                             dataList.push(data);
                         }
@@ -145,8 +148,8 @@ let _this = null;
     },
     methods: {
         eventSelected : function(event){
-            this.reservation.start = event.start.format();
-            this.reservation.end = event.end.format()
+            this.reservation.start = new Date(event.start.format());
+            this.reservation.end = new Date(event.end.format());
         },
         viewRender : function(view, element){
         this.caleandar.startDate = view.intervalStart.format();

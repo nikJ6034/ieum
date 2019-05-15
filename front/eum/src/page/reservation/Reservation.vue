@@ -5,7 +5,7 @@
     	<full-calendar 
     	v-if="store.state.ieumUserId"
     	ref="calendar"
-    	:selectable="selectable" 
+    	:selectable="selectable"
     	:event-sources="eventSources"
     	:config="config" 
     	@view-render="viewRender" 
@@ -78,19 +78,20 @@
 import 'fullcalendar/dist/fullcalendar.css'
 import SubLayout from '@/components/layouts/SubLayout'
 import { FullCalendar } from 'vue-full-calendar'
+import moment from 'moment';
 let _this = null;
   export default  {
     name: 'reservation',
     props: [],
     beforeMount() {
     	_this = this;
+		moment.locale("Asia/Seoul");
     },
     data() {
         return {
         	eventSources: [
         		{
        	          events(start, end, timezone, callback) {
-       	        	  
        	        	_this.$http.get(`${_this.store.getters.restWebPath}/reservationByOwn`,{params:{startDate:start.format(), endDate:end.format()}})
        				.then(({data})=>{
        					_this.ownList = data.list;
@@ -98,7 +99,8 @@ let _this = null;
        				
        	        	_this.$http.get(`${_this.store.getters.restWebPath}/reservation`,{params:{startDate:start.format(), endDate:end.format()}})
        				.then(({data})=>{
-       					_this.contents = data.list;
+						let dataList = [];
+						_this.contents = data.list;
        					data.list.forEach(function(data){
        						if(data.member.id !=_this.store.state.ieumUserId){
        							data.color="#61db5f";
@@ -107,8 +109,13 @@ let _this = null;
        						}else{
        							data.color="#5a5afa";
        						}
+							data.start = new Date(data.start);
+							data.end = new Date(data.end);
+							if(data.deleteYN=="N"){
+								dataList.push(data);
+							}
        					})
-       					callback(data.list);
+       					callback(dataList);
        				})
        	          },
        	          color: 'yellow',
@@ -131,8 +138,8 @@ let _this = null;
             	},
            	 reservation : {
     	        	title : this.store.state.ieumUserName,
-    	        	start : '',
-    	        	end	: '',
+    	        	start : null,
+    	        	end	: null,
     	        	allDay : false,
     	        	tel : '',
     	        	reason: ''
@@ -147,8 +154,8 @@ let _this = null;
     },
     methods: {
     	eventSelected : function(event){
-    		this.reservation.start = event.start.format();
-    		this.reservation.end = event.end.format();
+    		this.reservation.start = new Date(event.start.format());
+    		this.reservation.end = new Date(event.end.format());
     	},
     	viewRender : function(view, element){
     		this.caleandar.startDate = view.intervalStart.format();

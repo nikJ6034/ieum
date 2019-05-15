@@ -12,7 +12,7 @@
                             <input type="text" class="w-80 d-inline-block form-control" v-model="notice.bbs.title">
                         </div>
                         <div class="col-12 content">
-                            <quill :qContent.sync="notice.bbs.content" @childs-event="parentsMethod"></quill>
+                            <quill :qContent.sync="notice.bbs.content"></quill>
                         </div>
                         <input type="file"  id="file1" v-on:change="uploadFile">
                         <div class="col-12">

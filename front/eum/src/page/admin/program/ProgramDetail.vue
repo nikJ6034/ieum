@@ -21,6 +21,9 @@
                     <div class="col-12">
                         <div class="btn-box float-right">
                             <div>
+
+                                <router-link role="button" class="btn btn-info" :to="`/admin/program/application/${program.id}`">신청</router-link>
+                                <router-link role="button" class="btn btn-info" :to="`/admin/program/application/${program.id}/mng`">신청자 관리</router-link>
                                 <button v-if="this.store.state.menuRole.modifyRole=='Y'" type="button" class="btn btn-warning" @click="goModifyPage">수정</button>
                                 <button v-if="this.store.state.menuRole.deleteRole=='Y'" type="button" class="btn btn-danger" @click="deleteProgram">삭제</button>
                                 <router-link role="button" class="btn btn-info" to="/admin/program">목록</router-link>
