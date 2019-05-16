@@ -1,7 +1,7 @@
 <template>
     <section class="programList">
         <sub-layout>
-            <h4><b>공지사항</b></h4>
+            <h4><b>프로그램</b></h4>
             <div class="searchDiv">
                 <div class="row">
                     <label class="col-6 col-form-label"><b>총 게시물수</b><span class="totalRows">{{totalRows}}</span></label>

@@ -4,7 +4,7 @@
             {{store.state.menuLevel[0].menuName}}
         </div>
         <div class="list-group">
-            <template v-if="store.state.menuLevel[0]" v-for="leftMenu in store.state.menuLevel[0].menuList">
+            <template v-if="store.state.menuLevel[0].menuList" v-for="leftMenu in store.state.menuLevel[0].menuList">
                 <router-link v-if="leftMenu.url" :to="leftMenu.url" :class="'list-group-item '+ active(leftMenu)" ><i class="fa fa-key"></i> <span>{{leftMenu.menuName}}</span></router-link>
             </template>
             <!-- <a href="#" class="list-group-item active"><i class="fa fa-key"></i> <span>학교소개</span></a>

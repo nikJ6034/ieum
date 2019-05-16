@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="overflow-x: hidden">
     <!-- <Home msg="Welcome to Your Vue.js App"/> -->
     <transition name="page" mode="out-in">
       <router-view :key="$route.fullPath"></router-view>
@@ -28,11 +28,18 @@ body {
   font-family: 'Nanum Gothic' , sans-serif !important;
 }
 
-.page-enter-active, .page-leave-active {
-  transition: opacity 0.1s, transform 0.3s;
+.page-leave-active,
+.page-enter-active {
+  transition: 0.3s;
 }
-.page-enter, .page-leave-to {
+.page-enter {
+  /*transform: translate(-100%, 0);*/
   opacity: 0;
-  /* transform: translateX(-100%); */
 }
+
+.page-leave-active {
+  /*transform: translate(100%, 0);*/
+  opacity: 0;
+}
+
 </style>

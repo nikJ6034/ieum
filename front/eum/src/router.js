@@ -69,7 +69,7 @@ const vueRouter = new Router({
         path: '/notice/insert',
         name: 'noticeInsert',
         component: () => import('@/page/notice/NoticeInsert.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
     },
     {
         path: '/notice/:id',
@@ -80,7 +80,7 @@ const vueRouter = new Router({
         path: '/notice/modify/:id',
         name: 'noticeModify',
         component: () => import('@/page/notice/NoticeModify.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
     },
     {
         path: '/freeBoard',
@@ -135,7 +135,7 @@ const vueRouter = new Router({
         path: '/activity/insert',
         name: 'activityInsert',
         component: () => import('@/page/activity/ActivityInsert.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
     },
     {
         path: '/activity/:id',
@@ -146,19 +146,19 @@ const vueRouter = new Router({
         path: '/activity/modify/:id',
         name: 'activityModify',
         component: () => import('@/page/activity/ActivityModify.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
     },
     {
 	    path: '/admin/banner',
 	    name: 'banner',
 	    component: () => import('@/page/admin/banner/BannerList.vue'),
-	    afterEnter : requireAdmin()
+	    beforeEnter : requireAdmin()
 	},
     {
         path: '/admin/banner/modify/:id',
         name: 'bannerModify',
         component: () => import('@/page/admin/banner/BannerModify.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
     },
     {
 	    path: '/reservation',
@@ -170,45 +170,45 @@ const vueRouter = new Router({
 	    path: '/admin/reservation',
 	    name: 'adminReservation',
 	    component: () => import('@/page/admin/reservation/ReservationMng.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
 	},
     {
         path: '/admin/program',
         name: 'adminProgram',
         component: () => import('@/page/admin/program/ProgramList.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
     },
     {
         path: '/admin/program/insert',
         name: 'adminProgramInsert',
         component: () => import('@/page/admin/program/ProgramInsert.vue'),
-        afterEnter : requireAdmin()
+        beforeEnter : requireAdmin()
     },
     {
       path: '/admin/program/:id',
       name: 'adminProgramDetail',
       component: () => import('@/page/admin/program/ProgramDetail.vue'),
-      afterEnter : requireAdmin()
+      beforeEnter : requireAdmin()
     },
     {
       path: '/admin/program/modify/:id',
       name: 'adminProgramModify',
       component: () => import('@/page/admin/program/ProgramModify.vue'),
-      afterEnter : requireAdmin()
+      beforeEnter : requireAdmin()
     },
     {
       path: '/admin/program/application/:id',
       name: 'adminProgramApplication',
       props : true,
       component: () => import('@/page/admin/program/ProgramApplication.vue'),
-      afterEnter : requireAdmin()
+      beforeEnter : requireAdmin()
     },
     {
       path: '/admin/program/application/:id/mng',
       name: 'adminProgramApplicationMng',
       props : true,
       component: () => import('@/page/admin/program/ProgramApplicationList.vue'),
-      afterEnter : requireAdmin()
+      beforeEnter : requireAdmin()
     },
     {
       path: '/program/:kind',
@@ -243,11 +243,18 @@ const vueRouter = new Router({
 
 function level(m, to){
 	let level = [];
+
 	if(!to) return level;
 	(function find(m){
 		return m.some(function(cm){
 			level[cm.level] = cm;
-			if(cm.url==to.matched[0].path || cm.url == to.path){
+			console.log();
+            let text = null;
+            if(cm.url){
+                text = cm.url.replace(/:\w+/g,"\\S+")+"$";
+            }
+            let re = new RegExp(text);
+            if(re && re.test(to.path)){
 				return true;
 			}else{
 				if(cm.menuList.length > 0){
@@ -260,27 +267,24 @@ function level(m, to){
 	return level;
 }
 
-vueRouter.beforeEach((to, from, next) => {
+vueRouter.beforeEach(async(to, from, next) => {
   // to : 대상 Route 객체 로 이동합니다.
   // from : 현재 라우트로 오기전 라우트 입니다.
   // next : to에서 지정한 url로 이동하기 위해 꼭 호출해야 하는 함수.
 //  window.console.log("라우터 변경이 일어날 때 전처리 하는 부분 입니다.");
-  
-  
-//  axios.get(store.getters.restWebPath+"/refresh",{responseType: 'json'})
-  
-  next();
-  
-});
-
-vueRouter.afterEach(async (to, from) => {
-    // ...후
-//  window.console.log("라우터 변경이 일어날 때 후처리 하는 부분 입니다."+from);
-
     let result = await axios.get(store.getters.restWebPath + "/roleState", {params: {url: to.matched[0].path}, responseType: 'json'});
     const data = result.data;
     store.dispatch('LOGINCHECK', {session:data});
+    next();
+  
+});
+
+vueRouter.afterEach( (to, from) => {
+    // ...후
+
+//  window.console.log("라우터 변경이 일어날 때 후처리 하는 부분 입니다."+from);
     store.state.menuLevel = level(store.state.menu, to);
+
 
 })
 

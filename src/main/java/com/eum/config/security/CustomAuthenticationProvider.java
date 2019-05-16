@@ -37,7 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 			//회원이 아닌 경우에는 바로 가입하고 로그인 프로세스를 탄다.
 			if(!memberRepository.findByKakaoKey(kakaoKey).isPresent()) {
 				Member member = new Member();
-				member.setMemberName(create.userInfo().getName());
+				member.setMemberName(kakaoKey);
 				member.setMemberPassword("카카오 소셜 로그인");
 				member.setName(create.userInfo().getName());
 				member.setKakaoKey(kakaoKey);

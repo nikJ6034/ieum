@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
-import qs from 'qs';
-import $router from './router'
+import $http from 'axios'
+import $qs from 'qs';
 
 Vue.use(Vuex)
-axios.defaults.withCredentials = true;
+$http.defaults.withCredentials = true;
 export default new Vuex.Store({
   state: {
 	basePath : "http://localhost:8080",
@@ -27,20 +26,20 @@ export default new Vuex.Store({
   },
   mutations: {
     LOGIN (state, session) {
-        localStorage.ieumAccessToken = session["access_token"];
+        localStorage.ieumRefreshToken = session["refresh_token"];
 
         state.ieumAccessToken = session["access_token"];
         state.ieumUserName = session["name"];
         state.ieumUserId = session["id"];
-        axios.defaults.headers.common['Authorization'] = "Bearer "+session["access_token"];
+        $http.defaults.headers.common['Authorization'] = "Bearer "+session["access_token"];
     },
     LOGOUT (state) {
         state.ieumAccessToken = null;
         state.ieumUserName = null;
         state.ieumUserId = null;
         state.isAdmin = false;
-        delete axios.defaults.headers.common["Authorization"];
-        delete localStorage.ieumAccessToken;
+        delete $http.defaults.headers.common["Authorization"];
+        delete localStorage.ieumRefreshToken;
 
     },
     LOGINCHECK (state, data){
@@ -56,14 +55,14 @@ export default new Vuex.Store({
   actions: {
       LOGIN: async function ({commit}, {memberName, memberPassword}) {
 
-          let str = qs.stringify({
+          let str = $qs.stringify({
               grant_type: 'password',
               username: memberName,
               password: memberPassword,
               scope: 'openid'
           });
 
-          let result = await axios.request({
+          let result = await $http.request({
               url: `/oauth/token`,
               method: "post",
               baseURL: this.state.basePath,
@@ -78,24 +77,31 @@ export default new Vuex.Store({
           });
           commit('LOGIN', result.data);
       },
+    REFRESHTOKEN : async function({commit},refresh_token){
+        let str = $qs.stringify({
+            "grant_type":"refresh_token",
+            "refresh_token":refresh_token
+        });
+        let {data} = await $http.request({
+            url: `/oauth/token`,
+            method: "post",
+            baseURL: this.state.basePath,
+            auth: {
+                username: "client1", // This is the client_id
+                password: "1234", // This is the client_secret
+            },
+            data: str,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+        commit('LOGIN', data);
+    },
     LOGOUT ({commit}) {
         commit('LOGOUT');
-      // axios.get(`${this.getters.restWebPath}/logout`,{headers:{'Access-Control-Allow-Origin': "*"}})
-      // .then(()=>{commit('LOGOUT');})
     },
     LOGINCHECK ({commit}, {session}){
-      if(session != null){
-        if(session.id){
-            commit('LOGINCHECK', session);
-        }else{
-            commit('LOGOUT');
-            commit('LOGINCHECK', session);
-        }
-      }else{
-        commit('LOGOUT');
         commit('LOGINCHECK', session);
-      }
-      
     }
   }
 })

@@ -39,7 +39,7 @@
                         <th scope="row" class="text-center">{{number*size+index+1}}</th>
                         <td><router-link :to="{path:`notice/${content.id}`}">{{content.bbs.title}}</router-link></td>
                         <td>
-                            <template v-if="content.bbs.member">{{content.bbs.member.name}}</template>
+                            <template>{{content.bbs.member.name}}</template>
                         </td>
                         <td>{{content.bbs.regDate | formatDate}}</td>
                     </tr>
@@ -83,15 +83,13 @@ import SubLayout from '@/components/layouts/SubLayout'
       }
     },
     methods: {
-        search : function(pageNum){
+         search : async function(pageNum){
             this.searchForm.currentPage = pageNum || 1;
-            this.$http.get(`${this.store.getters.restWebPath}/notice`,{params:this.searchForm})
-                .then(({data})=>{
-                    this.totalRows = data.list.totalElements;
-                    this.contents = data.list.content;
-                    this.number = data.list.number;
-                    this.size = data.list.size;
-            })
+            let {data} = await this.$http.get(`${this.store.getters.restWebPath}/notice`,{params:this.searchForm});
+             this.totalRows = data.list.totalElements;
+             this.contents = data.list.content;
+             this.number = data.list.number;
+             this.size = data.list.size;
         },
         goInsertPage : function(){
             this.router.push(`/notice/insert`);

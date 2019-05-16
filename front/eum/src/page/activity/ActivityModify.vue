@@ -54,7 +54,7 @@
 
 <script lang="js">
 import SubLayout from '@/components/layouts/SubLayout'
-// import NoticeValidation from './validation/NoticeValidation'
+import activityValidation from './validation/ActivityValidation';
 import Quill from '@/components/editor/quill/Quill';
 
   export default  {
@@ -81,7 +81,7 @@ import Quill from '@/components/editor/quill/Quill';
 				})
 			},
 			modify : function(){
-// 				if(NoticeValidation.validation(this.notice)) return; //값 검증
+				if(activityValidation.validation(this.activity)) return; //값 검증.
 
 				if(window.confirm("수정 하시겠습니까?")){
 					let formData = new FormData();

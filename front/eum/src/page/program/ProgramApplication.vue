@@ -43,6 +43,7 @@
 
 <script>
 import SubLayout from '@/components/layouts/SubLayout'
+import ProgramValidation from "./validation/ProgramValidation";
 export default {
     name: "ProgramDetail",
     props : ["kind","id"],
@@ -73,22 +74,14 @@ export default {
                 })
         },
         goApplication : function(){
-            if(this.programApplication.name == null || this.programApplication.name == ""){
-                alert("이름을 입력해주세요.");
-                return;
-            }
-
-            if(this.programApplication.tel == null || this.programApplication.tel == ""){
-                alert("핸드폰 번호를 입력해주세요.");
-                return;
-            }
+            if(ProgramValidation.validation(this.programApplication)) return;
 
             if(confirm("신청하시겠습니까?")){
                 this.$http.post(`${this.store.getters.restWebPath}/programApp` ,this.programApplication)
                     .then(({data})=>{
                         if(data.result == "success"){
                             alert(data.msg);
-                            //this.router.push(`/admin/program/${data.id}`);
+                            this.router.push(`/program/${this.kind}/${this.id}`);
                         }else{
                             alert(data.msg);
                         }

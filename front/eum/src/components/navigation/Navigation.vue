@@ -1,4 +1,4 @@
-<template lang="contactlist-component">
+<template>
     <section class="navigation">
         <div class="container-fluid">
             <div class="row">
@@ -32,7 +32,13 @@
                                     </li>
                                 </ul>
                             <div class="row d-block d-lg-none">
-                                <div class="col text-center"><b-nav-item to='/login'>로그인</b-nav-item></div>
+                                <template  v-if="!store.state.ieumAccessToken">
+                                    <div class="col text-center"><b-nav-item to='/login'>로그인</b-nav-item></div>
+                                </template >
+                                <template  v-else>
+                                    <div class="col text-center"><b-nav-item>{{store.state.ieumUserName}}님 환영합니다.</b-nav-item></div>
+                                    <div class="col text-center"><b-nav-item to="/logout">로그아웃</b-nav-item></div>
+                                </template >
                             </div>
                          </div>
                         <div class="nav-bg-xbootstrap">

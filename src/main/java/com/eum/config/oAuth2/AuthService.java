@@ -29,7 +29,6 @@ public class AuthService {
 			
 		})
 		.map(jwt->{
-			
 			AuthDTO authDTO = new AuthDTO();
 			OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)jwt.getDetails();
 			@SuppressWarnings("unchecked")

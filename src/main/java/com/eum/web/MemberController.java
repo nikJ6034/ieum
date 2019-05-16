@@ -1,31 +1,6 @@
 package com.eum.web;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.eum.auth.dto.AuthDTO;
-import com.eum.auth.jwt.JwtInfo;
-import com.eum.auth.jwt.JwtUser;
-import com.eum.auth.jwt.util.JwtUtil;
 import com.eum.config.oAuth2.AuthService;
 import com.eum.member.entity.Member;
 import com.eum.member.service.MemberService;
@@ -35,6 +10,22 @@ import com.eum.menu.service.MenuRoleService;
 import com.eum.menu.service.MenuService;
 import com.eum.socialLogin.ISocialAuth;
 import com.eum.socialLogin.SocialLogin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/web")
@@ -128,18 +119,5 @@ public class MemberController {
 		map.put("isAdmin", auth.isAdmin());
 		map.put("menuRole", menuRole);
 		return map;
-	}
-	
-	@RequestMapping("/refresh")
-	public ResponseEntity<String> refreshToken() {
-		AuthDTO auth = authService.getAuth();
-		JwtUser userDetails = new JwtUser(auth.getMemberId(), auth.getMemberName(), new ArrayList<>(auth.getAuthorities()));
-
-		String token = JwtUtil.refreshToken(userDetails);
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(JwtInfo.HEADER_NAME, token);
-
-		return ResponseEntity.status(HttpStatus.OK).headers(headers).build();
 	}
 }

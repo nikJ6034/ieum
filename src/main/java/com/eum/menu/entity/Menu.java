@@ -1,15 +1,10 @@
 package com.eum.menu.entity;
 
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
 import lombok.Data;
+import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,8 +25,9 @@ public class Menu {
 	
 	@Column(length=1)
 	private String useYN = "N";
-	
-	@OneToMany(fetch=FetchType.LAZY)
+
+	@OneToMany(fetch=FetchType.EAGER)
+	@Where(clause = "useYN='Y'")
 	@JoinColumn(name="pid")
 	private List<Menu> menuList;
 	

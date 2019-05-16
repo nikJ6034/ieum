@@ -1,7 +1,6 @@
 package com.eum.config.oAuth2;
 
-import java.util.Arrays;
-
+import com.eum.config.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +18,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -27,6 +28,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private CustomAccessTokenConverter customAccessTokenConverter;
+	@Autowired
+	private CustomUserDetailsService customUserDetailsService;
 	
 	@Bean
     public TokenStore tokenStore() {
@@ -54,6 +57,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+		endpoints.userDetailsService(customUserDetailsService);
 		endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain).authenticationManager(authenticationManager);
 	}
 	

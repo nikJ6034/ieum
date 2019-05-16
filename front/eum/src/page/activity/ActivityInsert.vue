@@ -47,7 +47,7 @@
 
 <script lang="js">
 import SubLayout from '@/components/layouts/SubLayout';
-// import NoticeValidation from './validation/NoticeValidation';
+import activityValidation from './validation/ActivityValidation';
 import Quill from '@/components/editor/quill/Quill';
 
 export default  {
@@ -68,6 +68,8 @@ export default  {
 			this.router.go(-1);
 		},
 		save : function(){
+			if(activityValidation.validation(this.activity)) return; //값 검증.
+
 			if(window.confirm("작성 하시겠습니까?")){
 				let formData = new FormData();
 				formData.append("activity",new Blob([JSON.stringify(this.activity)], {type: "application/json"}));
