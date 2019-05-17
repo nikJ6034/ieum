@@ -3,9 +3,11 @@ package com.eum.notice.dto;
 import com.eum.bbs.dto.BbsDTO;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class NoticeDTO{
-	private Long id;
-    private BbsDTO bbs;
+@Getter
+@Setter
+public class NoticeDTO extends BbsDTO{
+
 }

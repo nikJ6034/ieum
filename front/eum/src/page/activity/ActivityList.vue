@@ -24,7 +24,7 @@
                     <div class="card h-100">
                         <img class="card-img-top" style="height:150px" v-if="content.attachImage[0]" :src="`${store.state.basePath}${content.attachImage[0].resourcePath}/${content.attachImage[0].virtualName}`" onerror="this.src='http://placehold.it/700x400'" alt="">
                         <div class="card-body" style="border-top: solid 1px #00000020;">
-                            <p class="card-text"><router-link :to="{path:`activity/${content.id}`}">{{content.bbs.title}}</router-link></p>
+                            <p class="card-text"><router-link :to="{path:`activity/${content.id}`}">{{content.title}}</router-link></p>
                         </div>
                     </div>
                 </div>

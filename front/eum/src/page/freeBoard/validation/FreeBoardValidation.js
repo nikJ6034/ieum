@@ -1,17 +1,17 @@
 export default {
-    validation : function(notice){
-        if(!notice.title){
+    validation : function(freeBoard){
+        if(!freeBoard.title){
             alert("제목을 입력해주세요.");
             return true;
         }
-    
-        if(!notice.content){
+
+        if(!freeBoard.content){
             alert("내용을 입력해주세요.");
             return true;
         }
         return false;
     }
-    
 
-   
+
+
 }

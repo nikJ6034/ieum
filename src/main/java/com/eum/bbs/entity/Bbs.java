@@ -1,33 +1,23 @@
 package com.eum.bbs.entity;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import com.eum.common.entity.BaseEntity;
 import com.eum.member.entity.Member;
-
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
-@Data
-public class Bbs {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name="bbsType")
+@Getter @Setter
+public abstract class Bbs extends BaseEntity {
 	@Id @GeneratedValue
 	private Long id;
 	
-	@Column(nullable=true) 
+	@Column()
 	private Long pid;
-	
-	@Column(length=10)
-	private String bbsType;
 
 	@Column(nullable=false) 
 	private String title;
@@ -37,19 +27,8 @@ public class Bbs {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="reg_id")
 	private Member member;
-	
-	@Column
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date regDate = new Date();
-	
+
 	@Column 
 	private String updateId;
-	
-	@Column
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updateDate;
-	
-	@Column String useYN = "Y";
-	
-	
+
 }

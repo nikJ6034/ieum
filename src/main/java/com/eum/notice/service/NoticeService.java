@@ -1,10 +1,7 @@
 package com.eum.notice.service;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -65,7 +62,7 @@ public class NoticeService {
 
 		try {
 			if(authService.getAuth().isAdmin()) {
-				notice.getBbs().setMember(authService.getAuth().getMember());
+				notice.setMember(authService.getAuth().getMember());
 				Notice save = noticeRepository.save(notice);
 				List<AttachFile> attachFiles = files.stream().map(mf -> {
 					AttachFile attachFile = null;
@@ -97,17 +94,23 @@ public class NoticeService {
 		return map;
 	}
 
-	public Map<String, Object> modify(Notice notice, List<MultipartFile> files) {
+	public Map<String, Object> modify(final Notice notice, List<MultipartFile> files) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			if(authService.getAuth().isAdmin()) {
-				Notice modify = noticeRepositoryDsl.modify(notice);
+				Optional<Notice> findNotice = noticeRepository.findById(notice.getId());
+				findNotice.ifPresent(nt->{
+					nt.setContent(notice.getContent());
+					nt.setTitle(notice.getTitle());
+					nt.setUpdateDate(new Date());
+				});
+
 				files.stream().forEach(mf -> {
 					AttachFile attachFile = null;
 					try {
 						attachFile = uploadFileUtil.fileUpload(mf.getOriginalFilename(), mf.getBytes());
 						entityManager.persist(attachFile);
-						modify.getAttachFile().add(attachFile);
+						findNotice.get().getAttachFile().add(attachFile);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -134,9 +137,7 @@ public class NoticeService {
 		try {
 			if(authService.getAuth().isAdmin()) {
 				notice.ifPresent(no -> {
-					Bbs bbs = no.getBbs();
-					bbs.setUseYN("N");
-					entityManager.persist(no);
+					no.setDeleteYN("Y");
 				});
 				map.put("msg", "삭제 되었습니다.");
 				map.put("result", "success");

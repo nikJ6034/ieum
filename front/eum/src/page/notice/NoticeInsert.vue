@@ -9,10 +9,10 @@
                     <div class="row">
                         <div class="col-12 subject">
                             <label>제목</label>
-                            <input type="text" class="w-80 d-inline-block form-control" v-model="notice.bbs.title">
+                            <input type="text" class="w-80 d-inline-block form-control" v-model="notice.title">
                         </div>
                         <div class="col-12 content">
-                            <quill :qContent.sync="notice.bbs.content"></quill>
+                            <quill :qContent.sync="notice.content"></quill>
                         </div>
                         <input type="file"  id="file1" v-on:change="uploadFile">
                         <div class="col-12">
@@ -44,7 +44,7 @@ export default  {
     },
     data() {
         return {
-            notice : {bbs:{title:"", content:""},attachFile:[]},
+            notice : {title:"", content:"",attachFile:[]},
             files : {}
         }
     },

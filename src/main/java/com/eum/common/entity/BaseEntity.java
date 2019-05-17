@@ -15,13 +15,13 @@ import java.util.Date;
 @Getter @Setter
 public abstract class BaseEntity {
 
-    @Column(nullable=false)
+    @Column(nullable=false,length = 1)
     private String deleteYN = "N";
 
     @Column
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updateData = new Date();
+    private Date updateDate = new Date();
 
     @Column(updatable=false)
     @CreatedDate

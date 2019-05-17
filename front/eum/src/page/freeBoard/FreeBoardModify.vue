@@ -10,16 +10,16 @@
 					<div class="row">
 						<div class="col-12 subject">
 							<label>제목</label>
-							<input type="text" class="w-80 d-inline-block form-control" v-model="freeBoard.bbs.title">
+							<input type="text" class="w-80 d-inline-block form-control" v-model="freeBoard.title">
 						</div>
 						<div class="col-12 content">
-							<textarea v-model="freeBoard.bbs.content" class="form-control"></textarea>
+							<textarea v-model="freeBoard.content" class="form-control"></textarea>
 						</div>
 						<div class="col-12">
 							<div class="btn-box float-right">
 								<div>
-									<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.bbs.member.id)" type="button" class="btn btn-warning" @click="modify">수정</button>
-									<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.bbs.member.id)" type="button" class="btn btn-danger" @click="cancel">취소</button>
+									<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.member.id)" type="button" class="btn btn-warning" @click="modify">수정</button>
+									<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.member.id)" type="button" class="btn btn-danger" @click="cancel">취소</button>
 <!-- 									<router-link v-if="this.store.state.menuRole.readRole=='Y'" role="button" class="btn btn-info" to="/notice">목록</router-link> -->
 								</div>
 							</div>
@@ -43,7 +43,7 @@ import FreeBoardValidation from './validation/FreeBoardValidation';
     },
     data() {
       return {
-    	  freeBoard : {bbs:{title:null, content:null, member:{id:null}}}
+    	  freeBoard : {title:null, content:null, member:{id:null}}
       }
     },
     methods: {

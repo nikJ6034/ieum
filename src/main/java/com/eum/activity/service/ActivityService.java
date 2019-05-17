@@ -1,9 +1,6 @@
 package com.eum.activity.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -64,7 +61,7 @@ public class ActivityService {
 
 		try {
 			if(authService.getAuth().isAdmin()) {
-				activity.getBbs().setMember(authService.getAuth().getMember());
+				activity.setMember(authService.getAuth().getMember());
 				Activity save = activityRepository.save(activity);
 				List<AttachFile> attachFiles = files.stream().map(mf -> {
 					AttachFile attachFile = null;
@@ -101,17 +98,18 @@ public class ActivityService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			if(authService.getAuth().isAdmin()) {
-//				Optional<Activity> modify = activityRepository.findById(activity.getId());
-//				modify.ifPresent(act ->{
-//					act.setBbs(activity.getBbs());
-//				});
-				Activity modify = activityRepositoryDsl.modify(activity);
+				Optional<Activity> findActivity = activityRepository.findById(activity.getId());
+				findActivity.ifPresent(ac->{
+					ac.setContent(activity.getContent());
+					ac.setTitle(activity.getTitle());
+					ac.setUpdateDate(new Date());
+				});
+
 				files.stream().forEach(mf -> {
-					AttachFile attachFile = null;
 					try {
-						attachFile = uploadResourceImageFileUtil.imageUploadWithThumbnail(mf.getOriginalFilename(), mf.getBytes());
+						AttachFile attachFile = uploadResourceImageFileUtil.imageUploadWithThumbnail(mf.getOriginalFilename(), mf.getBytes());
 						entityManager.persist(attachFile);
-						modify.getAttachImage().add(attachFile);
+						findActivity.get().getAttachImage().add(attachFile);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -137,10 +135,8 @@ public class ActivityService {
 		Optional<Activity> activity = activityRepository.findById(id);
 		try {
 			if(authService.getAuth().isAdmin()) {
-				activity.ifPresent(no -> {
-					Bbs bbs = no.getBbs();
-					bbs.setUseYN("N");
-					entityManager.persist(no);
+				activity.ifPresent(ac -> {
+					ac.setDeleteYN("Y");
 				});
 				map.put("msg", "삭제 되었습니다.");
 				map.put("result", "success");

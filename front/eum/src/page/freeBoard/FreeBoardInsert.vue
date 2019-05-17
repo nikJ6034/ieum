@@ -10,11 +10,11 @@
 				<div class="row">
 					<div class="col-12 subject">
 						<label>제목</label>
-						<input type="text" class="w-80 d-inline-block form-control" v-model="freeBoard.bbs.title">
+						<input type="text" class="w-80 d-inline-block form-control" v-model="freeBoard.title">
 					</div>
 					<div class="col-12 content">
-						<textarea v-model="freeBoard.bbs.content" class="form-control"></textarea>
-<!-- 							<quill :qContent="notice.bbs.content" @childs-event="parentsMethod"></quill> -->
+						<textarea v-model="freeBoard.content" class="form-control"></textarea>
+<!-- 							<quill :qContent="notice.content" @childs-event="parentsMethod"></quill> -->
 					</div>
 <!-- 						<input type="file"  id="file2" v-on:change="uploadFile"> -->
 					<div class="col-12">
@@ -45,7 +45,7 @@ import FreeBoardValidation from './validation/FreeBoardValidation';
     },
     data() {
       return {
-    	  freeBoard : {bbs:{title:"", content:""}},
+    	  freeBoard : {itle:"", content:""},
       }
     },
     methods: {

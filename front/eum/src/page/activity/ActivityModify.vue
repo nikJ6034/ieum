@@ -10,10 +10,10 @@
 					<div class="row">
 						<div class="col-12 subject">
 							<label>제목</label>
-							<input type="text" class="w-80 d-inline-block form-control" v-model="activity.bbs.title">
+							<input type="text" class="w-80 d-inline-block form-control" v-model="activity.title">
 						</div>
 						<div class="col-12 content">
-							<quill v-if="activity.bbs.content != null" :qContent.sync="activity.bbs.content"></quill>
+							<quill v-if="activity.content != null" :qContent.sync="activity.content"></quill>
 						</div>
 						<div v-if="activity.attachImage" v-for="image in activity.attachImage">
 							<div>
@@ -65,7 +65,7 @@ import Quill from '@/components/editor/quill/Quill';
     },
     data() {
       return {
-				activity : {bbs:{title: null, content : null},attachImage:[]},
+				activity : {title: null, content : null,attachImage:[]},
 				files : {},
 				fileCount : 1
       }

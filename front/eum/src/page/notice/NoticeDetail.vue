@@ -7,9 +7,9 @@
 					<h4><b>공지사항</b></h4>
 				</div>
 				<div class="row">
-					<div class="col-12 subject">{{notice.bbs.title}}</div>
-<!-- 					<div class="col-12 content" style="white-space: pre;">{{notice.bbs.content}}</div> -->
-					<div class="col-12 content" v-html="notice.bbs.content"></div>
+					<div class="col-12 subject">{{notice.title}}</div>
+<!-- 					<div class="col-12 content" style="white-space: pre;">{{notice.content}}</div> -->
+					<div class="col-12 content" v-html="notice.content"></div>
 					<div class="col-12">
 							<div class="d-inline-block mx5" v-if="notice.attachFile" v-for="file in notice.attachFile">
 								<a class="btn btn-link" role="button" :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
@@ -41,7 +41,7 @@ import SubLayout from '@/components/layouts/SubLayout'
     },
     data() {
       return {
-				notice : {bbs:{title:null, content:null}}
+				notice : {title:null, content:null}
       }
     },
     methods: {

@@ -1,4 +1,4 @@
-<template lang="contactlist-component">
+<template>
 
   <section class="free-board-list">
     <sub-layout>
@@ -38,11 +38,11 @@
 			<tbody>
 				<tr v-for="(content, index) in contents">
 					<th scope="row" class="text-center">{{number*size+index+1}}</th>
-					<td><router-link :to="{path:`freeBoard/${content.id}`}">{{content.bbs.title}}</router-link></td>
+					<td><router-link :to="{path:`freeBoard/${content.id}`}">{{content.title}}</router-link></td>
 					<td>
-						<template v-if="content.bbs.member">{{content.bbs.member.name}}</template>
+						<template v-if="content.member">{{content.member.name}}</template>
 					</td>
-					<td>{{content.bbs.regDate | formatDate}}</td>
+					<td>{{content.regDate | formatDate}}</td>
 				</tr>
 			</tbody>
 		</table>

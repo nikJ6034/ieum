@@ -9,10 +9,10 @@
 					<div class="row">
 						<div class="col-12 subject">
 							<label>제목</label>
-							<input type="text" class="w-80 d-inline-block form-control" v-model="dataRoom.bbs.title">
+							<input type="text" class="w-80 d-inline-block form-control" v-model="dataRoom.title">
 						</div>
 						<div class="col-12 content">
-								<quill :qContent.sync="dataRoom.bbs.content"></quill>
+								<quill :qContent.sync="dataRoom.content"></quill>
 						</div>
 						<div class="col-12 content">
 							<div class="row">
@@ -59,7 +59,7 @@ import Quill from '@/components/editor/quill/Quill';
     },
     data() {
       return {
-				dataRoom : {bbs:{title:"", content:""},attachFile:[]},
+				dataRoom : {title:"", content:"",attachFile:[]},
 				files : {},
 				fileCount : 1
       }
@@ -99,7 +99,7 @@ import Quill from '@/components/editor/quill/Quill';
 						})
 				}
 			},
-			uploadFile : function(){
+			uploadFile : function(event){
 				this.files[event.target.id]=event.target.files[0]
 			},
 			fileCountAdd : function(){

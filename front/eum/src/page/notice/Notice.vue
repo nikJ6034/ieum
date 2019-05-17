@@ -37,11 +37,11 @@
                 <tbody>
                     <tr v-for="(content, index) in contents">
                         <th scope="row" class="text-center">{{number*size+index+1}}</th>
-                        <td><router-link :to="{path:`notice/${content.id}`}">{{content.bbs.title}}</router-link></td>
+                        <td><router-link :to="{path:`notice/${content.id}`}">{{content.title}}</router-link></td>
                         <td>
-                            <template>{{content.bbs.member.name}}</template>
+                            <template>{{content.member.name}}</template>
                         </td>
-                        <td>{{content.bbs.regDate | formatDate}}</td>
+                        <td>{{content.regDate | formatDate}}</td>
                     </tr>
                 </tbody>
             </table>

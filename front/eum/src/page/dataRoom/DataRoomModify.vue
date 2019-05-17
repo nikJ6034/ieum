@@ -10,10 +10,10 @@
 					<div class="row">
 						<div class="col-12 subject">
 							<label>제목</label>
-							<input type="text" class="w-80 d-inline-block form-control" v-model="dataRoom.bbs.title">
+							<input type="text" class="w-80 d-inline-block form-control" v-model="dataRoom.title">
 						</div>
 						<div class="col-12 content">
-							<quill v-if="dataRoom.bbs.content != null" :qContent.sync="dataRoom.bbs.content"></quill>
+							<quill v-if="dataRoom.content != null" :qContent.sync="dataRoom.content"></quill>
 						</div>
 						<div v-if="dataRoom.attachFile" v-for="file in dataRoom.attachFile">
 							<div>
@@ -64,7 +64,7 @@ import Quill from '@/components/editor/quill/Quill';
     },
     data() {
       return {
-				dataRoom : {bbs:{title: null, content : null},attachFile:[]},
+				dataRoom : {title: null, content : null,attachFile:[]},
 				files : {},
 				fileCount : 1
       }

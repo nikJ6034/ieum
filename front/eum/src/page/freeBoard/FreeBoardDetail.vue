@@ -1,4 +1,4 @@
-<template lang="contactlist-component">
+<template>
 
   <section class="free-board-detail">
     <sub-layout>
@@ -7,14 +7,14 @@
 					<h4><b>자유게시판</b></h4>
 				</div>
 				<div class="row">
-					<div class="col-12 subject">{{freeBoard.bbs.title}}</div>
-					<div class="col-12 content" style="white-space: pre;">{{freeBoard.bbs.content}}</div>
-<!-- 					<div class="col-12 content" v-html="notice.bbs.content"></div> -->
+					<div class="col-12 subject">{{freeBoard.title}}</div>
+					<div class="col-12 content" style="white-space: pre;">{{freeBoard.content}}</div>
+<!-- 					<div class="col-12 content" v-html="notice.content"></div> -->
 					<div class="col-12">
 						<div class="btn-box float-right">
 							<div>
-								<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.bbs.member.id)" type="button" class="btn btn-warning" @click="goModifyPage">수정</button>
-								<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.bbs.member.id)" type="button" class="btn btn-danger" @click="deleteFreeBoard">삭제</button>
+								<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.member.id)" type="button" class="btn btn-warning" @click="goModifyPage">수정</button>
+								<button v-if="this.store.state.isAdmin || (store.state.ieumUserId == freeBoard.member.id)" type="button" class="btn btn-danger" @click="deleteFreeBoard">삭제</button>
 								<router-link role="button" class="btn btn-info" to="/freeBoard">목록</router-link>
 							</div>
 						</div>
@@ -37,7 +37,7 @@ import SubLayout from '@/components/layouts/SubLayout'
     },
     data() {
       return {
-    	  freeBoard : {bbs:{title:null, content:null, member:{id:null}}}
+    	  freeBoard : {title:null, content:null, member:{id:null}}
       }
     },
     methods: {

@@ -9,10 +9,10 @@
 					<div class="row">
 						<div class="col-12 subject">
 							<label>제목</label>
-							<input type="text" class="w-80 d-inline-block form-control" v-model="activity.bbs.title">
+							<input type="text" class="w-80 d-inline-block form-control" v-model="activity.title">
 						</div>
 						<div class="col-12 content">
-							<quill :qContent.sync="activity.bbs.content"></quill>
+							<quill :qContent.sync="activity.content"></quill>
 						</div>
 						<div class="col-12 content">
 							<div class="row">
@@ -58,7 +58,7 @@ export default  {
 	},
 	data() {
 		return {
-			activity : {bbs:{title:"", content:""},attachFile:[]},
+			activity : {title:"", content:"",attachFile:[]},
 			files : {},
 			fileCount : 1
 		}

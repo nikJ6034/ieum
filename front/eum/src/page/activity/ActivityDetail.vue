@@ -6,9 +6,9 @@
                     <h4><b>활동사진 게시판</b></h4>
                 </div>
                 <div class="row">
-                    <div class="col-12 subject">{{activity.bbs.title}}</div>
-<!--                <div class="col-12 content" style="white-space: pre;">{{activity.bbs.content}}</div> -->
-                    <div class="col-12 content" v-html="activity.bbs.content"></div>
+                    <div class="col-12 subject">{{activity.title}}</div>
+<!--                <div class="col-12 content" style="white-space: pre;">{{activity.content}}</div> -->
+                    <div class="col-12 content" v-html="activity.content"></div>
                     <div class="col-12" style="margin-bottom:10px;">
                         <owl-slide v-if="activity.attachImage.length > 0" :images="activity.attachImage"
                             :options="{
@@ -38,10 +38,6 @@
 
 <script lang="js">
 import SubLayout from '@/components/layouts/SubLayout'
-// import 'owl.carousel/dist/assets/owl.carousel.css';
-// import 'owl.carousel/dist/assets/owl.theme.default.css';
-// import carousel from 'vue-owl-carousel'
-// import 'owl.carousel';
 import OwlSlide from '@/components/slide/OwlSlide'
 export default  {
     name: 'activity-detail',
@@ -51,7 +47,7 @@ export default  {
     },
     data() {
         return {
-            activity : {bbs:{title:null, content:null}, attachImage : []}
+            activity : {title:null, content:null, attachImage : []}
         }
     },
     methods: {
@@ -59,11 +55,7 @@ export default  {
             this.$http.get(`${this.store.getters.restWebPath}/activity/${this.$route.params.id}`)
             .then(({data})=>{
                 this.activity = data.data;
-                let basePath = this.store.state.basePath;
-//              data.data.attachImage.forEach(function(data){
-//              let img = $("<img>").attr("src",basePath+data.resourcePath+"/"+data.virtualName);
-//              $('.owl-carousel').append(img);
-//              })
+//
                 $('.owl-carousel').owlCarousel({
                     loop:true,
                     margin:10,
@@ -89,16 +81,6 @@ export default  {
         },
         goModifyPage : function(){
             this.router.push(`/activity/modify/${this.$route.params.id}`);
-        },
-        downloadFile : function(id){
-            this.$http.get(`${this.store.getters.restWebPath}/download/${id}`,{responseType:'blob'})
-            .then((response)=>{
-
-            })
-            window.console.log(id+"다운로드입니다.")
-        },
-        test : function(){
-            console.log(123);
         }
     },
     computed: {

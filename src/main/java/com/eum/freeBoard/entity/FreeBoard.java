@@ -1,24 +1,16 @@
 package com.eum.freeBoard.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import com.eum.bbs.entity.Bbs;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
-public class FreeBoard {
-	
-	@Id
-	private long id;
-	
-	@MapsId
-	@OneToOne
-	@JoinColumn(name="id")
-	private Bbs bbs;
+@DiscriminatorValue("freeBoard")
+@Getter @Setter
+public class FreeBoard extends Bbs{
+
 }

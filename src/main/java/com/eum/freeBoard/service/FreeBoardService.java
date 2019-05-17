@@ -1,5 +1,6 @@
 package com.eum.freeBoard.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -54,7 +55,7 @@ public class FreeBoardService {
 		try {
 			Member member = new Member();
 			member.setId(authService.getAuth().getMemberId());
-			freeBoard.getBbs().setMember(member);
+			freeBoard.setMember(member);
 			FreeBoard save = freeBoardRepository.save(freeBoard);
 				map.put("id", save.getId());
 				map.put("msg", "저장 되었습니다.");
@@ -71,9 +72,15 @@ public class FreeBoardService {
 	public Map<String, Object> modify(FreeBoard freeBoard) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Optional<FreeBoard> findById = freeBoardRepository.findById(freeBoard.getId());
-			if(authService.getAuth().permission(findById.get().getBbs().getMember().getId())) {
-				freeBoardRepositoryDsl.modify(freeBoard);
+			Optional<FreeBoard> findFreeBoard = freeBoardRepository.findById(freeBoard.getId());
+
+
+			if(authService.getAuth().permission(findFreeBoard.get().getMember().getId())) {
+				findFreeBoard.ifPresent(fb->{
+					fb.setContent(freeBoard.getContent());
+					fb.setTitle(freeBoard.getTitle());
+					fb.setUpdateDate(new Date());
+				});
 				map.put("msg", "저장 되었습니다.");
 				map.put("result", "success");
 			}else {
@@ -94,11 +101,9 @@ public class FreeBoardService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Optional<FreeBoard> findFreeBoard = freeBoardRepository.findById(id);
 		try {
-			if(authService.getAuth().permission(findFreeBoard.get().getBbs().getMember().getId())) {
-				findFreeBoard.ifPresent(no -> {
-					Bbs bbs = no.getBbs();
-					bbs.setUseYN("N");
-					entityManager.persist(no);
+			if(authService.getAuth().permission(findFreeBoard.get().getMember().getId())) {
+				findFreeBoard.ifPresent(fb -> {
+					fb.setDeleteYN("Y");
 				});
 				map.put("msg", "삭제 되었습니다.");
 				map.put("result", "success");

@@ -1,10 +1,7 @@
 package com.eum.dataRoom.service;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -65,7 +62,7 @@ public class DataRoomService {
 
 		try {
 			if(authService.getAuth().isAdmin()) {
-				dataRoom.getBbs().setMember(authService.getAuth().getMember());
+				dataRoom.setMember(authService.getAuth().getMember());
 				DataRoom save = dataRoomRepository.save(dataRoom);
 				List<AttachFile> attachFiles = files.stream().map(mf -> {
 					AttachFile attachFile = null;
@@ -101,13 +98,19 @@ public class DataRoomService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			if(authService.getAuth().isAdmin()) {
-				DataRoom modify = dataRoomRepositoryDsl.modify(dataRoom);
+				Optional<DataRoom> findDataRoom = dataRoomRepository.findById(dataRoom.getId());
+
+				findDataRoom.ifPresent(dr->{
+					dr.setContent(dataRoom.getContent());
+					dr.setTitle(dataRoom.getTitle());
+					dr.setUpdateDate(new Date());
+				});
+
 				files.stream().forEach(mf -> {
-					AttachFile attachFile = null;
 					try {
-						attachFile = uploadFileUtil.fileUpload(mf.getOriginalFilename(), mf.getBytes());
+						AttachFile attachFile = uploadFileUtil.fileUpload(mf.getOriginalFilename(), mf.getBytes());
 						entityManager.persist(attachFile);
-						modify.getAttachFile().add(attachFile);
+						findDataRoom.get().getAttachFile().add(attachFile);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -133,11 +136,10 @@ public class DataRoomService {
 		Optional<DataRoom> dataRoom = dataRoomRepository.findById(id);
 		try {
 			if(authService.getAuth().isAdmin()) {
-				dataRoom.ifPresent(no -> {
-					Bbs bbs = no.getBbs();
-					bbs.setUseYN("N");
+				dataRoom.ifPresent(da -> {
+					da.setDeleteYN("Y");
 
-					for(AttachFile aFile : no.getAttachFile()){
+					for(AttachFile aFile : da.getAttachFile()){
 						File file = new File(aFile.getFullPath()+File.separator+aFile.getVirtualName());
 						if(file.exists()) {
 							file.delete();
@@ -145,7 +147,7 @@ public class DataRoomService {
 						attachFileRepository.delete(aFile);
 					}
 
-					entityManager.persist(no);
+					entityManager.persist(da);
 				});
 				map.put("msg", "삭제 되었습니다.");
 				map.put("result", "success");

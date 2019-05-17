@@ -1,4 +1,4 @@
-<template lang="contactlist-component">
+<template>
 
   <section class="data-room-detail">
     <sub-layout>
@@ -7,9 +7,9 @@
 					<h4><b>자료실</b></h4>
 				</div>
 				<div class="row">
-					<div class="col-12 subject">{{dataRoom.bbs.title}}</div>
-<!-- 					<div class="col-12 content" style="white-space: pre;">{{dataRoom.bbs.content}}</div> -->
-					<div class="col-12 content" v-html="dataRoom.bbs.content"></div>
+					<div class="col-12 subject">{{dataRoom.title}}</div>
+<!-- 					<div class="col-12 content" style="white-space: pre;">{{dataRoom.content}}</div> -->
+					<div class="col-12 content" v-html="dataRoom.content"></div>
 					<div class="col-12">
 							<div class="d-inline-block mx5" v-if="dataRoom.attachFile" v-for="file in dataRoom.attachFile">
 								<a class="btn btn-link" role="button" :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
@@ -42,7 +42,7 @@ import SubLayout from '@/components/layouts/SubLayout'
     },
     data() {
       return {
-				dataRoom : {bbs:{title:null, content:null}}
+				dataRoom : {title:null, content:null}
       }
     },
     methods: {
@@ -67,11 +67,6 @@ import SubLayout from '@/components/layouts/SubLayout'
 			},
 			goModifyPage : function(){
 				this.router.push(`/dataRoom/modify/${this.$route.params.id}`);
-			},
-			downloadFile : function(id){
-				this.$http.get(`${this.store.getters.restWebPath}/download/${id}`,{responseType:'blob'})
-				.then((response)=>{
-				})
 			}
     },
     computed: {

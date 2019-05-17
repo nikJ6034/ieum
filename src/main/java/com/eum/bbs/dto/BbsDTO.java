@@ -5,8 +5,10 @@ import java.util.Date;
 import com.eum.member.dto.MemberDTO;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class BbsDTO {
 	private Long id;
 	
@@ -26,5 +28,5 @@ public class BbsDTO {
 	
 	private Date updateDate;
 	
-	private String useYN;
+	private String deleteYN;
 }

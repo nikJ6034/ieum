@@ -15,6 +15,8 @@ import com.eum.member.entity.QMember;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 
+import java.util.Date;
+
 @Repository
 public class ActivityRepositoryDsl extends QuerydslRepositorySupport {
 
@@ -23,34 +25,22 @@ public class ActivityRepositoryDsl extends QuerydslRepositorySupport {
 	}
 	
 	public Page<Activity> activityList(ActivitySearchDTO activitySearchDTO, Pageable pageable){
-		QBbs bbs = QBbs.bbs;
 		QMember member = QMember.member;
 		QActivity activity= QActivity.activity;
 		BooleanBuilder builder = new BooleanBuilder();
 		
 		if(!StringUtils.isEmpty(activitySearchDTO.getTitle())) {
-			builder.and(bbs.title.contains(activitySearchDTO.getTitle()));
+			builder.and(activity.title.contains(activitySearchDTO.getTitle()));
 		}
 		
 		JPQLQuery<Activity> list = from(activity)
-		.leftJoin(bbs)
-		.on(activity.bbs.eq(bbs))
 		.leftJoin(member)
-		.on(bbs.member.eq(member))
+		.on(activity.member.eq(member))
 		.limit(pageable.getPageSize())
 		.offset(pageable.getOffset())
 		.orderBy(activity.id.desc())
-		.where(builder, bbs.useYN.eq("Y"));
+		.where(builder, activity.deleteYN.eq("N"));
 		
 		return new PageImpl<>(list.fetch(), pageable, list.fetchCount());
 	}
-
-	public Activity modify(Activity activity){
-
-		getEntityManager().merge(activity.getBbs());
-		Activity modify = getEntityManager().find(Activity.class, activity.getId());
-		return modify;
-	}
-	
-	
 }

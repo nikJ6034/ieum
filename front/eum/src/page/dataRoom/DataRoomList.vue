@@ -38,11 +38,11 @@
 		<tbody>
 			<tr v-for="(content, index) in contents">
 				<th scope="row" class="text-center">{{number*size+index+1}}</th>
-				<td><router-link :to="{path:`dataRoom/${content.id}`}">{{content.bbs.title}}</router-link></td>
+				<td><router-link :to="{path:`dataRoom/${content.id}`}">{{content.title}}</router-link></td>
 				<td>
-					<template v-if="content.bbs.member">{{content.bbs.member.name}}</template>
+					<template v-if="content.member">{{content.member.name}}</template>
 				</td>
-				<td>{{content.bbs.regDate | formatDate}}</td>
+				<td>{{content.regDate | formatDate}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -121,7 +121,6 @@ import SubLayout from '@/components/layouts/SubLayout'
   
 	.searchDiv {
 		padding: 20px;
-		/*  border: solid 1px #ddd; */
 		background: #71beff;
 		border-radius: 10px;
 		box-shadow: 4px 3px 11px 2px grey;
