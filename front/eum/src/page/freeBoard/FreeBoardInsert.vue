@@ -36,6 +36,7 @@
 
 <script lang="js">
 import SubLayout from '@/components/layouts/SubLayout'
+import FreeBoardValidation from './validation/FreeBoardValidation';
   export default  {
     name: 'free-board-insert',
     props: [],
@@ -52,7 +53,8 @@ import SubLayout from '@/components/layouts/SubLayout'
 			this.router.go(-1);
 		},
 		save : function(){
-// 			if(NoticeValidation.validation(this.notice)) return; //값 검증
+			if(FreeBoardValidation.validation(this.freeBoard)) return; //값 검증
+
 			if(window.confirm("작성 하시겠습니까?")){
 										
 					this.$http.post(`${this.store.getters.restWebPath}/freeBoard`

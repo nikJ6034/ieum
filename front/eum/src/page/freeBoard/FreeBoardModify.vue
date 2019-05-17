@@ -34,6 +34,7 @@
 
 <script lang="js">
 import SubLayout from '@/components/layouts/SubLayout'
+import FreeBoardValidation from './validation/FreeBoardValidation';
   export default  {
     name: 'free-board-modify',
     props: [],
@@ -56,7 +57,7 @@ import SubLayout from '@/components/layouts/SubLayout'
 			})
 		},
 		modify : function(){
-// 			if(NoticeValidation.validation(this.notice)) return; //값 검증
+			if(FreeBoardValidation.validation(this.freeBoard)) return; //값 검증
 
 			if(window.confirm("수정 하시겠습니까?")){
 				this.$http.put(

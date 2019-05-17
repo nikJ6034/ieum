@@ -53,7 +53,7 @@
 
 <script lang="js">
 import SubLayout from '@/components/layouts/SubLayout'
-// import DataRoomValidation from './validation/DataRoomValidation'
+import DataRoomValidation from './validation/DataRoomValidation'
 import Quill from '@/components/editor/quill/Quill';
 
   export default  {
@@ -80,7 +80,7 @@ import Quill from '@/components/editor/quill/Quill';
 				})
 			},
 			modify : function(){
-// 				if(DataRoomValidation.validation(this.dataRoom)) return; //값 검증
+				if(DataRoomValidation.validation(this.dataRoom)) return; //값 검증
 
 				if(window.confirm("수정 하시겠습니까?")){
 					let formData = new FormData();
