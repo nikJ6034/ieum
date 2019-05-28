@@ -2,36 +2,76 @@
 
   <section class="notice-detail">
     <sub-layout>
-			<div>
-				<div class="title">
-					<h4><b>공지사항</b></h4>
-				</div>
-				<div class="row">
-					<div class="col-12 subject">{{notice.title}}</div>
-<!-- 					<div class="col-12 content" style="white-space: pre;">{{notice.content}}</div> -->
-					<div class="col-12 content" v-html="notice.content"></div>
-					<div class="col-12">
-							<div class="d-inline-block mx5" v-if="notice.attachFile" v-for="file in notice.attachFile">
-								<a class="btn btn-link" role="button" :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
-							</div>
+		<div id="content">
+			<div id="navigator">
+				<h3>공지사항</h3>
+				<ul>
+					<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+					<li> > </li>
+					<li>소식</li>
+					<li> > </li>
+					<li>공지사항</li>
+				</ul>
+			</div>
+
+			<div id="con">
+
+				<div class="board-wrap">
+
+					<div class="board-view-header" style="border-bottom:1px solid #ddd;">
+						<ul class="board-view-tit">
+							<li class="title">{{notice.title}}</li>
+						</ul>
+
+						<ul class="view-item">
+							<li v-if="notice.member">{{notice.member.name}} <span>|</span></li><li>{{notice.regDate|formatDate}}<!--<span>|</span>--></li><!--<li>0</li>-->
+						</ul>
 					</div>
-					<div class="col-12">
-						<div class="btn-box float-right">
-							<div>
-								<button v-if="this.store.state.menuRole.modifyRole=='Y'" type="button" class="btn btn-warning" @click="goModifyPage">수정</button>
-								<button v-if="this.store.state.menuRole.deleteRole=='Y'" type="button" class="btn btn-danger" @click="deleteNotice">삭제</button>
-								<router-link role="button" class="btn btn-info" to="/notice">목록</router-link>
-							</div>
-						</div>
+
+
+					<div class="border-view-con ql-editor" v-html="notice.content">
+
+
 					</div>
+
+					<!-- 첨부파일 -->
+					<div class="board-file-box">
+						<table class="board-file-list">
+							<tbody>
+							<tr v-if="notice.attachFile" v-for="file in notice.attachFile">
+								<th class="title">첨부파일</th>
+								<td>
+									<ul>
+										<li>
+											<a :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
+										</li>
+									</ul>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- //첨부파일 -->
+					<!-- 버튼 -->
+					<div class="board-btn-list">
+						<input type="button" v-if="this.store.state.menuRole.modifyRole=='Y'" @click="goModifyPage"  class="btn" value="수정">
+						<input type="button" v-if="this.store.state.menuRole.deleteRole=='Y'" @click="deleteNotice" class="btn li01" value="삭제">
+						<router-link class="btn li02" to="/notice">목록</router-link>
+					</div>
+					<!-- //버튼 -->
+					<!-- //컨텐트 -->
 				</div>
 			</div>
+		</div>
     </sub-layout>
   </section>
 
 </template>
 
 <script lang="js">
+
+import 'quill/dist/quill.core.css'
 import SubLayout from '@/components/layouts/SubLayout'
   export default  {
     name: 'notice-detail',
@@ -41,7 +81,7 @@ import SubLayout from '@/components/layouts/SubLayout'
     },
     data() {
       return {
-				notice : {title:null, content:null}
+				notice : {title:null, content:null, member: null}
       }
     },
     methods: {
@@ -88,35 +128,5 @@ import SubLayout from '@/components/layouts/SubLayout'
   .notice-detail {
 
   }
-  
-  .notice-detail .title {
-	margin: 20px 0;
-	font-size:30px;
-	font-weight: 600;
-  }
-  
-  .notice-detail .subject {
-		border-top: solid 2px #66b1f1;
-		padding: 15px;
-		font-size:20px;
-		font-weight: 500;
-		min-height: 50px;
-  }
-  
-  .notice-detail .content {
-		border-top: solid 1px rgba(111, 111, 111, 0.5);
-		padding: 10px 15px 0 15px;
-		font-size:15px;
-		min-height: 500px;
-  }
-  
-  .btn-box button,a {
-		margin: 0 10px 10px 0;
-  }
-
-	.btn-file {
-		color: #ffffff;
-		background-color: brown;
-		border-color: brown;
-  }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

@@ -2,7 +2,7 @@
 
     <section class="basic">
         <Header></Header>
-        <Navigation></Navigation>
+<!--        <Navigation></Navigation>-->
         <slot />
         <Footer></Footer>
     </section>

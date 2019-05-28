@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.eum.banner.entity.BannerImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +39,11 @@ public class BannerController {
 	}
 	
 	@RequestMapping(value="/banner/{id}", method=RequestMethod.POST, consumes = {"multipart/mixed","multipart/form-data"})
-	public Map<String, Object> modify(@RequestPart Banner banner, MultipartHttpServletRequest mtfRequest){
-
+	public Map<String, Object> modify(@RequestPart Banner banner, @RequestPart List<BannerImage> bannerImage, MultipartHttpServletRequest mtfRequest){
+		bannerImage.stream().forEach(bi -> System.out.println(bi.getTitle()));
 		List<MultipartFile> files = mtfRequest.getFiles("files");
-		return bannerService.modify(banner, files);
+		Map<String, Object> modify = bannerService.modify(banner, files,bannerImage);
+		return modify;
 	}
 	
 	@RequestMapping(value = "/banner/image/{id}/{fileId}", method = RequestMethod.DELETE)

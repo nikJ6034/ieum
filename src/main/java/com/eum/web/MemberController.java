@@ -2,12 +2,15 @@ package com.eum.web;
 
 import com.eum.auth.dto.AuthDTO;
 import com.eum.config.oAuth2.AuthService;
+import com.eum.member.dto.SignupDTO;
 import com.eum.member.entity.Member;
 import com.eum.member.service.MemberService;
 import com.eum.menu.entity.Menu;
 import com.eum.menu.entity.MenuRole;
 import com.eum.menu.service.MenuRoleService;
 import com.eum.menu.service.MenuService;
+import com.eum.social.dto.SocialDTO;
+import com.eum.social.dto.TokenDTO;
 import com.eum.socialLogin.ISocialAuth;
 import com.eum.socialLogin.SocialLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +58,7 @@ public class MemberController {
 	 * return map; }
 	 */
 	
-	@RequestMapping(value = "/login/social", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/login/social", method = RequestMethod.GET)
 	public Map<String, Object> logout(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -66,9 +67,9 @@ public class MemberController {
 		
 		map.put("userInfo", create.userInfo());
 		return map;
-	}
+	}*/
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public Map<String, Object> logout(Principal principal, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -81,19 +82,20 @@ public class MemberController {
 		});
 		System.out.println("로그아웃");
 		return map;
-	}
+	}*/
 
 
-	@RequestMapping(value = "/insertUser")
-	public Map<String, Object> insertUser(Member member) {
+	@RequestMapping(value = "/signup", method=RequestMethod.POST)
+	public Map<String, Object> insertUser(@RequestBody SignupDTO signupDTO) {
+		Map<String, Object> map = new HashMap<>();
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		Optional<String> memberId = Optional.ofNullable(member).map(Member::getMemberName);
-		if (memberId.isPresent()) {
-			Member insertMember = memberService.insertMember(member);
-			map.put("member", insertMember);
-		} else {
-			map.put("result", "아이디가 존재하지 않습니다.");
+		try{
+			memberService.insertMember(signupDTO);
+			map.put("result", "success");
+			map.put("msg", "회원가입이 완료되었습니다.");
+		}catch (Exception e){
+			map.put("result", "fail");
+			map.put("msg", "회원가입에 실패하였습니다.");
 		}
 
 		return map;
@@ -118,6 +120,21 @@ public class MemberController {
 		map.put("id", auth.getMemberId());
 		map.put("isAdmin", auth.isAdmin());
 		map.put("menuRole", menuRole);
+		return map;
+	}
+
+	@RequestMapping(value = "/existsMember", method = RequestMethod.GET)
+	public Map<String, Object> existsMember(String memberName){
+		Map<String, Object> map = new HashMap<>();
+
+		if(memberService.existsMember(memberName) > 0){
+			map.put("result","exists");
+			map.put("msg","이미 등록된 아이디입니다.");
+		}else{
+			map.put("result","success");
+			map.put("msg","등록 가능한 아이디입니다.");
+		}
+
 		return map;
 	}
 }

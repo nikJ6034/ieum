@@ -1,16 +1,16 @@
 <template>
     <section class="sub-layout">
         <Header></Header>
-        <Navigation></Navigation>
-        <div>
-            <div class="row" style="margin:0px;">
-                <div class="col-lg-3 d-none d-lg-block">
-                    <LeftNavi></LeftNavi>
-                </div>
-                <div class="col-12 col-lg-9">
-                    <slot />
-                </div>
+<!--        <Navigation></Navigation>-->
+        <div id="spot">
+            <div class="con-area">
+                <strong><span>학생중심</span>의 사랑과 자발성 교육</strong>
+                <p>소통과 나눔의 마을공동체 이음마을학교 입니다.</p>
             </div>
+        </div>
+        <div id="layout">
+            <LeftNavi></LeftNavi>
+            <slot />
         </div>
         <Footer></Footer>
     </section>
@@ -52,3 +52,4 @@ export default  {
 
     }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

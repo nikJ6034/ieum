@@ -1,17 +1,19 @@
 package com.eum.socialLogin;
 
+import com.eum.social.dto.TokenDTO;
+
 public class SocialLogin {
-	public static ISocialAuth create(String social, String token) {
-		if("naver".equals(social)) {
-//			return new Naver(token);
+	public static ISocialAuth create(TokenDTO tokenDTO) {
+		if("naver".equals(tokenDTO.getKind())) {
+//			return new Naver(tokenDTO.getToken());
 			return null;
-		}else if("kakao".equals(social)) {
-			return new Kakao(token);
-		}else if("facebook".equals(social)) {
-//			return new FaceBook(token);
+		}else if("kakao".equals(tokenDTO.getKind())) {
+			return new Kakao(tokenDTO.getToken());
+		}else if("facebook".equals(tokenDTO.getKind())) {
+//			return new FaceBook(tokenDTO.getToken());
 			return null;
-		}else if("google".equals(social)) {
-//			return  new Google(token);
+		}else if("google".equals(tokenDTO.getKind())) {
+//			return  new Google(tokenDTO.getToken());
 			return null;
 		}else {
 			return null;

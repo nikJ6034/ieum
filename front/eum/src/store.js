@@ -2,19 +2,22 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import $http from 'axios'
 import $qs from 'qs';
+import router from './router'
 
 Vue.use(Vuex)
 $http.defaults.withCredentials = true;
 export default new Vuex.Store({
   state: {
-	basePath : "http://localhost:8080",
+	basePath : "http://ieumschool.com",
     ieumAccessToken: null,
     ieumUserId : null,
     ieumUserName : null,
     isAdmin: false,
     menuRole: {},
     menu: {},
-    menuLevel : []
+    menuLevel : [],
+    kind : null,
+    token : null,
   },
   getters: {
     restWebPath : state=>{
@@ -40,7 +43,9 @@ export default new Vuex.Store({
         state.isAdmin = false;
         delete $http.defaults.headers.common["Authorization"];
         delete localStorage.ieumRefreshToken;
-
+        if(Kakao){
+            Kakao.Auth.logout();
+        }
     },
     LOGINCHECK (state, data){
       if(data){
@@ -48,34 +53,50 @@ export default new Vuex.Store({
         state.menuRole = data.menuRole;
       }
     },
-    MENU(state, data){
+    MENU(state, data) {
         state.menu = data;
+    },
+    SIGNUPREADY(state, data){
+        state.kind = data.kind;
+        state.token = data.token;
     }
   },
   actions: {
-      LOGIN: async function ({commit}, {memberName, memberPassword}) {
+      LOGIN: async function ({commit}, {memberName, memberPassword, kind}) {
 
           let str = $qs.stringify({
               grant_type: 'password',
               username: memberName,
               password: memberPassword,
-              scope: 'openid'
+              scope: 'openid',
+              kind : kind
           });
-
-          let result = await $http.request({
-              url: `/oauth/token`,
-              method: "post",
-              baseURL: this.state.basePath,
-              auth: {
-                  username: "client1", // This is the client_id
-                  password: "1234", // This is the client_secret
-              },
-              data: str,
-              headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
+          let result = null;
+          try{
+              result = await $http.request({
+                  url: `/oauth/token`,
+                  method: "post",
+                  baseURL: this.state.basePath,
+                  auth: {
+                      username: "ieumschool", // This is the client_id
+                      password: "ieumschool2019", // This is the client_secret
+                  },
+                  data: str,
+                  headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded'
+                  }
+              });
+              commit('LOGIN', result.data);
+              router.push('/');
+          }catch (error) {
+              if(error.response.data.error == "invalid_grant"){
+                  let data = {};
+                  data.token = memberName;
+                  data.kind = kind;
+                  commit('SIGNUPREADY', data);
+                  router.push('/signup');
               }
-          });
-          commit('LOGIN', result.data);
+          }
       },
     REFRESHTOKEN : async function({commit},refresh_token){
         let str = $qs.stringify({
@@ -87,8 +108,8 @@ export default new Vuex.Store({
             method: "post",
             baseURL: this.state.basePath,
             auth: {
-                username: "client1", // This is the client_id
-                password: "1234", // This is the client_secret
+                username: "ieumschool", // This is the client_id
+                password: "ieumschool2019", // This is the client_secret
             },
             data: str,
             headers: {

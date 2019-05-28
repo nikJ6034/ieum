@@ -7,10 +7,6 @@
                     <label class="col-6 col-form-label"><b>총 게시물수</b><span class="totalRows">{{totalRows}}</span></label>
                     <div class="col-6">
                         <form @submit="keywordSearch(1)" @submit.prevent>
-                            <select v-model="searchForm.kind" name="kind">
-                                <option :value="1">꿈나래 학교</option>
-                                <option :value="2">꿈과 끼 학교</option>
-                            </select>
                             <div class="form-inline" style="float:right;">
                                 <div class="input-group">
                                     <input type="text" id="searchKeyword" v-model="searchForm.title" class="form-control" placeholder="검색조건을 입력해주세요.">
@@ -23,6 +19,9 @@
                     </div>
                 </div>
             </div>
+            <select v-model="searchForm.kind" name="kind" @change="keywordSearch(1)">
+                <option v-for="pro in programKindList" :value="pro.id">{{pro.name}}</option>
+            </select>
             <table class="table table-striped table-bordered">
                 <colgroup>
                     <col width="10%">
@@ -63,11 +62,11 @@
 
 <script>
 import SubLayout from '@/components/layouts/SubLayout';
-
+import ProgramProp from "../../program/prop/ProgramProp.js"
 export default {
     name: "ProgramList",
     mounted() {
-
+        this.programKindList = ProgramProp.getProgramList();
     },
     beforeMount(){
         this.search()
@@ -79,7 +78,8 @@ export default {
             number : 0,
             size : 0,
             contents : {},
-            searchForm : {title:"",kind:1}
+            searchForm : {title:"",kind:1},
+            programKindList : []
         }
     },
     methods: {

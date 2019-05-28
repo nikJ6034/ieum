@@ -3,12 +3,14 @@ package com.eum.member.entity;
 import com.eum.role.entity.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter @Setter
 public class Member {
 	
 	@Id @GeneratedValue
@@ -21,8 +23,11 @@ public class Member {
 	@Column
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String memberPassword;
+
 	@Column
-	private String kakaoKey;
+	private String email;
+
+	@Column String mobile;
 	
 //	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 //	@JoinColumn(name="member_id")

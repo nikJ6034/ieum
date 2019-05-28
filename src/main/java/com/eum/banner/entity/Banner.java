@@ -1,21 +1,11 @@
 package com.eum.banner.entity;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-
-import com.eum.attachFile.entity.AttachFile;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -29,8 +19,10 @@ public class Banner {
 	private String description;
 	private int width;
 	private int height;
-	
-	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "banner_image", joinColumns = @JoinColumn(name = "banner_id"), inverseJoinColumns = @JoinColumn(name = "image_id"))
-	private List<AttachFile> attachImage;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "banner")
+	@OrderBy("sortNumber asc")
+	private List<BannerImage> bannerImage;
+
 }

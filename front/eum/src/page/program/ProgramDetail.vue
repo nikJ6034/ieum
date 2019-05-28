@@ -3,10 +3,9 @@
         <sub-layout>
             <div>
                 <div class="title">
-                    <h4><b>프로그램</b></h4>
+                    <h4><b>{{kindName}}</b></h4>
                 </div>
                 <div class="row">
-                    <div class="col-12 subject">{{(program.kind === 1)?'꿈나래 학교':'꿈과 끼 학교'}}</div>
                     <div class="col-12 subject">{{program.title}}</div>
                     <div class="col-12">일자 : {{program.strDate|formatDateKo2}}~{{program.endDate|formatDateKo2}}</div>
                     <div class="col-12">신청일 : {{program.strAppDate|formatDateKo2}}~{{program.endAppDate|formatDateKo2}}</div>
@@ -38,15 +37,13 @@
 
 <script>
 import SubLayout from '@/components/layouts/SubLayout'
+import ProgramProp from "./prop/ProgramProp"
 export default {
     name: "ProgramDetail",
     props : ["kind","id"],
     mounted() {
-        if(this.kind == "narae"){
-            this.program.kind = 1;
-        }else if(this.kind == "kki"){
-            this.program.kind = 2;
-        }
+        this.program.kind = ProgramProp.getKindCode(this.kind);
+        this.kindName = ProgramProp.getKindName(this.kind);
         this.search();
         this.existsApp();
     },
@@ -59,6 +56,7 @@ export default {
             },
             exists : false
             ,programApplication : {memberId: null, name:null, tel:"", program: {id: null}, etc:""}
+            ,kindName : ""
         }
     },
     methods: {

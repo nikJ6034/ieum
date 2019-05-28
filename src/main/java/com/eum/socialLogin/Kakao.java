@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.eum.member.entity.Member;
+import com.eum.social.dto.SocialDTO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,15 +18,15 @@ public class Kakao implements ISocialAuth{
 
 	public enum HttpMethodType { POST, GET, DELETE }
 	private static final String API_SERVER_HOST  = "https://kapi.kakao.com";
-	private static final String USER_ME_PATH = "/v1/user/me";
+	private static final String USER_ME_PATH = "/v2/user/me";
 	private String token;
-	private Member loginVo;
+	private SocialDTO loginVo;
 	
 	public Kakao(String token) {
 		this.token = token;
 	}
 	
-	private void connection() throws Exception {
+	private void connection(){
 		String request = null;
 		
 		request = request(USER_ME_PATH);
@@ -36,12 +37,12 @@ public class Kakao implements ISocialAuth{
 		String id = asJsonObject.get("id").toString();
 		String name = asJsonObject.get("properties").getAsJsonObject().get("nickname").toString();
 		
-		loginVo = new Member();
-		loginVo.setKakaoKey(id.replaceAll("\"", ""));
+		loginVo = new SocialDTO();
+		loginVo.setSocialKey(id.replaceAll("\"", ""));
 		loginVo.setName(name.replaceAll("\"", ""));
 	}
 	
-	public Member userInfo() throws Exception {
+	public SocialDTO userInfo(){
 		connection();
 		
 		return loginVo;

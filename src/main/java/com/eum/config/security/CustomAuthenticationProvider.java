@@ -1,9 +1,16 @@
 package com.eum.config.security;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import com.eum.social.dto.TokenDTO;
+import com.eum.social.entity.Social;
+import com.eum.social.repository.SocialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,21 +28,29 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 	
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
-//	@Autowired 
-//	private PasswordEncoder passwordEncoder;
 	@Autowired
 	MemberRepository memberRepository;
+	@Autowired
+	SocialRepository socialRepository;
 	
 	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		String username = authentication.getName(); 
+	public Authentication authenticate(Authentication authentication) {
+		String username = authentication.getName();
+		Map<String, String> details = (HashMap<String, String>)authentication.getDetails();
+		String kind = details.get("kind");
 		String password = (String) authentication.getCredentials();
-		ISocialAuth create = SocialLogin.create("kakao",username);
-		UserDetails loadUserByUsername = null;
-		try {
-			String kakaoKey = create.userInfo().getKakaoKey();
+		TokenDTO tokenDTO = new TokenDTO();
+		tokenDTO.setKind(kind);
+		tokenDTO.setToken(username);
+		ISocialAuth create = SocialLogin.create(tokenDTO);
+		String socialKey = create.userInfo().getSocialKey();
+		Optional<Social> findSocial = socialRepository.findByKindAndSocialKey(kind,socialKey);
+		if (!findSocial.isPresent()) {
+			throw new BadCredentialsException("유저가 존재하지 않습니다.");
+		}
+
 			//회원이 아닌 경우에는 바로 가입하고 로그인 프로세스를 탄다.
-			if(!memberRepository.findByKakaoKey(kakaoKey).isPresent()) {
+			/*if(!memberRepository.findByKakaoKey(kakaoKey).isPresent()) {
 				Member member = new Member();
 				member.setMemberName(kakaoKey);
 				member.setMemberPassword("카카오 소셜 로그인");
@@ -45,22 +60,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 				role.setId(2L);
 				member.setRoles(Arrays.asList(role));
 				memberRepository.save(member);
-			}
+			}*/
 			
-			loadUserByUsername = customUserDetailsService.loadUserByUsername(kakaoKey);
-			
-//			if (!passwordEncoder.matches(password, loadUserByUsername.getPassword())) {
-//		      throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
-//		    }
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+
 //		if(!StringUtils.equals(loadUserByUsername.getUsername(), username)) {
 //			throw new BadCredentialsException("존재하지 않는 아이디입니다.");
 //		}
-		
-		return new UsernamePasswordAuthenticationToken(loadUserByUsername, password, loadUserByUsername.getAuthorities());
+
+		Optional<Member> member = findSocial.map(Social::getMember);
+		SecurityMember securityMember = member.map(m -> new SecurityMember(m)).get();
+
+		return new UsernamePasswordAuthenticationToken(securityMember, password, securityMember.getAuthorities());
 
 	}
 

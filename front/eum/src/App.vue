@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="overflow-x: hidden">
+  <div id="app">
     <!-- <Home msg="Welcome to Your Vue.js App"/> -->
     <transition name="page" mode="out-in">
       <router-view :key="$route.fullPath"></router-view>

@@ -14,9 +14,12 @@
 						<div class="col-12 content">
 							<textarea v-model="banner.description" class="form-control" rows="3"></textarea>
 						</div>
-						<div v-if="banner.attachImage" v-for="bannerImg in banner.attachImage">
+						<div v-if="banner.bannerImage" v-for="bannerImg in banner.bannerImage">
 							<div>
-								<img :src="`${store.state.basePath}${bannerImg.resourcePath}/${bannerImg.virtualName}`" style="width:200px"> &nbsp;<button class="btn btn-link" type="button" @click="deleteFile(bannerImg.id)">삭제</button>
+								<img :src="`${store.state.basePath}${bannerImg.attachFile.resourcePath}/${bannerImg.attachFile.virtualName}`" style="width:200px"> &nbsp;<button class="btn btn-link" type="button" @click="deleteFile(bannerImg.attachFile.id)">삭제</button>
+								<input type="text" v-model="bannerImg.title"/>
+								<textarea cols="50" rows="4" v-model="bannerImg.content"></textarea>
+								<input style="width:30px" type="text" v-model="bannerImg.sortNumber"/>
 							</div>
 						</div>
 						<div class="col-12 content">
@@ -29,6 +32,9 @@
 										<div style="margin-top:5px;">
 											<img :ref="`file_${n}`" style="width:200px;"/> &nbsp;
 											<input type="file" :id="`file_${n}`" accept='image/jpeg,image/gif,image/png' v-on:change="uploadFile">
+											<input type="text" v-model="bannerImage[n-1].title"/>
+											<textarea cols="50" rows="4" v-model="bannerImage[n-1].content"></textarea>
+											<input style="width:30px" type="text" v-model="bannerImage[n-1].soertNumber"/>
 										</div>
 									</template>
 								</div>
@@ -37,11 +43,8 @@
 						<div class="col-12">
 							<div class="btn-box float-right">
 								<div>
-<!--								<button v-if="this.store.state.menuRole.modifyRole=='Y'" type="button" class="btn btn-warning" @click="modify">수정</button> -->
-<!--								<button v-if="this.store.state.menuRole.deleteRole=='Y'" type="button" class="btn btn-danger" @click="cancel">취소</button> -->
-<!--								<router-link v-if="this.store.state.menuRole.readRole=='Y'" role="button" class="btn btn-info" to="/banner">목록</router-link> -->
 									<button type="button" class="btn btn-warning" @click="modify">수정</button>
-									<router-link role="button" class="btn btn-info" to="/banner">목록</router-link>
+									<router-link role="button" class="btn btn-info" to="/admin/banner">목록</router-link>
 								</div>
 							</div>
 						</div>
@@ -65,6 +68,7 @@ export default  {
 		return {
 			banner : {title: null, description : null ,attachImage:[], width:0, height : 0},
 			files : {},
+			bannerImage : [{title:"",content:"",sortNumber:0}],
 			fileCount : 1
 		}
 	},
@@ -85,6 +89,10 @@ export default  {
 				formData.append("banner",new Blob([JSON.stringify(this.banner)], {
 					type: "application/json"
 				}));
+
+				formData.append("bannerImage",new Blob([JSON.stringify(this.bannerImage)], {
+					type: "application/json"
+				}))
 
 				Object.keys(this.files).forEach((key)=>{
 					formData.append("files",this.files[key]);
@@ -127,7 +135,7 @@ export default  {
 				this.$http.delete(`${this.store.getters.restWebPath}/banner/image/${this.banner.id}/${fileId}`)
 				.then((response)=>{
 					if(response.data.result === "success"){
-						this.banner.attachImage = response.data.attachFile;
+						this.banner.bannerImage = response.data.attachFile;
 						alert(response.data.msg);
 					}else{
 						alert(response.data.msg);
@@ -140,6 +148,7 @@ export default  {
 			this.banner.description = message;
 		},
 		fileCountAdd : function(){
+			this.bannerImage.push({title:"",content:"", sortNumber:0});
 			this.fileCount++;
 		}
 	},

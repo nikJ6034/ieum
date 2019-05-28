@@ -8,9 +8,8 @@
                 <form>
                     <div class="row">
                         <div class="col-12">
-                            <select v-model="program.kind">
-                                <option :value="1">꿈나래 학교</option>
-                                <option :value="2">꿈과 끼 학교</option>
+                            <select name="kind" v-model="program.kind">
+                                <option v-for="pro in programKindList" :value="pro.id">{{pro.name}}</option>
                             </select>
                         </div>
                         <div class="col-12">
@@ -77,11 +76,13 @@ import Quill from '@/components/editor/quill/Quill';
 import Datepicker from 'vuejs-datepicker';
 import {en, ko} from 'vuejs-datepicker/dist/locale';
 import moment from 'moment';
+import ProgramProp from "../../program/prop/ProgramProp.js"
 
 export default {
     name: "ProgramInsert",
     mounted() {
         this.program.kind = this.$route.query.kind
+        this.programKindList = ProgramProp.getProgramList();
     },
     data() {
         return {
@@ -94,7 +95,8 @@ export default {
             fileCount : 1,
             image : null,
             en: en,
-            ko: ko
+            ko: ko,
+            programKindList : []
         }
     },
     methods: {

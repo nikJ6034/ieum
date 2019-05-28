@@ -234,6 +234,11 @@ const vueRouter = new Router({
       component: () => import('@/page/Login.vue')
     },
     {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('@/page/Signup.vue')
+    },
+    {
         path: '/logout',
         name: 'logout',
         beforeEnter: logout()
@@ -243,12 +248,11 @@ const vueRouter = new Router({
 
 function level(m, to){
 	let level = [];
-
-	if(!to) return level;
-	(function find(m){
-		return m.some(function(cm){
-			level[cm.level] = cm;
-			console.log();
+	if(to.path == "/") return level;
+    if(!to) return level;
+    (function find(m){
+        return m.some(function(cm){
+            level[cm.level] = cm;
             let text = null;
             if(cm.url){
                 text = cm.url.replace(/:\w+/g,"\\S+")+"$";
@@ -284,8 +288,6 @@ vueRouter.afterEach( (to, from) => {
 
 //  window.console.log("라우터 변경이 일어날 때 후처리 하는 부분 입니다."+from);
     store.state.menuLevel = level(store.state.menu, to);
-
-
+    // Vue.$el("body").removeClass("action");
 })
-
 export default vueRouter

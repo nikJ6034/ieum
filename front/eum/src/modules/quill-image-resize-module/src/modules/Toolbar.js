@@ -36,7 +36,7 @@ export class Toolbar extends BaseModule {
                 apply: () => {
                     DisplayStyle.add(this.img, 'inline');
                     FloatStyle.add(this.img, 'left');
-                    MarginStyle.add(this.img, '0 1em 1em 0');
+                    MarginStyle.add(this.img, '0 1em 0 0');
                 },
                 isApplied: () => FloatStyle.value(this.img) == 'left',
             },
@@ -56,7 +56,7 @@ export class Toolbar extends BaseModule {
                 apply: () => {
                     DisplayStyle.add(this.img, 'inline');
                     FloatStyle.add(this.img, 'right');
-                    MarginStyle.add(this.img, '0 0 1em 1em');
+                    MarginStyle.add(this.img, '0 0 0 1em');
                 },
                 isApplied: () => FloatStyle.value(this.img) == 'right',
             },

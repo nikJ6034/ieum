@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -30,6 +31,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	private CustomAccessTokenConverter customAccessTokenConverter;
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Bean
     public TokenStore tokenStore() {
@@ -63,9 +66,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	
 	@Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+
             clients.inMemory()
-                            .withClient("client1")
-                            .secret("$2a$10$oXhcs6qujNbFA5yXauupSuWLQpMjVbAskvPbMvcUzurpsdIuSXs7m")
+                            .withClient("ieumschool")
+							.secret(passwordEncoder.encode("ieumschool2019"))
+//                            .secret("$2a$10$oXhcs6qujNbFA5yXauupSuWLQpMjVbAskvPbMvcUzurpsdIuSXs7m")
                             .authorizedGrantTypes("authorization_code", "refresh_token",
                             		"password").scopes("openid");
     }

@@ -2,124 +2,146 @@
 
   <section class="main">
     <layout-basic>
-      <div class="clide-container">
-        <div class="container">
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-<!--             <ol class="carousel-indicators"> -->
-<!--               <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li> -->
-<!--               <li data-target="#carouselExampleIndicators" data-slide-to="1"></li> -->
-<!--               <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
-<!--             </ol> -->
-            <div class="carousel-inner">
-            	<div :class="`carousel-item ${(index == 0)?'active':''}`" v-for="(image, index) in banner.attachImage">
-            		<img class="d-block w-100" style="height:364px;" :src="`${store.state.basePath}${image.resourcePath}/${image.virtualName}`">
-            	</div>
+        <div id="container">
+            <div id="content">
+                <div class="visual-wrap">
+                    <ul class="visual-slide">
+                        <li v-for="image in banner.bannerImage">
+                            <div class="con-area">
+                                <div class="tit-box">
+                                    <p class="tit" v-html="image.title">
+
+                                    </p>
+                                    <p v-html="image.content">>
+
+                                    </p>
+
+                                    <!--<a href="#">자세히 보기</a>-->
+                                </div>
+                            </div>
+                            <div class="img-box" :style="`background-image: url('${store.state.basePath}${image.attachFile.resourcePath}/${image.attachFile.virtualName}')`"></div>
+                        </li>
+                    </ul>
+                    <div class="con-area"><div id="sliderStatus"><span class="numerhere">1</span><span class="ltest"></span></div></div>
+
+                    <div class="scroll-btn">
+                        <span><img :src="require('@/assets/images/main/scroll_btn_img.png')" alt="SCROLL" /></span>
+                    </div>
+                </div>
+
+                <div class="section-01">
+                    <div class="con-area">
+                        <div class="col-l">
+                            <div class="con-h">
+                                <h2>이음마을공지</h2>
+                                <router-link to="/notice" class="more-btn">MORE</router-link>
+                            </div>
+
+                            <ul class="notice-list">
+                                <li v-for="no in notice">
+                                    <router-link :to="{path:`notice/${no.id}`}">
+                                        <strong>{{no.title}}</strong>
+                                        <p v-html="no.content"></p>
+                                        <span class="date">{{no.regDate|formatDateKo2}}</span>
+                                    </router-link>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-r">
+                            <div class="con-h">
+                                <h2>프로그램</h2>
+                                <ul class="tab-tit">
+                                    <li><a href="#tab01" class="active">꿈나래학교</a></li>
+                                    <li><a href="#tab02">꿈과끼학교</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="tab-content">
+                                <div id="tab01" class="tab-con active">
+                                    <ul class="program-list">
+                                        <li v-for="pro in narae">
+                                            <div class="img-box"><img :src="`${store.state.basePath}${pro.imageFile.resourcePath}/${pro.imageFile.virtualName}`" :alt="pro.title" /></div>
+                                            <div class="con-box">
+                                                <strong>{{pro.title}}</strong>
+                                                <ul>
+                                                    <li><span>신청일</span><p>{{pro.strAppDate|formatDateKo2}}~{{pro.endAppDate|formatDateKo2}}</p></li>
+                                                    <li><span>일시</span><p>{{pro.strDate|formatDateKo2}}~{{pro.endDate|formatDateKo2}}</p></li>
+                                                    <li><span>장소</span><p>{{pro.address}} {{pro.addressDetail}}</p></li>
+                                                </ul>
+                                                <!--<p class="txt" v-html="pro.content"></p>-->
+                                            </div>
+
+                                        </li>
+                                    </ul>
+
+                                    <router-link to="/program/narae" class="more-btn">MORE</router-link>
+                                </div>
+
+                                <div id="tab02" class="tab-con">
+                                    <ul class="program-list">
+                                        <li v-for="pro in kki">
+                                            <div class="img-box"><img :src="`${store.state.basePath}${pro.imageFile.resourcePath}/${pro.imageFile.virtualName}`" :alt="pro.title" /></div>
+                                            <div class="con-box">
+                                                <strong>{{pro.title}}</strong>
+                                                <ul>
+                                                    <li><span>신청일</span><p>{{pro.strAppDate|formatDateKo2}}~{{pro.endAppDate|formatDateKo2}}</p></li>
+                                                    <li><span>일시</span><p>{{pro.strDate|formatDateKo2}}~{{pro.endDate|formatDateKo2}}</p></li>
+                                                    <li><span>장소</span><p>{{pro.address}} {{pro.addressDetail}}</p></li>
+                                                </ul>
+                                                <!--<p class="txt" v-html="pro.content"></p>-->
+                                            </div>
+
+                                        </li>
+                                    </ul>
+
+                                    <router-link to="/program/kki" class="more-btn">MORE</router-link>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-02">
+                    <div class="con-area">
+                        <h2 class="tit">활동게시판</h2>
+                        <p class="txt">이음마을학교의 다양한 활동을 소개합니다.</p>
+                            <bx-slider :list="activity"></bx-slider>
+                    </div>
+
+                </div>
+
+
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
         </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          
-          <div class="col-12 col-lg-6 h300 pd20">
-            <div>공지사항</div>
-            <table class="table">
-            	<colgroup>
-            		<col width="70%">
-            		<col width="30%">
-            	</colgroup>
-              <thead>
-                <tr>
-                  <th scope="col" class="text-left">제목</th>
-<!--                   <th scope="col" class="text-center">이름</th> -->
-                </tr>
-              </thead>
-              <tbody>
-              	<tr v-for="no in notice">
-	                  <td class="text-left"><router-link :to="{path:`notice/${no.id}`}">{{no.bbs.title}}</router-link></td>
-<!-- 	                  <td class="text-center"><template v-if="no.bbs.member">{{no.bbs.member.name}}</template></td> -->
-              	</tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <div class="col-12 col-lg-6 h300 pd20">
-            <div>프로그램</div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="row">
-            <div class="col-12">활동게시판</div>
-            <div class="row">
-            	<div class="col-lg-3 col-md-6 mb-4" v-for="(content, index) in activity">
-		            <div class="card h-100">
-		              <img class="card-img-top" style="height:150px" v-if="content.attachImage[0]" :src="`${store.state.basePath}${content.attachImage[0].resourcePath}/s_${content.attachImage[0].virtualName}`" onerror="this.src='http://placehold.it/700x400'" alt="">
-		              <div class="card-body" style="border-top: solid 1px #00000020;">
-		                <p class="card-text"><router-link :to="{path:`activity/${content.id}`}">{{content.bbs.title}}</router-link></p>
-		              </div>
-		            </div>
-		          </div>
-            </div>
-            
-        </div>
-      </div>
     </layout-basic>
   </section>
 
 </template>
 
 <script lang="js">
+import '@/assets/css/main.css';
 import LayoutBasic from '@/components/layouts/Basic'
-  export default  {
+import bxSlider from '@/components/slide/bxSlider'
+import mainJs from '@/assets/js/main.js'
+export default  {
     name: 'Main',
     props: [],
     mounted() {
     	this.bannerSearch();
-		this.noticeSearch();
-		this.activitySearch();
+        this.noticeSearch();
+        this.activitySearch();
+        this.programSearch();
     },
     data() {
       return {
         notice : [],
         activity : [],
-        banner : {}
+        banner : [],
+        narae : [],
+        kki : []
       }
     },
     methods: {
@@ -133,20 +155,33 @@ import LayoutBasic from '@/components/layouts/Basic'
 			this.$http.get(`${this.store.getters.restWebPath}/banner/1`,{})
 			.then(({data})=>{
 				this.banner = data.data;
+                mainJs.main();
 			})
 		},
 		activitySearch : function(){
-			this.$http.get(`${this.store.getters.restWebPath}/activity`,{params:{currentPage:1,limit:4}})
+			this.$http.get(`${this.store.getters.restWebPath}/activity`,{params:{currentPage:1,limit:10}})
 			.then(({data})=>{
 				this.activity = data.list.content;
 			})
-		}
+		},
+        programSearch : function(){
+            this.$http.get(`${this.store.getters.restWebPath}/program`,{params:{kind:1,currentPage:1,limit:2}})
+                .then(({data})=>{
+                    this.narae = data.list.content;
+                })
+
+            this.$http.get(`${this.store.getters.restWebPath}/program`,{params:{kind:2,currentPage:1,limit:2}})
+                .then(({data})=>{
+                    this.kki = data.list.content;
+                })
+        }
     },
     computed: {
 
     },
     components: {
-      LayoutBasic
+      LayoutBasic,
+        bxSlider
     }
 }
 </script>
@@ -154,10 +189,6 @@ import LayoutBasic from '@/components/layouts/Basic'
 <style scoped lang="scss">
   .main {
     
-  }
-  .clide-container{
-    background: #cae0ea;
-    padding: 20px 0;
   }
 
 </style>

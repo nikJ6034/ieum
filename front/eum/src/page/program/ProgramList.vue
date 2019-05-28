@@ -1,16 +1,12 @@
 <template>
     <section class="programList">
         <sub-layout>
-            <h4><b>프로그램</b></h4>
+            <h4><b>{{kindName}}</b></h4>
             <div class="searchDiv">
                 <div class="row">
                     <label class="col-6 col-form-label"><b>총 게시물수</b><span class="totalRows">{{totalRows}}</span></label>
                     <div class="col-6">
                         <form @submit="keywordSearch(1)" @submit.prevent>
-                            <select v-model="searchForm.kind" name="kind">
-                                <option :value="1">꿈나래 학교</option>
-                                <option :value="2">꿈과 끼 학교</option>
-                            </select>
                             <div class="form-inline" style="float:right;">
                                 <div class="input-group">
                                     <input type="text" id="searchKeyword" v-model="searchForm.title" class="form-control" placeholder="검색조건을 입력해주세요.">
@@ -56,16 +52,13 @@
 
 <script>
 import SubLayout from '@/components/layouts/SubLayout';
-
+import ProgramProp from "./prop/ProgramProp"
 export default {
     name: "ProgramList",
     props : ["kind"],
     mounted() {
-        if(this.kind == "narae"){
-            this.searchForm.kind = 1;
-        }else if(this.kind == "kki"){
-            this.searchForm.kind = 2;
-        }
+        this.searchForm.kind = ProgramProp.getKindCode(this.kind);
+        this.kindName = ProgramProp.getKindName(this.kind);
         this.search()
     },
     data() {
@@ -76,6 +69,7 @@ export default {
             size : 0,
             contents : {},
             searchForm : {title:"",kind:1},
+            kindName : ""
         }
     },
     methods: {

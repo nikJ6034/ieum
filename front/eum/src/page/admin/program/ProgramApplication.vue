@@ -3,10 +3,10 @@
         <sub-layout>
             <div>
                 <div class="title">
-                    <h4><b>프로그램 신청</b></h4>
+                    <h4><b>{{kindName}} 신청</b></h4>
+
                 </div>
                 <div class="row">
-                    <div class="col-12 subject">{{(program.kind === 1)?'꿈나래 학교':'꿈과 끼 학교'}}</div>
                     <div class="col-12 subject">{{program.title}}</div>
                     <div class="col-12">일자 : {{program.strDate|formatDateKo2}}~{{program.endDate|formatDateKo2}}</div>
                     <div class="col-12">신청일 : {{program.strAppDate|formatDateKo2}}~{{program.endAppDate|formatDateKo2}}</div>
@@ -31,7 +31,7 @@
                         <div class="btn-box float-right">
                             <div>
                                 <button v-if="isExpDate" type="button" class="btn btn-warning" @click="goApplication">신청</button>
-                                <router-link role="button" class="btn btn-info" :to="`/program/${this.kind}`">목록</router-link>
+                                <router-link role="button" class="btn btn-info" :to="`/admin/program/${this.program.id}`">취소</router-link>
                             </div>
                         </div>
                     </div>
@@ -43,10 +43,12 @@
 
 <script>
 import SubLayout from '@/components/layouts/SubLayout'
+import ProgramProp from "../../program/prop/ProgramProp.js"
 export default {
     name: "ProgramDetail",
     props : ["id"],
     mounted() {
+
         this.search();
     },
     data() {
@@ -56,7 +58,8 @@ export default {
                 , strDate : "", endDate : "" ,strAppDate : null, endAppDate : null
                 ,title:"", content:"",attachFile:[], imageFile: null, openType : "M"
             },
-            programApplication : {memberId: null, name:"", tel:"", program: {id: null}, etc:""}
+            programApplication : {memberId: null, name:"", tel:"", program: {id: null}, etc:""},
+            kindName:""
         }
     },
     methods: {
@@ -65,6 +68,7 @@ export default {
                 .then(({data})=>{
                     this.program = data.data;
                     this.programApplication.program.id = data.data.id;
+                    this.kindName = ProgramProp.getKindName(this.program.kind);
                 })
         },
         goApplication : function(){

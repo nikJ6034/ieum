@@ -16,6 +16,7 @@ public class SecurityMember extends User{
 	private Long id;
 	private String memberName;
 	private String name;
+	private String kind;
 	
 
 	public SecurityMember(Member member) {
@@ -54,7 +55,12 @@ public class SecurityMember extends User{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
+	public String getKind() {
+		return kind;
+	}
+
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
 }

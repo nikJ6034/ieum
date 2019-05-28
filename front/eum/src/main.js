@@ -6,23 +6,27 @@ import router from './router'
 import store from './store'
 import dateFormat from './filter/DateFormat'
 import auth from './modules/auth';
-import jquery from 'jquery';
+import 'lodash';
+// import jquery from 'jquery';
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import './assets/css/global.css';
+//import './assets/css/global.css';
+import './assets/css/common.css';
+import './assets/css/layout.css';
 import FullCalendar from 'vue-full-calendar'
 
-global.jQuery = require('jquery');
+// global.jQuery = require('jquery');
 Vue.use(BootstrapVue);
-window.$ = jquery;
-let $ = global.jQuery;
+// window.$ = jquery;
+//let $ = global.jQuery;
 Vue.config.productionTip = false;
 Vue.prototype.$http = $http; // add
-Vue.prototype.$ = jquery;
+// Vue.prototype.$ = jquery;
 Vue.prototype.store = store;
 Vue.prototype.router = router;
-Vue.use(FullCalendar)
+Vue.use(FullCalendar);
+// Vue.use(lodash);
 
 dateFormat.format(); // 날짜 포맷 필터
 

@@ -1,7 +1,7 @@
 package com.eum.socialLogin;
 
-import com.eum.member.entity.Member;
+import com.eum.social.dto.SocialDTO;
 
 public interface ISocialAuth {
-	public Member userInfo() throws Exception;
+	SocialDTO userInfo();
 }

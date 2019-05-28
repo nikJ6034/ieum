@@ -1,29 +1,136 @@
 <template>
-    <section class="header">
+    <header class="header" id="header">
         <!-- Header with Background Image -->
-        <div class="header-container">
-            <b-nav class="tnbNav">
-                <b-nav-item active to="/">홈</b-nav-item>
-                <template  v-if="!store.state.ieumAccessToken">
-                    <b-nav-item to='/login'>로그인</b-nav-item>
-                </template >
-                <template  v-else>
-                    <b-nav-item>{{store.state.ieumUserName}}님 환영합니다.</b-nav-item>
-                    <b-nav-item to="/logout">로그아웃</b-nav-item>
-                </template >
-<!--                <b-nav-item>회원가입</b-nav-item>-->
-<!--                <b-nav-item to="/about">사이트맵</b-nav-item>-->
-            </b-nav>
+        <div class="top-gnb">
+            <div class="con-area">
+                <ul>
+<!--                    <li><a href="#" class="admin">관리자메뉴</a></li>-->
+                    <template  v-if="!store.state.ieumAccessToken">
+                        <li><router-link to='/login'>로그인</router-link></li>
+                        <li><router-link to='/login'>회원가입</router-link></li>
+                    </template>
+                    <template  v-else>
+                        <li class="user">{{store.state.ieumUserName}}님 환영합니다.</li>
+                        <li><router-link to="/logout">로그아웃</router-link></li>
+                    </template>
+                </ul>
+            </div>
         </div>
-    </section>
+
+        <div class="gnb-area">
+            <div class="con-area">
+                <h1 id="logo">
+                    <router-link to="/">
+                        <img :src="require('@/assets/images/common/logo.png')"  alt="이음마을학교" />
+                    </router-link>
+                </h1>
+                <nav>
+                    <div class="menu-tit">
+                        <strong class="tit"><span>학생중심</span>의 사랑과<br/>
+                            자발성 교육</strong>
+                        <p><strong>이음 마을 학교</strong>입니다.</p>
+                    </div>
+                    <ul class="menu">
+                        <li v-if="store.state.menu[0]" v-for="menu in store.state.menu">
+                            <a href="#" :class="active(menu.id)"><span>{{menu.menuName}}</span></a>
+                            <ul class="snb1">
+                                <li v-if="menu.menuList" v-for="chMenu in menu.menuList"><router-link :to="chMenu.url||''" >{{chMenu.menuName}}</router-link></li>
+                            </ul>
+                        </li>
+                        <li v-if="store.state.isAdmin">
+                            <!-- 관리자 메뉴  -->
+                            <a  href="#">관리자 메뉴</a>
+                            <ul class="snb1">
+                                <li >
+                                    <router-link to="/admin/banner" >배너 관리</router-link>
+                                </li>
+                                <li >
+                                    <router-link to="/admin/reservation" >대관신청 관리</router-link>
+                                </li>
+                                <li >
+                                    <router-link to="/admin/program" >프로그램 관리</router-link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <ul class="top-menu">
+<!--                    <li><a href="#">회원가입</a></li>-->
+                    <li><a href="#" class="sitemap"><img :src="require('@/assets/images/common/sitemap_icon.png')" alt="이음마을학교" /></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mo-header">
+            <div class="h-box">
+                <router-link to="/">
+                    <h1 id="mo-logo">
+                        <img :src="require('@/assets/images/common/mo_logo.png')"  alt="이음마을학교" />
+                    </h1>
+                </router-link>
+
+                <span class="mo-menu-btn"></span>
+            </div>
+
+
+
+            <div class="mo-gnb-wrap">
+                <div class="mo-menu">
+                    <div class="con-box">
+                        <ul class="mo-gnb" id="moMenu">
+                            <li :class="active(menu.id)" v-if="store.state.menu[0]" v-for="menu in store.state.menu">
+                                <a href="#" class="active(menu.id)"><span>{{menu.menuName}}</span></a>
+                                <ul>
+                                    <li v-if="menu.menuList" v-for="chMenu in menu.menuList"><router-link :to="chMenu.url||''" >{{chMenu.menuName}}</router-link></li>
+                                </ul>
+                            </li>
+                            <li v-if="store.state.isAdmin">
+                                <!-- 관리자 메뉴  -->
+                                <a  href="#">관리자 메뉴</a>
+                                <ul>
+                                    <li >
+                                        <router-link to="/admin/banner" >배너 관리</router-link>
+                                    </li>
+                                    <li >
+                                        <router-link to="/admin/reservation" >대관신청 관리</router-link>
+                                    </li>
+                                    <li >
+                                        <router-link to="/admin/program" >프로그램 관리</router-link>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="member-box">
+                            <ul>
+                                <template  v-if="!store.state.ieumAccessToken">
+                                    <li><router-link to='/login'>로그인</router-link></li>
+                                </template>
+                                <template  v-else>
+                                    <li>{{store.state.ieumUserName}}님 환영합니다.</li>
+                                    <li><router-link to="/logout">로그아웃</router-link></li>
+                                </template>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="bodyBg"></div>
+            </div>
+        </div>
+    </header>
 </template>
 
 <script lang="js">
-export default  {
+     import menu from "@/assets/js/menu";
+    export default  {
     name: 'Header',
     props: [],
     mounted() {
-
+        menu.fullMenu(".menu > li",".menu > li  > a",".menu > li > .snb1",".gnb-area");
+        menu.mobileMenu();
+        menu.accordionMenu("#moMenu > li", "#moMenu > li.open");
     },
     data() {
         return {
@@ -31,7 +138,17 @@ export default  {
         }
     },
     methods: {
+        active : function(id){
+            let topLevel = this.store.state.menuLevel[0] || null;
 
+            if(!topLevel){
+                return "";
+            }
+            if(id == topLevel.id){
+                return "active";
+            }
+            return "";
+        }
     },
     computed: {
     }
@@ -40,79 +157,6 @@ export default  {
 
 <style scoped lang="scss">
     .header {
-        background: #171d33;
-        height: 40px;
-    }
 
-    .header .header-container{
-        position: relative;
-        padding: 0;
-        margin:auto;
     }
-
-    .header .header-container .tnbNav {
-        float: right;
-    }
-    .header .header-container .tnbNav ul{
-        position: relative;
-        float: left;
-    }
-    .header .header-container .tnbNav li{
-        margin: 0;
-        position: relative;
-        float: left;
-    }
-
-    .header .header-container .tnbNav a{
-        color: #ffffff;
-        font-size: 13px;
-        padding: 10px 12px;
-        display: inline-block;
-    }
-
-    .header .header-container .tnbNav li > a::before{
-        position: absolute;
-        left: 0;
-        content: '|';
-        color: #929294;
-    }
-
-    .header .header-container .tnbNav li:first-child > a::before{
-        content: '';
-    }
-
-  
-
-  /* Large desktops and laptops */
-@media (min-width: 1200px) {
-    .header .header-container{
-        width: 1080px;
-    }
-}
-
-/* Landscape tablets and medium desktops */
-@media (min-width: 992px) and (max-width: 1199px) {
-
-}
-
-/* Portrait tablets and small desktops */
-@media (min-width: 768px) and (max-width: 991px) {
-    .header {
-        display: none;
-    }
-}
-
-/* Landscape phones and portrait tablets */
-@media (max-width: 767px) {
-    .header {
-        display: none;
-    }
-}
-
-/* Portrait phones and smaller */
-@media (max-width: 480px) {
-    .header {
-        display: none;
-    }
-}
 </style>

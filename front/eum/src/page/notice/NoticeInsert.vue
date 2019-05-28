@@ -1,32 +1,89 @@
 <template>
     <section class="notice-insert">
         <sub-layout>
-            <div>
-                <div class="title">
-                    <h4><b>공지사항</b></h4>
+            <div id="content">
+                <div id="navigator">
+                    <h3>공지사항</h3>
+                    <ul>
+                        <li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+                        <li> > </li>
+                        <li>소식</li>
+                        <li> > </li>
+                        <li>공지사항</li>
+                    </ul>
                 </div>
-                <form>
-                    <div class="row">
-                        <div class="col-12 subject">
-                            <label>제목</label>
-                            <input type="text" class="w-80 d-inline-block form-control" v-model="notice.title">
+
+                <div id="con">
+
+                    <div class="board-wrap">
+
+                        <div class="board-add-header" style="border-bottom:1px solid #ddd;">
+
+                            <ul>
+                                <li class="li01">제목</li>
+                                <li class="li04">
+                                    <input type="text" name="" class="tit-int" v-model="notice.title">
+                                </li>
+                            </ul>
+
                         </div>
-                        <div class="col-12 content">
+
+
+                        <div class="border-view-con">
                             <quill :qContent.sync="notice.content"></quill>
                         </div>
-                        <input type="file"  id="file1" v-on:change="uploadFile">
-                        <div class="col-12">
-                            <div class="btn-box float-right">
-                                <div>
-                                    <button v-if="store.state.menuRole.writeRole=='Y'" type="button" class="btn btn-warning" @click="save">저장</button>
-                                    <button type="button" class="btn btn-danger" @click="cancel">취소</button>
-                                    <router-link v-if="store.state.menuRole.readRole=='Y'" role="button" class="btn btn-info" to="/notice">목록</router-link>
-                                </div>
-                            </div>
+
+                        <div class="board-file-box">
+                            <table class="board-file-list">
+                                <tbody>
+                                    <tr>
+                                        <th class="title">첨부파일</th>
+                                        <td>
+                                            <ul>
+
+                                                <li>
+                                                    <input type="file"  id="file1" size="50" v-on:change="uploadFile">
+                                                </li>
+
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+
+                        <!--<table class="flie-list-all">
+                            <tbody><tr>
+                                <th>첨부가능한 파일</th>
+                                <td><span>gif</span><span>jpg</span><span>png</span><span>hwp</span><span>doc</span><span>docx</span><span>xls</span><span>pdf</span><span>zip</span><span>csv</span><span>xlsx</span></td>
+                            </tr>
+                            </tbody>
+                        </table>-->
+
+
+                        <!-- 버튼 -->
+                        <div class="board-btn-list">
+                            <input type="button"  class="btn" value="저장" v-if="store.state.menuRole.writeRole=='Y'" @click="save">
+                            <router-link v-if="store.state.menuRole.readRole=='Y'" class="btn li02" to="/notice">목록</router-link>
+                        </div>
+                        <!-- //버튼 -->
+
+
+                        <!-- //컨텐트 -->
+
+
+
                     </div>
-                </form>
+
+
+
+                </div>
+
+
+
+
             </div>
+
         </sub-layout>
     </section>
 </template>
@@ -99,36 +156,5 @@ export default  {
   .notice-insert {
 
   }
-  
-  .notice-insert .title {
-	margin: 20px 0;
-	font-size:30px;
-	font-weight: 600;
-  }
-  
-  .notice-insert .subject {
-		border-top: solid 2px #66b1f1;
-		padding: 15px;
-		font-size:20px;
-		font-weight: 500;
-		min-height: 50px;
-  }
-  
-  .notice-insert .subject label{
-		margin-right: 20px;
-  }
-  
-  .notice-insert .content {
-		border-top: solid 1px rgba(111, 111, 111, 0.5);
-		padding: 10px 15px 10px 15px;
-		font-size:15px;
-  }
-  
-  .notice-insert .content textarea{
-		min-height: 500px;
-  }
-  
-  .btn-box button,a {
-		margin: 0 10px 10px 0;
-  }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

@@ -5,8 +5,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.eum.member.entity.Member;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-	public Optional<Member> findByMemberName(String memberName);
-	public Optional<Member> findByKakaoKey(String kakaoKey);
+	Optional<Member> findByMemberName(String memberName);
+
+	@Query(value = "select count(m.id) from Member m where m.memberName = :memberName")
+	Long existsByMemberName(@Param("memberName")String memberName);
 }

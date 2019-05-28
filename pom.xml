@@ -10,12 +10,10 @@
 	</parent>
 	<groupId>com.eum</groupId>
 	<artifactId>eum</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<packaging>war</packaging>
-	<name>eum</name>
-	<description>Demo project for Spring Boot
-
-server.jks : eum</description>
+	<name>ieum</name>
+	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -153,6 +151,7 @@ server.jks : eum</description>
 	</dependencies>
 
 	<build>
+		<finalName>ROOT</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -174,14 +173,6 @@ server.jks : eum</description>
 		        </execution>
 		      </executions>
 		    </plugin>
-<!--			<plugin>-->
-<!--				<artifactId>maven-war-plugin</artifactId>-->
-<!--				<configuration>-->
-<!--					<packagingExcludes>-->
-
-<!--					</packagingExcludes>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
 		</plugins>
 	</build>
 

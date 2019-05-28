@@ -19,12 +19,8 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Member> member = memberRepository.findByKakaoKey(username);
-		return member.map(m->{
-			return new SecurityMember(m);
-		}).get();
+		Optional<Member> member = memberRepository.findByMemberName(username);
+		return member.map(m-> new SecurityMember(m)).get();
 		
 	}
-	
-
 }
