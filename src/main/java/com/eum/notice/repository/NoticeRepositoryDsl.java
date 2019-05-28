@@ -6,14 +6,13 @@ import com.eum.notice.entity.Notice;
 import com.eum.notice.entity.QNotice;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
-import java.util.Date;
 
 @Repository
 public class NoticeRepositoryDsl extends QuerydslRepositorySupport{

@@ -1,32 +1,26 @@
 package com.eum.web;
 
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import com.eum.auth.dto.AuthDTO;
 import com.eum.config.oAuth2.AuthService;
 import com.eum.member.dto.SignupDTO;
-import com.eum.member.entity.Member;
 import com.eum.member.service.MemberService;
 import com.eum.menu.entity.Menu;
 import com.eum.menu.entity.MenuRole;
 import com.eum.menu.service.MenuRoleService;
 import com.eum.menu.service.MenuService;
-import com.eum.social.dto.SocialDTO;
-import com.eum.social.dto.TokenDTO;
-import com.eum.socialLogin.ISocialAuth;
-import com.eum.socialLogin.SocialLogin;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/web")

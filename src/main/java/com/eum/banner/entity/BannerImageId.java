@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Setter @Getter
 public class BannerImageId implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long banner;
     private Long attachFile;
 

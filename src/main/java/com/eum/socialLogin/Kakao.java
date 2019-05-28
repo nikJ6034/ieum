@@ -8,7 +8,6 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.eum.member.entity.Member;
 import com.eum.social.dto.SocialDTO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

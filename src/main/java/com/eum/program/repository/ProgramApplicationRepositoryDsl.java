@@ -1,11 +1,11 @@
 package com.eum.program.repository;
 
 import com.eum.program.dto.ProgramApplicationSearchDTO;
-import com.eum.program.entity.Program;
 import com.eum.program.entity.ProgramApplication;
 import com.eum.program.entity.QProgramApplication;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

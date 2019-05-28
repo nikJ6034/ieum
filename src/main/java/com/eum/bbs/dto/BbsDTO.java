@@ -4,7 +4,6 @@ import java.util.Date;
 
 import com.eum.member.dto.MemberDTO;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

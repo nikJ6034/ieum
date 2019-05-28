@@ -8,14 +8,6 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.eum.bbs.entity.Bbs;
 import com.eum.config.oAuth2.AuthService;
 import com.eum.freeBoard.dto.FreeBoardDTO;
 import com.eum.freeBoard.dto.FreeBoardSearchDTO;
@@ -23,6 +15,13 @@ import com.eum.freeBoard.entity.FreeBoard;
 import com.eum.freeBoard.repository.FreeBoardRepository;
 import com.eum.freeBoard.repository.FreeBoardRepositoryDsl;
 import com.eum.member.entity.Member;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

@@ -7,24 +7,23 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.eum.auth.dto.AuthDTO;
-import com.eum.config.oAuth2.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
-
 import com.eum.api.entity.Api;
 import com.eum.api.entity.ApiRole;
 import com.eum.api.entity.ApiRoleKey;
 import com.eum.api.repository.ApiRepository;
 import com.eum.api.repository.ApiRoleRepository;
+import com.eum.auth.dto.AuthDTO;
+import com.eum.config.oAuth2.AuthService;
 import com.eum.role.entity.Role;
 import com.eum.role.repository.RoleRepository;
 import com.eum.util.MethodAuth;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class ApiRoleCheckInterceptor implements HandlerInterceptor{

@@ -96,7 +96,7 @@ public class ProgramApplicationService {
         try {
 
             if(authDTO.permission(programApplication.getMemberId())){
-                ProgramApplication save = applicationRepository.save(programApplication);
+                applicationRepository.save(programApplication);
 
                 map.put("msg", "저장 되었습니다.");
                 map.put("result", "success");

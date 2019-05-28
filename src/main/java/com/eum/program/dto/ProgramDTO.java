@@ -1,13 +1,13 @@
 package com.eum.program.dto;
 
-import com.eum.attachFile.dto.AttachFileDTO;
-import com.eum.attachFile.entity.AttachFile;
-import com.eum.program.type.OpenType;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
 import java.util.List;
+
+import com.eum.attachFile.dto.AttachFileDTO;
+import com.eum.program.type.OpenType;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

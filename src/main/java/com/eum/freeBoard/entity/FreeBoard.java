@@ -1,10 +1,10 @@
 package com.eum.freeBoard.entity;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 import com.eum.bbs.entity.Bbs;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

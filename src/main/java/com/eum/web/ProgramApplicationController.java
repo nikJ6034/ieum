@@ -1,19 +1,18 @@
 package com.eum.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.eum.program.dto.ProgramApplicationSearchDTO;
-import com.eum.program.dto.ProgramSearchDTO;
-import com.eum.program.entity.Program;
 import com.eum.program.entity.ProgramApplication;
 import com.eum.program.service.ProgramApplicationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/web")

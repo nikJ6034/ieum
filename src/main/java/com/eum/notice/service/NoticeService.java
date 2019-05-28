@@ -1,11 +1,26 @@
 package com.eum.notice.service;
 
 import java.io.File;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import com.eum.attachFile.entity.AttachFile;
+import com.eum.attachFile.repository.AttachFileRepository;
+import com.eum.auth.dto.AuthDTO;
+import com.eum.config.oAuth2.AuthService;
+import com.eum.notice.dto.NoticeDTO;
+import com.eum.notice.dto.NoticeSearchDTO;
+import com.eum.notice.entity.Notice;
+import com.eum.notice.repository.NoticeRepository;
+import com.eum.notice.repository.NoticeRepositoryDsl;
+import com.eum.util.file.UploadFileUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +29,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.eum.attachFile.entity.AttachFile;
-import com.eum.attachFile.repository.AttachFileRepository;
-import com.eum.auth.dto.AuthDTO;
-import com.eum.bbs.entity.Bbs;
-import com.eum.config.oAuth2.AuthService;
-import com.eum.notice.dto.NoticeDTO;
-import com.eum.notice.dto.NoticeSearchDTO;
-import com.eum.notice.entity.Notice;
-import com.eum.notice.repository.NoticeRepository;
-import com.eum.notice.repository.NoticeRepositoryDsl;
-import com.eum.util.file.UploadFileUtil;
 
 @Service
 @Transactional

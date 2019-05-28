@@ -1,33 +1,29 @@
 package com.eum.config.security;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.eum.member.entity.Member;
+import com.eum.member.repository.MemberRepository;
 import com.eum.social.dto.TokenDTO;
 import com.eum.social.entity.Social;
 import com.eum.social.repository.SocialRepository;
+import com.eum.socialLogin.ISocialAuth;
+import com.eum.socialLogin.SocialLogin;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import com.eum.member.entity.Member;
-import com.eum.member.repository.MemberRepository;
-import com.eum.role.entity.Role;
-import com.eum.socialLogin.ISocialAuth;
-import com.eum.socialLogin.SocialLogin;
 
 @Component("customAuthenticationProvider")
 public class CustomAuthenticationProvider implements AuthenticationProvider{
 	
-	@Autowired
-	private CustomUserDetailsService customUserDetailsService;
+	// @Autowired
+	// private CustomUserDetailsService customUserDetailsService;
 	@Autowired
 	MemberRepository memberRepository;
 	@Autowired

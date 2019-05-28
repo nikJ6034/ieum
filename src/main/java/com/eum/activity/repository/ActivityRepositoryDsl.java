@@ -1,21 +1,18 @@
 package com.eum.activity.repository;
 
+import com.eum.activity.dto.ActivitySearchDTO;
+import com.eum.activity.entity.Activity;
+import com.eum.activity.entity.QActivity;
+import com.eum.member.entity.QMember;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPQLQuery;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
-import com.eum.activity.dto.ActivitySearchDTO;
-import com.eum.activity.entity.Activity;
-import com.eum.activity.entity.QActivity;
-import com.eum.bbs.entity.QBbs;
-import com.eum.member.entity.QMember;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.jpa.JPQLQuery;
-
-import java.util.Date;
 
 @Repository
 public class ActivityRepositoryDsl extends QuerydslRepositorySupport {

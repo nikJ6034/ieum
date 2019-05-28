@@ -24,9 +24,9 @@ public class AuthDTO {
 	public boolean permission(Long id) {
 		if(admin) return admin; // 어드민권한을 가지고 있으면 무조건 퍼미션이 true임
 		
-		if(memberId == null || memberId.equals(0)) {
+		if(memberId == null || memberId.equals(0L)) {
 			return false;
-		}else if(id == null || id.equals(0)) {
+		}else if(id == null || id.equals(0L)) {
 			return false;
 		}else if(memberId.equals(id)) {
 			return true;
