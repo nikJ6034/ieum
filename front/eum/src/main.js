@@ -7,6 +7,7 @@ import store from './store'
 import dateFormat from './filter/DateFormat'
 import auth from './modules/auth';
 import 'lodash';
+// window.$ = window.jQuery = require('jquery')
 // import jquery from 'jquery';
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';

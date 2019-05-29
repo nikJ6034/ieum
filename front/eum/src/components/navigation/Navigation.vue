@@ -97,17 +97,17 @@
       }
     },
     methods: {
-    	active : function(id){
-    		let topLevel = this.store.state.menuLevel[0] || null;
-    		
-    		if(!topLevel){
-    			return "";
-    		}
-    		if(id == topLevel.id){
-    			return {'background-color':'#93a0ba','color':'#ffffff'};
-    		}
-    		return "";
-    	}
+      active : function(id){
+        let topLevel = this.store.state.menuLevel[0] || null;
+        
+        if(!topLevel){
+          return "";
+        }
+        if(id == topLevel.id){
+          return {'background-color':'#93a0ba','color':'#ffffff'};
+        }
+        return "";
+      }
     },
     computed: {
       

@@ -60,17 +60,17 @@
     name: 'login',
     props: [],
     mounted() {
-    	let _this = this;
+      let _this = this;
         // 카카오 로그인 버튼을 생성합니다.
        /* Kakao.Auth.createLoginButton({
           container: '#kakao-login-btn',
           success: function(authObj) {
-        	  _this.$store.dispatch('LOGIN', {memberName:authObj.access_token, password:""})
+            _this.$store.dispatch('LOGIN', {memberName:authObj.access_token, password:""})
               .then(() => _this.redirect())
               .catch(({message}) => _this.msg = message);
           },
           fail: function(err) {
-        	  alert("로그인에 실패하였습니다.");
+            alert("로그인에 실패하였습니다.");
           }
         });*/
     },

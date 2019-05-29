@@ -1,0 +1,8 @@
+.paging{padding:40px 0;text-align:center;}
+.paging .paging-list{display:inline-block;}
+.paging .paging-list > li{display:inline-block;padding:0 2px;vertical-align: middle;}
+.paging .paging-list > li > a{display:block;width:38px;height:38px;border:1px solid #dcdcdc;text-align:center;line-height:38px;font-size:13px;color:#444;cursor:pointer;}
+.paging .paging-list > li > a.prev{background:url(../images/custom/paging_prev.png) no-repeat center center;}
+.paging .paging-list > li > a.next{background:url(../images/custom/paging_next.png) no-repeat center center;}
+.paging .paging-list > li > a:hover,
+.paging .paging-list > li > a.active{border:1px solid #ffad55;}

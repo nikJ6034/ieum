@@ -8,7 +8,7 @@ Vue.use(Vuex)
 $http.defaults.withCredentials = true;
 export default new Vuex.Store({
   state: {
-	basePath : "http://ieumschool.com",
+	basePath : "https://ieumschool.com:44054",
     ieumAccessToken: null,
     ieumUserId : null,
     ieumUserName : null,
