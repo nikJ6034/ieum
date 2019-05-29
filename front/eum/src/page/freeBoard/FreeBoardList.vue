@@ -1,70 +1,84 @@
 <template>
-
   <section class="free-board-list">
     <sub-layout>
-      <h4><b>자유게시판</b></h4>
-          <div class="searchDiv">
-			<div class="row">
-				<label class="col-6 col-form-label"><b>총 게시물수</b><span class="totalRows">{{totalRows}}</span></label>
-					<div class="col-6">
-						<form @submit="keywordSearch(1)" @submit.prevent>
-							<div class="form-inline" style="float:right;">
-								<div class="input-group">
-									<input type="text" id="searchKeyword" v-model="searchForm.title" class="form-control" placeholder="검색조건을 입력해주세요.">
-									<span class="input-group-btn">
-										<button type="button" class="btn btn-primary" @click="keywordSearch(1)">검색</button>
-									</span>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-          <table class="table table-striped table-bordered">
-			<colgroup>
-				<col width="10%">
-				<col width="60%">
-				<col width="15%">
-				<col width="15%">
-			</colgroup>
-			<thead class="thead-dark text-center">
-				<tr>
-					<th scope="col">번호</th>
-					<th scope="col">제목</th>
-					<th scope="col">작성자</th>
-					<th scope="col">작성일</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(content, index) in contents">
-					<th scope="row" class="text-center">{{number*size+index+1}}</th>
-					<td><router-link :to="{path:`freeBoard/${content.id}`}">{{content.title}}</router-link></td>
-					<td>
-						<template v-if="content.member">{{content.member.name}}</template>
-					</td>
-					<td>{{content.regDate | formatDate}}</td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="overflow-auto" >
-			<div class="text-center">
-				<b-pagination align="center" size="md" :total-rows="totalRows" v-model="currentPage" :per-page="size" hide-ellipsis :limit="10" @change="search" />
-			</div>
-		</div>
-		
-		<div>
-			<div class="btn-box float-right">
-				<div>
-						<button type="button" v-if="this.store.state.menuRole.writeRole=='Y'" class="btn btn-warning" @click="goInsertPage">작성</button>
-				</div>
-			</div>
-		</div>
+            <div id="content">
+                <div id="navigator">
+                    <h3>자유게시판</h3>
+                    <ul>
+                        <li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+                        <li> > </li>
+                        <li>커뮤니티</li>
+                        <li> > </li>
+                        <li>자유게시판</li>
+                    </ul>
+                </div>
+
+                <div id="con">
+
+                    <div class="board-wrap">
+
+                        <div class="board-list-header">
+                            <div class="total-box">
+                                전체 <strong>{{totalRows}}</strong>건
+                            </div>
+                            <form @submit="search(1)" @submit.prevent>
+                                <div class="search-box">
+                                    <select class="select" name="">
+                                        <option>전체</option>
+                                    </select>
+                                    <div class="input-group">
+                                        <input type="text" class="intxt" v-model="searchForm.title" placeholder="검색어를 입력하세요." />
+                                        <div class="in-btn">
+                                            <button type="button" class="btn" @click="search(1)">검색</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="btn-list">
+                                <button type="button" class="btn li01" @click="goInsertPage">글쓰기</button>
+                            </div>
+
+                        </div>
+
+                        <div class="borad-content">
+                            <table class="board-con-list">
+                                <colgroup>
+                                    <col width="">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th class="num">번호</th>
+                                    <th>제목</th>
+                                    <th class="author">작성자</th>
+                                    <th class="date">등록일</th>
+                                    <!--<th class="reading">조회수</th>-->
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr v-for="(content, index) in contents">
+                                        <th class="num">{{number*size+index+1}}</th>
+                                        <td class="bod-tit"><router-link :to="{path:`freeBoard/${content.id}`}">{{content.title}}</router-link></td>
+                                        <td class="author">{{content.member.name}}</td>
+                                        <td class="date">{{content.regDate | formatDate}}</td>
+                                        <!--<td class="reading">1</td>-->
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <pagination :totalRecords="totalRows" :currentPage="searchForm.currentPage" :screenSize="size" :search="search"></pagination>
+                    </div>
+                </div>
+            </div>
     </sub-layout>
   </section>
-
 </template>
 
 <script lang="js">
+import Pagination from '@/components/pagination/Pagination'
 import SubLayout from '@/components/layouts/SubLayout'
   export default  {
     name: 'free-board-list',
@@ -77,16 +91,16 @@ import SubLayout from '@/components/layouts/SubLayout'
 	},
     data() {
       return {
-            currentPage: 1,
             totalRows : 0,
             number : 0,
             size : 0,
             contents : {},
-            searchForm : {title:""}
+            searchForm : {title:"", currentPage: 1}
       }
     },
     methods: {
         search : function(pageNum){
+            
 			this.searchForm.currentPage = pageNum || 1;
 			this.$http.get(`${this.store.getters.restWebPath}/freeBoard`,{params:this.searchForm})
 			.then(({data})=>{
@@ -97,7 +111,7 @@ import SubLayout from '@/components/layouts/SubLayout'
 			})
 		},
 		keywordSearch : function(pageNum){
-			this.currentPage = pageNum;
+			
 			this.search(pageNum);
 		},
         goInsertPage : function(){
@@ -108,7 +122,8 @@ import SubLayout from '@/components/layouts/SubLayout'
 
     },
     components:{
-        SubLayout
+        SubLayout,
+        Pagination
     }
 }
 </script>
@@ -117,21 +132,5 @@ import SubLayout from '@/components/layouts/SubLayout'
   .free-board-list {
 
   }
-  
-  .searchDiv {
-		padding: 20px;
-		/*  border: solid 1px #ddd; */
-		background: #71beff;
-		border-radius: 10px;
-		box-shadow: 4px 3px 11px 2px grey;
-		margin: 0 0 20px 0;
-	}
-	
-	.searchDiv .totalRows{
-		margin-left: 10px
-	}
-	
-	.btn-box button,a {
-		margin: 0 10px 10px 0;
-	}
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

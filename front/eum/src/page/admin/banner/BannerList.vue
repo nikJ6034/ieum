@@ -2,36 +2,50 @@
 
   <section class="banner-list">
     <sub-layout>
-      <h4><b>배너 관리</b></h4>
-		<table class="table table-striped table-bordered">
-		<colgroup>
-			<col width="30%">
-			<col width="70%">
-		</colgroup>
-		<thead class="thead-dark text-center">
-			<tr>
-				<th scope="col">제목</th>
-				<th scope="col">설명</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="(content, index) in contents">
-				<td><router-link :to="{path:`banner/modify/${content.id}`}">{{content.title}}</router-link></td>
-				<td>
-					{{content.description}}
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	
-	<div>
-		<div class="btn-box float-right">
-			<div>
-<!-- 					<button v-if="this.store.state.menuRole.writeRole=='Y'" type="button" class="btn btn-warning" @click="goInsertPage">작성</button> -->
+	<div id="content">
+				<div id="navigator">
+					<h3>배너 관리</h3>
+					<ul>
+						<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+						<li> > </li>
+						<li>관리자</li>
+						<li> > </li>
+						<li>배너 관리</li>
+					</ul>
+				</div>
+
+				<div id="con">
+
+					<div class="board-wrap">
+
+						<div class="borad-content">
+							<table class="board-con-list">
+								<colgroup>
+									<col width="">
+								</colgroup>
+								<thead>
+									<tr>
+										<th class="num">번호</th>
+										<th class="author">제목</th>
+										<th>설명</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr v-for="(content, index) in contents">
+										<td class="num">{{index+1}}</td>
+										<td class="author">
+											{{content.description}}
+										</td>
+										<td class="bod-tit"><router-link :to="{path:`banner/modify/${content.id}`}">{{content.title}}</router-link> </td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-		
     </sub-layout>
   </section>
 
@@ -74,31 +88,5 @@ import SubLayout from '@/components/layouts/SubLayout'
 	.banner-list {
 	
 	}
-  
-	.searchDiv {
-		padding: 20px;
-		/*  border: solid 1px #ddd; */
-		background: #71beff;
-		border-radius: 10px;
-		box-shadow: 4px 3px 11px 2px grey;
-		margin: 0 0 20px 0;
-	}
-	
-	.searchDiv .totalRows{
-		margin-left: 10px
-	}
-
-	.table .thead-dark th{
-		background-color: #67708b;
-    border-color: #67708b;
-	}
-  
-	.page-item.active .page-link{
-		background-color: #a6b4c4;
-		border-color : #a6b4c4;
-	}
-	
-	.btn-box button,a {
-		margin: 0 10px 10px 0;
-	}
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

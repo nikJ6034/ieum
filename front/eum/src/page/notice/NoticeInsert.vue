@@ -59,31 +59,16 @@
                             </tr>
                             </tbody>
                         </table>-->
-
-
                         <!-- 버튼 -->
                         <div class="board-btn-list">
                             <input type="button"  class="btn" value="저장" v-if="store.state.menuRole.writeRole=='Y'" @click="save">
                             <router-link v-if="store.state.menuRole.readRole=='Y'" class="btn li02" to="/notice">목록</router-link>
                         </div>
                         <!-- //버튼 -->
-
-
                         <!-- //컨텐트 -->
-
-
-
                     </div>
-
-
-
                 </div>
-
-
-
-
             </div>
-
         </sub-layout>
     </section>
 </template>

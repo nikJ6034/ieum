@@ -1,55 +1,96 @@
 <template>
 	<section class="banner-modify">
 		<sub-layout>
-			<div>
-				<div class="title">
-					<h4><b>배너 관리</b></h4>
-				</div>
-				<form>
-					<div class="row">
-						<div class="col-12 subject">
-							<label>제목</label>
-							<input type="text" class="w-80 d-inline-block form-control" v-model="banner.title">
-						</div>
-						<div class="col-12 content">
-							<textarea v-model="banner.description" class="form-control" rows="3"></textarea>
-						</div>
-						<div v-if="banner.bannerImage" v-for="bannerImg in banner.bannerImage">
+				<div id="content">
+					<div id="navigator">
+						<h3>배너 관리</h3>
+						<ul>
+							<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+							<li> > </li>
+							<li>관리자</li>
+							<li> > </li>
+							<li>배너 관리</li>
+						</ul>
+					</div>
+
+					<div id="con">
+						<div class="board-wrap">
+							<div class="board-add-header" style="border-bottom:1px solid #ddd;">
+
+								<ul>
+									<li class="li01">제목</li>
+									<li class="li04">
+										<input type="text" class="tit-int" v-model="banner.title">
+									</li>
+								</ul>
+
+							</div>
+
+							<div class="border-view-con">
+								<textarea v-model="banner.description" style="width:100%" rows="3"></textarea>
+							</div>
+
+							<div class="board-file-box">
+								<table class="board-file-list">
+									<tbody>
+
+									<tr v-if="banner.bannerImage" v-for="bannerImg in banner.bannerImage" >
+										<th class="title">
+											<img :src="`${store.state.basePath}${bannerImg.attachFile.resourcePath}/${bannerImg.attachFile.virtualName}`" style="width:200px"> &nbsp;
+										</th>
+										<td>
+											<textarea style="width:100%" rows="4" v-model="bannerImg.title"></textarea>
+										</td>
+										<td>
+											<textarea style="width:100%" rows="4" v-model="bannerImg.content"></textarea>
+										</td>
+										<td>
+											<input style="width:30px" type="text" v-model="bannerImg.sortNumber"/>
+										</td>
+										<td>
+											<button class="btn li03" type="button" @click="deleteFile(bannerImg.attachFile.id)">삭제</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<br/>
 							<div>
-								<img :src="`${store.state.basePath}${bannerImg.attachFile.resourcePath}/${bannerImg.attachFile.virtualName}`" style="width:200px"> &nbsp;<button class="btn btn-link" type="button" @click="deleteFile(bannerImg.attachFile.id)">삭제</button>
-								<input type="text" v-model="bannerImg.title"/>
-								<textarea cols="50" rows="4" v-model="bannerImg.content"></textarea>
-								<input style="width:30px" type="text" v-model="bannerImg.sortNumber"/>
-							</div>
-						</div>
-						<div class="col-12 content">
-							<div class="row">
-								<div class="col-12">
 									<button type="button" class="btn btn-info" @click="fileCountAdd">배너 추가</button>
-								</div>
-								<div class="col-12">
-									<template v-for="n in fileCount">
-										<div style="margin-top:5px;">
-											<img :ref="`file_${n}`" style="width:200px;"/> &nbsp;
+							</div>
+							<div class="board-file-box">
+								<table class="board-file-list">
+									<tbody>
+
+									<tr v-for="n in fileCount" >
+										<th class="title">
+											<img :ref="`file_${n}`" style="width:200px;"/>
 											<input type="file" :id="`file_${n}`" accept='image/jpeg,image/gif,image/png' v-on:change="uploadFile">
-											<input type="text" v-model="bannerImage[n-1].title"/>
-											<textarea cols="50" rows="4" v-model="bannerImage[n-1].content"></textarea>
-											<input style="width:30px" type="text" v-model="bannerImage[n-1].soertNumber"/>
-										</div>
-									</template>
-								</div>
+										</th>
+										<td>
+											<textarea style="width:100%" rows="4" v-model="bannerImage[n-1].title"></textarea>
+										</td>
+										<td>
+											<textarea style="width:100%" rows="4" v-model="bannerImage[n-1].content"></textarea>
+										</td>
+										<td>
+											<input style="width:30px" type="text" v-model="bannerImage[n-1].sortNumber"/>
+										</td>
+										<td>
+											<button class="btn li03" type="button" @click="deleteFile(bannerImg.attachFile.id)">삭제</button>
+										</td>
+									</tr>
+									</tbody>
+								</table>
 							</div>
-						</div>
-						<div class="col-12">
-							<div class="btn-box float-right">
-								<div>
-									<button type="button" class="btn btn-warning" @click="modify">수정</button>
-									<router-link role="button" class="btn btn-info" to="/admin/banner">목록</router-link>
-								</div>
+							<!-- 버튼 -->
+							<div class="board-btn-list">
+								<button type="button" class="btn" @click="modify">수정</button>
+								<router-link role="button" class="btn li02" to="/admin/banner">목록</router-link>
 							</div>
+							<!-- //버튼 -->
 						</div>
 					</div>
-				</form>
 				</div>
 		</sub-layout>
 	</section>
@@ -165,32 +206,5 @@ export default  {
 	.banner-modify {
 
 	}
-  
-	.banner-modify .title {
-	margin: 20px 0;
-	font-size:30px;
-	font-weight: 600;
-	}
-
-	.banner-modify .subject {
-		border-top: solid 2px #66b1f1;
-	padding: 15px;
-		font-size:20px;
-		font-weight: 500;
-		min-height: 50px;
-  }
-
-	.banner-modify .subject label{
-		margin-right: 20px;
-	}
-  
-	.banner-modify .content {
-/*		border-top: solid 1px rgba(111, 111, 111, 0.5); */
-		padding: 10px 15px 10px 15px;
-		font-size:15px;
-	}
-  
-	.btn-box button,a {
-		margin: 0 10px 10px 0;
-	}
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

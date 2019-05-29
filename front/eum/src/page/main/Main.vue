@@ -130,7 +130,7 @@ export default  {
     name: 'Main',
     props: [],
     mounted() {
-    	this.bannerSearch();
+      this.bannerSearch();
         this.noticeSearch();
         this.activitySearch();
         this.programSearch();
@@ -145,25 +145,25 @@ export default  {
       }
     },
     methods: {
-    	noticeSearch : function(){
-			this.$http.get(`${this.store.getters.restWebPath}/notice`,{params:{currentPage:1,limit:3}})
-			.then(({data})=>{
-				this.notice = data.list.content;
-			})
-		},
-		bannerSearch : function(){
-			this.$http.get(`${this.store.getters.restWebPath}/banner/1`,{})
-			.then(({data})=>{
-				this.banner = data.data;
+      noticeSearch : function(){
+      this.$http.get(`${this.store.getters.restWebPath}/notice`,{params:{currentPage:1,limit:3}})
+      .then(({data})=>{
+        this.notice = data.list.content;
+      })
+    },
+    bannerSearch : function(){
+      this.$http.get(`${this.store.getters.restWebPath}/banner/1`,{})
+      .then(({data})=>{
+        this.banner = data.data;
                 mainJs.main();
-			})
-		},
-		activitySearch : function(){
-			this.$http.get(`${this.store.getters.restWebPath}/activity`,{params:{currentPage:1,limit:10}})
-			.then(({data})=>{
-				this.activity = data.list.content;
-			})
-		},
+      })
+    },
+    activitySearch : function(){
+      this.$http.get(`${this.store.getters.restWebPath}/activity`,{params:{currentPage:1,limit:10}})
+      .then(({data})=>{
+        this.activity = data.list.content;
+      })
+    },
         programSearch : function(){
             this.$http.get(`${this.store.getters.restWebPath}/program`,{params:{kind:1,currentPage:1,limit:2}})
                 .then(({data})=>{

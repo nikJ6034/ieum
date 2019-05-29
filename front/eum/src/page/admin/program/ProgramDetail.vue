@@ -79,7 +79,7 @@ export default {
         },
         downloadFile : function(id){
             this.$http.get(`${this.store.getters.restWebPath}/download/${id}`,{responseType:'blob'})
-                .then((response)=>{
+                .then(()=>{
 
                 })
         }

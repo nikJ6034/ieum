@@ -1,36 +1,97 @@
 <template>
     <section class="program-modify">
         <sub-layout>
-            <div>
-                <div class="title">
-                    <h4><b>{{kindName}}</b></h4>
-                </div>
-                <div class="row">
-                    <div class="col-12 subject">{{program.title}}</div>
-                    <div class="col-12">일자 : {{program.strDate|formatDateKo2}}~{{program.endDate|formatDateKo2}}</div>
-                    <div class="col-12">신청일 : {{program.strAppDate|formatDateKo2}}~{{program.endAppDate|formatDateKo2}}</div>
-                    <div class="col-12">장소 : {{program.address}} {{program.addressDetail}}</div>
-                    <div class="col-12">이미지 : <img v-if="program.imageFile" :src="`${store.state.basePath}${program.imageFile.resourcePath}/${program.imageFile.virtualName}`" style="height:150px;"/></div>
-                    <div class="col-12 content" v-html="program.content"></div>
-                    <div class="col-12">
-                        <div class="d-inline-block mx5" v-if="program.attachFile" v-for="file in program.attachFile">
-                            <a class="btn btn-link" role="button" :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
+            <div id="content">
+				<div id="navigator">
+					<h3>{{kindName}}</h3>
+					<ul>
+						<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+                        <li> > </li>
+                        <li>프로그램</li>
+                        <li> > </li>
+                        <li>프로그램</li>
+					</ul>
+				</div>
+
+				<div id="con">
+
+					<div class="board-wrap">
+
+						<div class="board-view-header" style="border-bottom:1px solid #ddd;">
+							<ul class="board-view-tit">
+								<li class="title">{{program.title}}</li>
+							</ul>
+						</div>
+
+
+                        <div class="board-add-header" style="border-bottom:1px solid #ddd;">
+
+							<ul>
+								<li class="li01">일자</li>
+								<li class="li05">
+									<p class="con-txt">{{program.strDate|formatDateKo2}}~{{program.endDate|formatDateKo2}}</p>
+								</li>
+								<li class="li01">신청일</li>
+								<li class="li05">
+									<p class="con-txt">{{program.strAppDate|formatDateKo2}}~{{program.endAppDate|formatDateKo2}}</p>
+								</li>
+                                <li class="li01">장소</li>
+								<li class="li05">
+									<p class="con-txt">{{program.address}} {{program.addressDetail}}</p>
+								</li>
+							</ul>
+                            <ul>
+                                <li class="li05">
+									<p class="con-txt"><img v-if="program.imageFile" :src="`${store.state.basePath}${program.imageFile.resourcePath}/${program.imageFile.virtualName}`" style="height:150px;"/></p>
+								</li>
+                            </ul>
+						</div>
+
+						<div class="border-view-con ql-editor" v-html="program.content"></div>
+
+						<!-- 첨부파일 -->
+						<div class="board-file-box">
+							<table class="board-file-list">
+								<tbody>
+								<tr v-if="program.attachFile" v-for="file in program.attachFile">
+									<th class="title">첨부파일</th>
+									<td>
+										<ul>
+											<li>
+												<a :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- //첨부파일 -->
+
+                        <div v-if="exists" class="board-add-header">
+                            <ul>
+								<li class="li01">신청자</li>
+								<li class="li05">
+									<p class="con-txt">{{programApplication.name}}</p>
+								</li>
+								<li class="li01">연락처</li>
+								<li class="li05">
+									<p class="con-txt">{{programApplication.tel}}</p>
+								</li>
+							</ul>
                         </div>
-                    </div>
-                    <div v-if="exists" class="col-12">
-                        신청자 : {{programApplication.name}}
-                        연락처 : {{programApplication.tel}}
-                    </div>
-                    <div class="col-12">
-                        <div class="btn-box float-right">
-                            <div>
-                                <button v-if="!exists" type="button" class="btn btn-warning" @click="goApplication">신청</button>
-                                <router-link role="button" class="btn btn-info" :to="`/program/${this.kind}`">목록</router-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+						<!-- 버튼 -->
+						<div class="board-btn-list">
+                            <button v-if="!exists" type="button" class="btn" @click="goApplication">신청</button>
+                            <router-link role="button" class="btn li02" :to="`/program/${this.kind}`">목록</router-link>
+						</div>
+						<!-- //버튼 -->
+						<!-- //컨텐트 -->
+					</div>
+				</div>
+			</div>
         </sub-layout>
     </section>
 </template>
@@ -90,35 +151,5 @@ export default {
     .program-modify {
 
     }
-
-    .program-modify .title {
-        margin: 20px 0;
-        font-size:30px;
-        font-weight: 600;
-    }
-
-    .program-modify .subject {
-        border-top: solid 2px #66b1f1;
-        padding: 15px;
-        font-size:20px;
-        font-weight: 500;
-        min-height: 50px;
-    }
-
-    .program-modify .content {
-        border-top: solid 1px rgba(111, 111, 111, 0.5);
-        padding: 10px 15px 0 15px;
-        font-size:15px;
-        min-height: 500px;
-    }
-
-    .btn-box button,a {
-        margin: 0 10px 10px 0;
-    }
-
-    .btn-file {
-        color: #ffffff;
-        background-color: brown;
-        border-color: brown;
-    }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

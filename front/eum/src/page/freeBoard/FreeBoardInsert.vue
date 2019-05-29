@@ -2,33 +2,46 @@
 
   <section class="free-board-insert">
     <sub-layout>
-    	<div>
-			<div class="title">
-				<h4><b>자유게시판</b></h4>
-			</div>
-			<form>
-				<div class="row">
-					<div class="col-12 subject">
-						<label>제목</label>
-						<input type="text" class="w-80 d-inline-block form-control" v-model="freeBoard.title">
-					</div>
-					<div class="col-12 content">
-						<textarea v-model="freeBoard.content" class="form-control"></textarea>
-<!-- 							<quill :qContent="notice.content" @childs-event="parentsMethod"></quill> -->
-					</div>
-<!-- 						<input type="file"  id="file2" v-on:change="uploadFile"> -->
-					<div class="col-12">
-						<div class="btn-box float-right">
-							<div>
-								<button  type="button" class="btn btn-warning" @click="save">저장</button>
-								<button type="button" class="btn btn-danger" @click="cancel">취소</button>
-								<router-link role="button" class="btn btn-info" to="/freeBoard">목록</router-link>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+      <div id="content">
+        <div id="navigator">
+          <h3>자유게시판</h3>
+          <ul>
+            <li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+            <li> > </li>
+            <li>커뮤니티</li>
+            <li> > </li>
+            <li>자유게시판</li>
+          </ul>
+        </div>
+
+        <div id="con">
+
+          <div class="board-wrap">
+
+            <div class="board-add-header" style="border-bottom:1px solid #ddd;">
+
+            <ul>
+                <li class="li01">제목</li>
+                <li class="li04">
+                    <input type="text" class="tit-int" v-model="freeBoard.title">
+                </li>
+            </ul>
+
+            </div>
+            <div class="border-view-con">
+              <textarea v-model="freeBoard.content" rows="10" style="width:100%;"></textarea>
+            </div>
+            <!-- 버튼 -->
+            <div class="board-btn-list">
+              <button  type="button" class="btn" @click="save">저장</button>
+              <button type="button" class="btn li01" @click="cancel">취소</button>
+              <router-link role="button" class="btn li02" to="/freeBoard">목록</router-link>
+            </div>
+            <!-- //버튼 -->
+          <!-- //컨텐트 -->
+          </div>
+        </div>
+      </div>
     </sub-layout>
   </section>
 
@@ -41,41 +54,41 @@ import FreeBoardValidation from './validation/FreeBoardValidation';
     name: 'free-board-insert',
     props: [],
     mounted() {
-		
+    
     },
     data() {
       return {
-    	  freeBoard : {itle:"", content:""},
+        freeBoard : {itle:"", content:""},
       }
     },
     methods: {
-    	cancel : function(){
-			this.router.go(-1);
-		},
-		save : function(){
-			if(FreeBoardValidation.validation(this.freeBoard)) return; //값 검증
+      cancel : function(){
+      this.router.go(-1);
+    },
+    save : function(){
+      if(FreeBoardValidation.validation(this.freeBoard)) return; //값 검증
 
-			if(window.confirm("작성 하시겠습니까?")){
-										
-					this.$http.post(`${this.store.getters.restWebPath}/freeBoard`
-						,this.freeBoard
-					)
-					.then(({data})=>{
-						if(data.result == "success"){
-							alert("작성 되었습니다.");
-							this.router.push(`/freeBoard/${data.id}`);
-						}else{
-							alert("작성 되지 않았습니다.");
-						}
-					})
-			}
-		}
+      if(window.confirm("작성 하시겠습니까?")){
+                    
+          this.$http.post(`${this.store.getters.restWebPath}/freeBoard`
+            ,this.freeBoard
+          )
+          .then(({data})=>{
+            if(data.result == "success"){
+              alert("작성 되었습니다.");
+              this.router.push(`/freeBoard/${data.id}`);
+            }else{
+              alert("작성 되지 않았습니다.");
+            }
+          })
+      }
+    }
     },
     computed: {
 
     },
     components:{
-    	SubLayout
+      SubLayout
     }
 }
 </script>
@@ -84,36 +97,5 @@ import FreeBoardValidation from './validation/FreeBoardValidation';
   .free-board-insert {
 
   }
-  
-  .free-board-insert .title {
-	margin: 20px 0;
-	font-size:30px;
-	font-weight: 600;
-  }
-  
-  .free-board-insert .subject {
-		border-top: solid 2px #66b1f1;
-		padding: 15px;
-		font-size:20px;
-		font-weight: 500;
-		min-height: 50px;
-  }
-  
-  .free-board-insert .subject label{
-		margin-right: 20px;
-  }
-  
-  .free-board-insert .content {
-		border-top: solid 1px rgba(111, 111, 111, 0.5);
-		padding: 10px 15px 10px 15px;
-		font-size:15px;
-  }
-  
-  .free-board-insert .content textarea{
-		min-height: 500px;
-  }
-  
-  .btn-box button,a {
-		margin: 0 10px 10px 0;
-  }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

@@ -2,29 +2,66 @@
 
   <section class="data-room-detail">
     <sub-layout>
-			<div>
-				<div class="title">
-					<h4><b>자료실</b></h4>
+			<div id="content">
+				<div id="navigator">
+					<h3>자료실</h3>
+					<ul>
+						<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+						<li> > </li>
+						<li>커뮤니티</li>
+						<li> > </li>
+						<li>자료실</li>
+					</ul>
 				</div>
-				<div class="row">
-					<div class="col-12 subject">{{dataRoom.title}}</div>
-<!-- 					<div class="col-12 content" style="white-space: pre;">{{dataRoom.content}}</div> -->
-					<div class="col-12 content" v-html="dataRoom.content"></div>
-					<div class="col-12">
-							<div class="d-inline-block mx5" v-if="dataRoom.attachFile" v-for="file in dataRoom.attachFile">
-								<a class="btn btn-link" role="button" :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
-							</div>
-					</div>
-					<div class="col-12">
-						<div class="btn-box float-right">
-							<div>
-								<button v-if="this.store.state.menuRole.modifyRole=='Y'" type="button" class="btn btn-warning" @click="goModifyPage">수정</button>
-								<button v-if="this.store.state.menuRole.deleteRole=='Y'" type="button" class="btn btn-danger" @click="deleteDataRoom">삭제</button>
-								<router-link role="button" class="btn btn-info" to="/dataRoom">목록</router-link>
-							</div>
+
+				<div id="con">
+
+					<div class="board-wrap">
+
+						<div class="board-view-header" style="border-bottom:1px solid #ddd;">
+							<ul class="board-view-tit">
+								<li class="title">{{dataRoom.title}}</li>
+							</ul>
+
+							<ul class="view-item">
+								<li v-if="dataRoom.member">{{dataRoom.member.name}} <span>|</span></li><li>{{dataRoom.regDate|formatDate}}<!--<span>|</span>--></li><!--<li>0</li>-->
+							</ul>
 						</div>
+
+
+						<div class="border-view-con ql-editor" v-html="dataRoom.content">
+
+
+						</div>
+
+						<!-- 첨부파일 -->
+						<div class="board-file-box">
+							<table class="board-file-list">
+								<tbody>
+								<tr v-if="dataRoom.attachFile" v-for="file in dataRoom.attachFile">
+									<th class="title">첨부파일</th>
+									<td>
+										<ul>
+											<li>
+												<a :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- //첨부파일 -->
+						<!-- 버튼 -->
+						<div class="board-btn-list">
+							<button v-if="this.store.state.menuRole.modifyRole=='Y'" type="button" class="btn" @click="goModifyPage">수정</button>
+							<button v-if="this.store.state.menuRole.deleteRole=='Y'" type="button" class="btn li01" @click="deleteDataRoom">삭제</button>
+							<router-link role="button" class="btn li02" to="/dataRoom">목록</router-link>
+						</div>
+						<!-- //버튼 -->
+						<!-- //컨텐트 -->
 					</div>
-					
 				</div>
 			</div>
     </sub-layout>
@@ -82,35 +119,5 @@ import SubLayout from '@/components/layouts/SubLayout'
   .data-room-detail {
 
   }
-  
-  .data-room-detail .title {
-	margin: 20px 0;
-	font-size:30px;
-	font-weight: 600;
-  }
-  
-  .data-room-detail .subject {
-		border-top: solid 2px #66b1f1;
-		padding: 15px;
-		font-size:20px;
-		font-weight: 500;
-		min-height: 50px;
-  }
-  
-  .data-room-detail .content {
-		border-top: solid 1px rgba(111, 111, 111, 0.5);
-		padding: 10px 15px 0 15px;
-		font-size:15px;
-		min-height: 500px;
-  }
-  
-  .btn-box button,a {
-		margin: 0 10px 10px 0;
-  }
-
-	.btn-file {
-		color: #ffffff;
-		background-color: brown;
-		border-color: brown;
-  }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>
