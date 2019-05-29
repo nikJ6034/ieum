@@ -34,10 +34,7 @@
                                     </div>
                                 </div>
                             </form>
-							<div class="btn-list">
-								<button type="button" class="btn li01">글쓰기</button>
-							</div>
-
+						
 						</div>
 
 						<div class="borad-content">

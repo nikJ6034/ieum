@@ -6,18 +6,18 @@
         <div id="con">
         <div class="cal-wrap">
           <full-calendar id='calendar'
-          v-if="store.state.ieumUserId"
-          ref="calendar"
-          :selectable="selectable"
-          :event-sources="eventSources"
-          :config="config" 
-          @view-render="viewRender" 
-          @event-created="eventSelected">
+            v-if="store.state.ieumUserId"
+            ref="calendar"
+            :selectable="selectable"
+            :event-sources="eventSources"
+            :config="config"
+            @view-render="viewRender" 
+            @event-created="eventSelected">
           </full-calendar>
           <ul class="cation-list">
-							<li class="li01">신청대기</li>
-							<li class="li02">신청완료</li>
-						</ul>
+            <li class="li01">신청대기</li>
+            <li class="li02">신청완료</li>
+          </ul>
 
 						<div class="cal-add">
 							<div class="con-h">
@@ -69,7 +69,7 @@
                     <td>{{(reserv.acceptYN == "N")?"대기":"승인"}}</td>
                     <td>
                       <template v-if="reserv.acceptYN == 'N'">
-                        <button type="button" class="btn btn-danger" @click="deleteReserv(reserv.id)">취소</button>
+                        <button type="button" class="btn li03" @click="deleteReserv(reserv.id)">취소</button>
                       </template>
                     </td>
                   </tr>

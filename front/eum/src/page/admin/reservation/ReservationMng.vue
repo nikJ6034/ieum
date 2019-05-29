@@ -1,25 +1,26 @@
 <template>
     <section class="reservationMng">
         <sub-layout>
-            <full-calendar
-            v-if="store.state.ieumUserId"
-            ref="calendar"
-            :selectable="selectable"
-            :event-sources="eventSources"
-            :config="config"
-            @view-render="viewRender"
-            @event-created="eventSelected"
-            ></full-calendar>
+            <div id="content">
+                <div id="con">
+                    <div class="cal-wrap">
+                        <full-calendar
+                        v-if="store.state.ieumUserId"
+                        ref="calendar"
+                        :selectable="selectable"
+                        :event-sources="eventSources"
+                        :config="config"
+                        @view-render="viewRender"
+                        @event-created="eventSelected"
+                        ></full-calendar>
 
-            <div class="row" style="margin:10px;">
-                <div class="col-12">
-                    신청 대기  <span style="background:#e36c6c;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    신청 완료  <span style="background:#5a5afa;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            </div>
-        </div>
+            <ul class="cation-list">
+                <li class="li01">신청대기</li>
+                <li class="li02">신청완료</li>
+            </ul>
 
-        <div class="row">
-            <table class="table table-striped table-bordered">
+        <div class="data-box">
+            <table class="info-table">
             <colgroup>
                 <col width="20%">
                 <col width="30%">
@@ -47,25 +48,28 @@
                     <td class=text-center>
                         <template v-if="reserv.deleteYN == 'N'">
                             <template v-if="reserv.acceptYN == 'N'">
-                                <button type="button" class="btn btn-primary" @click="acceptReserv(reserv.id)">승인</button>
+                                <button type="button" class="btn" @click="acceptReserv(reserv.id)">승인</button>
                             </template>
                             <template v-if="reserv.acceptYN == 'Y'">
-                                <button type="button" class="btn btn-danger" @click="acceptReserv(reserv.id)">취소</button>
+                                <button type="button" class="btn li03" @click="acceptReserv(reserv.id)">취소</button>
                             </template>
                         </template>
                     </td>
                     <td class=text-center>
                         <template v-if="reserv.deleteYN == 'N'">
-                            <button type="button" class="btn btn-danger" @click="deleteReserv(reserv.id)">삭제</button>
+                            <button type="button" class="btn li04" @click="deleteReserv(reserv.id)">삭제</button>
                         </template>
                         <template v-else>
-                            <button type="button" class="btn btn-primary" @click="deleteReserv(reserv.id)">복구</button>
+                            <button type="button" class="btn" @click="deleteReserv(reserv.id)">복구</button>
                         </template>
                     </td>
                 </tr>
             </tbody>
             </table>
         </div>
+                    </div>
+                </div>
+            </div>
 
     </sub-layout>
     </section>
@@ -171,7 +175,7 @@ let _this = null;
             }
         },
         deleteReserv : function(id){
-            if(confirm("예약을 취소하시겠습니까?")){
+            if(confirm("진행하시겠습니까?")){
                 this.$http.delete(`${this.store.getters.restWebPath}/reservation/${id}`)
                 .then(({data})=>{
                     alert(data.msg);
@@ -196,3 +200,4 @@ let _this = null;
 
   }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

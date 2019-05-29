@@ -1,73 +1,113 @@
 <template>
     <section class="program-detail">
         <sub-layout>
-            <div>
-                <div class="title">
-                    <h4><b>프로그램</b></h4>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <select name="kind" v-model="program.kind">
-                            <option v-for="pro in programKindList" :value="pro.id">{{pro.name}}</option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <label>제목</label>
-                        <input type="text" class="w-80 d-inline-block form-control" v-model="program.title">
-                    </div>
-                    <div class="col-12">
-                        <label>일자</label>
-                        <datepicker :language="ko" v-model="program.strDate" :format="customFormatter"></datepicker>~
-                        <datepicker :language="ko" v-model="program.endDate" :format="customFormatter"></datepicker>
-                    </div>
-                    <div class="col-12">
-                        <label>신청기간</label>
-                        <datepicker :language="ko" v-model="program.strAppDate" :format="customFormatter"></datepicker>~
-                        <datepicker :language="ko" v-model="program.endAppDate" :format="customFormatter"></datepicker>
-                    </div>
-                    <div class="col-12 content">
-                        <label>장소</label>
-                        <input type="text" v-model="program.addressNumber" readonly> <button type="button" @click="postPopup">우편번호 검색</button>
-                        <label>주소</label> <input v-model="program.address" type="text" readonly>
-                        <label>상세 주소</label><input type="text" v-model="program.addressDetail">
-                    </div>
-                    <div class="col-12 content">
-                        이미지파일 <input type="file"  id="image" v-on:change="uploadImage"> <img v-if="program.imageFile" :src="`${store.state.basePath}${program.imageFile.resourcePath}/${program.imageFile.virtualName}`" style="height:150px;"/>
-                    </div>
-                    <div class="col-12 content">
-                        <quill v-if="program.content" :qContent.sync="program.content"></quill>
-                    </div>
-                    <div v-if="program.attachFile" v-for="file in program.attachFile">
+            <div id="content">
+				<div id="navigator">
+					<h3>프로그램</h3>
+					<ul>
+						<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+						<li> > </li>
+						<li>관리자</li>
+						<li> > </li>
+						<li>프로그램</li>
+					</ul>
+				</div>
+
+				<div id="con">
+
+					<div class="board-wrap">
+
+						<div class="board-add-header" style="border-bottom:1px solid #ddd;">
+
+                            <ul>
+								<li class="li01">프로그램</li>
+								<li class="li05 ch">
+									<select class="select" name="kind" v-model="program.kind">
+                                        <option v-for="pro in programKindList" :value="pro.id">{{pro.name}}</option>
+                                    </select>
+								</li>
+							</ul>
+                            
+							<ul>
+								<li class="li01">제목</li>
+								<li class="li04">
+									<input type="text" v-model="program.title" class="tit-int">
+								</li>
+							</ul>
+
+							<ul>
+								<li class="li01">일자</li>
+								<li class="li05">
+									<datepicker :language="ko" v-model="program.strDate" :format="customFormatter"></datepicker>~
+                                    <datepicker :language="ko" v-model="program.endDate" :format="customFormatter"></datepicker>
+								</li>
+								<li class="li01">신청기간</li>
+								<li class="li05">
+									<datepicker :language="ko" v-model="program.strAppDate" :format="customFormatter"></datepicker>~
+                                    <datepicker :language="ko" v-model="program.endAppDate" :format="customFormatter"></datepicker>
+								</li>
+							</ul>
+						
+						</div>
+
+                        <div class="border-view-con">
+                            <quill v-if="program.content" :qContent.sync="program.content"></quill>
+                        </div>
+
+                        <div class="board-file-box" v-if="program.attachFile.length != 0">
+                            <table class="board-file-list">
+                                <tbody>
+                                    <tr v-for="file in program.attachFile">
+                                        <th class="title">첨부파일</th>
+                                        <td>
+                                            <ul>
+                                                <li>
+                                                    <a style="display: inline-block" :href="store.getters.restWebPath+'/file/'+file.id">{{file.realName}}</a> <button class="btn li04" type="button" @click="deleteFile(file.id)">삭제</button>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br/>
                         <div>
-                            {{file.realName}}<button class="btn btn-link" type="button" @click="deleteFile(file.id)">삭제</button>
+                            <button type="button" class="btn" @click="fileCountAdd">첨부파일 추가</button>
                         </div>
-                    </div>
-                    <div class="col-12 content">
-                        <div class="row">
-                            <div class="col-12">
-                                <button type="button" class="btn btn-info" @click="fileCountAdd">첨부파일 추가</button>
-                            </div>
-                            <div class="col-12">
-                                <template v-for="n in fileCount">
-                                    <div style="margin-top:5px;">
-                                        <img :ref="`file_${n}`" style="width:200px;"/> &nbsp;
-                                        <input type="file" :id="`file_${n}`" accept='image/jpeg,image/gif,image/png' v-on:change="uploadFile">
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="btn-box float-right">
-                            <div>
-                                <button v-if="this.store.state.menuRole.modifyRole=='Y'" type="button" class="btn btn-warning" @click="modify">수정</button>
-                                <button v-if="this.store.state.menuRole.deleteRole=='Y'" type="button" class="btn btn-danger" @click="cancel">취소</button>
-                                <router-link role="button" class="btn btn-info" to="/admin/program">목록</router-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+						<div class="board-file-box">
+							<table class="board-file-list">
+								<tbody>
+
+								<tr v-for="n in fileCount">
+									<th class="title">첨부파일</th>
+									<td>
+										<ul>
+
+											<li>
+												<img :ref="`file_${n}`" style="width:200px;"/>
+											</li>
+                                            <li>
+                                                <input type="file" :id="`file_${n}`" accept='image/jpeg,image/gif,image/png' v-on:change="uploadFile">
+											</li>
+
+										</ul>
+									</td>
+								</tr>
+								
+								</tbody>
+							</table>
+						</div>
+						<!-- 버튼 -->
+						<div class="board-btn-list">
+                            <button v-if="this.store.state.menuRole.modifyRole=='Y'" type="button" class="btn" @click="modify">수정</button>
+                            <button v-if="this.store.state.menuRole.deleteRole=='Y'" type="button" class="btn li03" @click="cancel">취소</button>
+                            <router-link role="button" class="btn li02" to="/admin/program">목록</router-link>
+						</div>
+						<!-- //버튼 -->
+						<!-- //컨텐트 -->
+					</div>
+				</div>
+			</div>
         </sub-layout>
     </section>
 </template>
@@ -213,7 +253,4 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>
+<style scoped src="@/assets/css/custom.css"></style>

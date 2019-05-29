@@ -1,57 +1,86 @@
 <template>
     <section class="program-appList">
         <sub-layout>
-            <div>
-                <div class="title">
-                    <h4><b>{{kindName}} 신청</b></h4>
-
+            <div id="content">
+                <div id="navigator">
+                    <h3>{{kindName}} 신청자 목록</h3>
+                    <ul>
+                        <li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+                        <li> > </li>
+                        <li>관리자</li>
+                        <li> > </li>
+                        <li>신청자 목록</li>
+                    </ul>
                 </div>
-                <div class="row">
-                    <div class="col-12 subject">{{program.title}}</div>
-                    <div class="col-12">일자 : {{program.strDate|formatDateKo2}}~{{program.endDate|formatDateKo2}}</div>
-                    <div class="col-12">신청일 : {{program.strAppDate|formatDateKo2}}~{{program.endAppDate|formatDateKo2}}</div>
-                    <div class="col-12">장소 : {{program.address}} {{program.addressDetail}}</div>
-                    <div class="col-12">
-                        <table>
-                            <colgroup>
-                                <col width="5%">
-                                <col width="10%">
-                                <col width="15%">
-                                <col width="">
-                                <col width="10%">
-                                <col width="5%">
-                                <col width="5%">
-                            </colgroup>
-                            <thead>
+
+                <div id="con">
+
+                    <div class="board-wrap">
+
+                        <div class="board-view-header" style="border-bottom:1px solid #ddd;">
+							<ul class="board-view-tit">
+								<li class="title">{{program.title}}</li>
+							</ul>
+						</div>
+
+                        <div class="board-add-header" style="border-bottom:1px solid #ddd;">
+
+							<ul>
+								<li class="li01">일자</li>
+								<li class="li05">
+									<p class="con-txt">{{program.strDate|formatDateKo2}}~{{program.endDate|formatDateKo2}}</p>
+								</li>
+								<li class="li01">신청일</li>
+								<li class="li05">
+									<p class="con-txt">{{program.strAppDate|formatDateKo2}}~{{program.endAppDate|formatDateKo2}}</p>
+								</li>
+                                <li class="li01">장소</li>
+								<li class="li05">
+									<p class="con-txt">{{program.address}} {{program.addressDetail}}</p>
+								</li>
+							</ul>
+                            <ul>
+                                <li class="li05">
+									<p class="con-txt"><img v-if="program.imageFile" :src="`${store.state.basePath}${program.imageFile.resourcePath}/${program.imageFile.virtualName}`" style="height:150px;"/></p>
+								</li>
+                            </ul>
+						</div>
+
+                        <div class="borad-content">
+                            <table class="board-con-list">
+                                <colgroup>
+                                    <col width="">
+                                </colgroup>
+                                <thead>
                                 <tr>
-                                    <th>번호</th>
+                                    <!--th>번호</th-->
                                     <th>이름</th>
                                     <th>전화번호</th>
                                     <th>신청 이유</th>
                                     <th>삭제 유무</th>
                                     <th>삭제</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="app in programApplicationList">
-                                    <td>{{app.id}}</td>
-                                    <td>{{app.name}}</td>
-                                    <td>{{app.tel}}</td>
-                                    <td>{{app.etc}}</td>
-                                    <td>{{app.deleteYN}}</td>
-                                    <td><button @click="deleteApp(app)">{{(app.deleteYN == 'N')?"삭제":"복구"}}</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="app in programApplicationList">
+                                        <!--td>{{app.id}}</td-->
+                                        <td>{{app.name}}</td>
+                                        <td>{{app.tel}}</td>
+                                        <td>{{app.etc}}</td>
+                                        <td>{{app.deleteYN}}</td>
+                                        <td><button @click="deleteApp(app)" class="btn">{{(app.deleteYN == 'N')?"삭제":"복구"}}</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-
-                    <div class="col-12">
-                        <div class="btn-box float-right">
-                            <div>
-                                <router-link role="button" class="btn btn-info" :to="`/admin/program/${this.id}`">이전</router-link>
-                            </div>
                         </div>
+
+                        <!-- 버튼 -->
+                        <div class="board-btn-list">
+                            <router-link role="button" class="btn" :to="`/admin/program/${this.id}`">이전</router-link>
+                        </div>
+                        <!-- //버튼 -->
+
                     </div>
                 </div>
             </div>
@@ -110,29 +139,5 @@
 
     }
 
-    .program-appList .title {
-        margin: 20px 0;
-        font-size:30px;
-        font-weight: 600;
-    }
-
-    .program-appList .subject {
-        border-top: solid 2px #66b1f1;
-        padding: 15px;
-        font-size:20px;
-        font-weight: 500;
-        min-height: 50px;
-    }
-
-    .program-appList .content {
-        border-top: solid 1px rgba(111, 111, 111, 0.5);
-        padding: 10px 15px 0 15px;
-        font-size:15px;
-        min-height: 200px;
-    }
-
-    .btn-box button,a {
-        margin: 0 10px 10px 0;
-    }
-
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

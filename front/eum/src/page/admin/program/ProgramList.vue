@@ -1,66 +1,83 @@
 <template>
     <section class="programList">
         <sub-layout>
-            <h4><b>공지사항</b></h4>
-            <div class="searchDiv">
-                <div class="row">
-                    <label class="col-6 col-form-label"><b>총 게시물수</b><span class="totalRows">{{totalRows}}</span></label>
-                    <div class="col-6">
-                        <form @submit="keywordSearch(1)" @submit.prevent>
-                            <div class="form-inline" style="float:right;">
-                                <div class="input-group">
-                                    <input type="text" id="searchKeyword" v-model="searchForm.title" class="form-control" placeholder="검색조건을 입력해주세요.">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary" @click="keywordSearch(1)">검색</button>
-                                    </span>
+            <div id="content">
+				<div id="navigator">
+					<h3>{{kindName}}</h3>
+					<ul>
+						<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
+                        <li> > </li>
+                        <li>관리자</li>
+                        <li> > </li>
+                        <li>프로그램</li>
+					</ul>
+				</div>
+
+				<div id="con">
+
+					<div class="board-wrap">
+
+						<div class="board-list-header">
+							<div class="total-box">
+								전체 <strong>{{totalRows}}</strong>건
+							</div>
+                            <form @submit="search(1)" @submit.prevent>
+                                <div class="search-box">
+                                    <select class="select" v-model="searchForm.kind" name="kind" @change="search(1)">
+                                        <option v-for="pro in programKindList" :value="pro.id">{{pro.name}}</option>
+                                    </select>
+                                    <div class="input-group">
+                                        <input type="text" class="intxt" v-model="searchForm.title" placeholder="검색어를 입력하세요." />
+                                        <div class="in-btn">
+                                            <button type="button" class="btn" @click="search(1)">검색</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <select v-model="searchForm.kind" name="kind" @change="keywordSearch(1)">
-                <option v-for="pro in programKindList" :value="pro.id">{{pro.name}}</option>
-            </select>
-            <table class="table table-striped table-bordered">
-                <colgroup>
-                    <col width="10%">
-                    <col width="60%">
-                    <col width="15%">
-                    <col width="15%">
-                </colgroup>
-                <thead class="thead-dark text-center">
-                <tr>
-                    <th scope="col">번호</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(content, index) in contents">
-                    <th scope="row" class="text-center">{{number*size+index+1}}</th>
-                    <td><router-link :to="{path:`program/${content.id}`}">{{content.title}}</router-link></td>
-                    <td>{{content.regDate | formatDate}}</td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="overflow-auto" >
-                <div class="text-center">
-                    <b-pagination align="center" size="md" :total-rows="totalRows" v-model="currentPage" :per-page="size" hide-ellipsis :limit="10" @change="search" />
-                </div>
-            </div>
-            <div>
-                <div class="btn-box float-right">
-                    <div>
-                        <button v-if="this.store.state.menuRole.writeRole=='Y'" type="button" class="btn btn-warning" @click="goInsertPage">작성</button>
-                    </div>
-                </div>
-            </div>
+                            </form>
+							<div class="btn-list">
+                                <button v-if="this.store.state.menuRole.writeRole=='Y'" type="button" class="btn li01" @click="goInsertPage">작성</button>
+							</div>
+
+						</div>
+
+						<div class="borad-content">
+
+							<ul class="webzine-list">
+								<li v-for="content in contents">
+                                    <router-link :to="{path:`program/${content.id}`}">
+										<div class="img"><img :src="`${store.state.basePath}${content.imageFile.resourcePath}/${content.imageFile.virtualName}`" :alt="content.title" /></div>
+										<div class="con-box">
+											<strong>{{content.title}}</strong>
+											<ul>
+												<li><span>신청일</span><p>{{content.strAppDate|formatDateKo2}}~{{content.endAppDate|formatDateKo2}}</p></li>
+												<li><span>일시</span><p>{{content.strDate|formatDateKo2}}~{{content.endDate|formatDateKo2}}</p></li>
+												<li><span>장소</span><p>{{content.address}} {{content.addressDetail}}</p></li>
+											</ul>
+										</div>
+                                    </router-link>
+								</li>
+							</ul>
+
+						</div>
+
+						<pagination :totalRecords="totalRows" :currentPage="searchForm.currentPage" :screenSize="size" :search="search"></pagination>
+
+					</div>
+
+
+
+				</div>
+
+
+
+
+			</div>
         </sub-layout>
     </section>
 </template>
 
 <script>
+import Pagination from '@/components/pagination/Pagination'
 import SubLayout from '@/components/layouts/SubLayout';
 import ProgramProp from "../../program/prop/ProgramProp.js"
 export default {
@@ -73,12 +90,11 @@ export default {
     },
     data() {
         return {
-            currentPage: 1,
             totalRows : 0,
             number : 0,
             size : 0,
             contents : {},
-            searchForm : {title:"",kind:1},
+            searchForm : {title:"",kind:1, currentPage : 1},
             programKindList : []
         }
     },
@@ -95,17 +111,14 @@ export default {
         },
         goInsertPage : function(){
             this.router.push({path:`/admin/program/insert`, query: { kind: this.searchForm.kind }});
-        },
-        keywordSearch : function(pageNum){
-            this.currentPage = pageNum;
-            this.search(pageNum);
         }
     },
     computed: {
 
     },
     components:{
-        SubLayout
+        SubLayout,
+        Pagination
     }
 }
 </script>
@@ -114,31 +127,5 @@ export default {
     .programList {
 
     }
-
-    .searchDiv {
-        padding: 20px;
-        /*  border: solid 1px #ddd; */
-        background: #71beff;
-        border-radius: 10px;
-        box-shadow: 4px 3px 11px 2px grey;
-        margin: 0 0 20px 0;
-    }
-
-    .searchDiv .totalRows{
-        margin-left: 10px
-    }
-
-    .table .thead-dark th{
-        background-color: #67708b;
-        border-color: #67708b;
-    }
-
-    .page-item.active .page-link{
-        background-color: #a6b4c4;
-        border-color : #a6b4c4;
-    }
-
-    .btn-box button,a {
-        margin: 0 10px 10px 0;
-    }
 </style>
+<style scoped src="@/assets/css/custom.css"></style>
