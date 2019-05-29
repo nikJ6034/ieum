@@ -119,8 +119,9 @@ let _this = null;
                    }else{
                      data.color="#5a5afa";
                    }
-              data.start = new Date(data.start);
-              data.end = new Date(data.end);
+                   
+               data.start = moment(String(data.start));
+               data.end = moment(String(data.end));
               if(data.deleteYN=="N"){
                 dataList.push(data);
               }

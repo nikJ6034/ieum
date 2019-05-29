@@ -3,9 +3,6 @@ import '@/assets/js/jquery.bxslider/jquery.bxslider';
 export default {
     main : function(){
         $(function() {
-            setTimeout(function () {
-                $('.visual-slide li').eq(1).addClass('active');
-            }, 1000);
             let visualSlide = $('.visual-slide').bxSlider({
                 auto: true,
                 mode: 'vertical',
@@ -27,8 +24,14 @@ export default {
                     $('span.totalnumer').html(slideQty);
                 }
             });
-            let slideeQQ = visualSlide.getSlideCount();
-            $('span.ltest').html(slideeQQ);
+
+            setTimeout(function(){
+                $('.visual-slide li').eq(1).addClass('active');
+                visualSlide.reloadSlider();
+                let slideeQQ = visualSlide.getSlideCount();
+                $('span.ltest').html(slideeQQ);
+            },1000);
+            
 
             let $contentTop = $(".section-01").offset().top;
 
