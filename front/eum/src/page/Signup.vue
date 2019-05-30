@@ -1,16 +1,44 @@
 <template>
-    <section>
-        <div>
-            아이디 : <input type="text" v-model="memberName"> <div>{{memberNameChkMsg}}</div>
-        </div>
-        <div>
-            전화번호 : <input type="text" v-model="mobile">
-        </div>
-        <div>
-            이메일 : <input type="text" v-model="email">
-        </div>
-        <button @click="signupProsess">회원가입</button>
-    </section>
+    <div id="content">
+				<div id="navigator">
+					<h3>추가 정보입력</h3>
+					
+				</div>
+
+				<div id="con">
+
+					<table class="info-table">
+						<colgroup>
+							<col width="20%" />
+							<col width="" />
+						</colgroup>
+						<tbody>
+							<tr>
+								<th>아이디</th>
+								<td class="left"><input type="text" class="intxt ins" v-model="memberName" /><div>{{memberNameChkMsg}}</div></td>
+							</tr>
+							<tr>
+								<th>전화번호</th>
+								<td class="left"><input type="text" class="intxt ins" v-model="mobile"/></td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td class="left"><input type="text" class="intxt ins" v-model="email" /></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="tmar_30">
+                        <button class="btn" @click="signupProsess">회원가입</button>
+					</div>
+
+
+				</div>
+
+
+
+
+			</div>
 </template>
 
 <script>
@@ -108,3 +136,4 @@
 <style scoped>
 
 </style>
+<style scoped src="@/assets/css/custom.css"></style>

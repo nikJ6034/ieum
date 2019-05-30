@@ -80,6 +80,7 @@
 import 'fullcalendar/dist/fullcalendar.css'
 import SubLayout from '@/components/layouts/SubLayout'
 import { FullCalendar } from 'vue-full-calendar'
+import moment from 'moment';
 let _this = null;
   export default  {
     name: 'reservationMng',

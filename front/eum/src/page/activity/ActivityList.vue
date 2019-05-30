@@ -46,7 +46,7 @@
 							<ul class="gallery-list">
 								<li v-for="content in contents">
 									<routerLink :to="{path:`activity/${content.id}`}">
-										<div class="img"><img v-if="content.attachImage[0]" :src="`${store.state.basePath}${content.attachImage[0].resourcePath}/${content.attachImage[0].virtualName}`" onerror="this.src='http://placehold.it/700x400'" alt="" /></div>
+										<div class="img"><img v-if="content.attachImage[0]" :src="`${store.state.basePath}${content.attachImage[0].resourcePath}/s_${content.attachImage[0].virtualName}`" onerror="this.src='http://placehold.it/700x400'" alt="" /></div>
 										<div class="con-box">
 											<strong>{{content.title}}</strong>
 											<span>{{content.regDate | formatDate}}</span>

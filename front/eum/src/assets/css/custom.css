@@ -139,6 +139,9 @@
 
     /* 게시판 */
 #con .intxt{width:100%;height:40px;padding:0 15px;border:1px solid #e0e0e0;}
+@media screen and (min-width:800px){
+    #con .intxt.ins{width:40%;}
+}
 #con .textarea{width:100%;min-height:100px;max-width:100%;padding:15px;border:1px solid #e0e0e0;}
 
 .board-wrap{position:relative;}
@@ -243,7 +246,8 @@
 .board-wrap .gallery-list:after{content:"";display:block;clear:both;}
 .board-wrap .gallery-list > li{display:inline-block;width:32%;vertical-align: top;margin-bottom:20px;padding:0 10px;}
 .board-wrap .gallery-list > li > a{display:block;border:1px solid #e9ebf0;}
-.board-wrap .gallery-list > li > a .img img{display:block;}
+.board-wrap .gallery-list > li > a .img{overflow:hidden;position:relative;height:180px;}
+.board-wrap .gallery-list > li > a .img img{position:absolute;left:-100%;right:-100%;top:-100%;bottom:-100%;min-height:100%;min-width:100%;margin:auto;}
 .board-wrap .gallery-list > li > a .con-box{padding:18px;}
 .board-wrap .gallery-list > li > a .con-box:after{content:"";display:block;clear:both;}
 .board-wrap .gallery-list > li > a .con-box strong{display:block;overflow:hidden;float:left;width:55%;width:calc(100% - 90px);text-overflow:ellipsis;white-space:nowrap;font-size:15px;color:#000;}
@@ -300,7 +304,7 @@
     .board-add-header ul > li.li03{width:70%;}
     .board-add-header ul > li.li04{float:none;width:100%;}
     .board-add-header ul > li.li05{float:none;width:100%;}
-
+    .board-wrap .gallery-list > li > a .img{height:150px;}
     .board-wrap .gallery-list > li > a .con-box strong{width:100%;}
     .board-wrap .gallery-list > li > a .con-box span{display:none;}
 
@@ -342,6 +346,7 @@
     .board-add-header ul > li.li03{float:none;width:100%;}
     .board-add-header ul > li.li04{float:none;width:100%;}
 
+    .board-wrap .gallery-list > li > a .img{height:120px;}
     .board-wrap .webzine-list > li > a .img{float:none;width:100%;}
     .board-wrap .webzine-list > li > a .img img{width:100%;max-width: inherit;}
     .board-wrap .webzine-list > li > a .con-box{padding:15px 0 0 0px;}
