@@ -259,7 +259,7 @@
 .board-wrap .webzine-list > li > a{display:block;}
 .board-wrap .webzine-list > li > a:after{content:"";display:block;clear:both;}
 .board-wrap .webzine-list > li > a .img{float:left;width:295px;padding:5px;border:1px solid #e0e0e0;}
-.board-wrap .webzine-list > li > a .img img{display:block;}
+.board-wrap .webzine-list > li > a .img img{display:block; height: 150px; margin: auto;}
 .board-wrap .webzine-list > li > a .con-box{overflow: hidden;padding-left:45px;}
 .board-wrap .webzine-list > li > a .con-box strong{display:block;margin-bottom:40px;font-size:20px;color:#000;}
 .board-wrap .webzine-list > li > a .con-box ul{}

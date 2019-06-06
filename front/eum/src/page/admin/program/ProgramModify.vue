@@ -49,6 +49,38 @@
 							</ul>
 						
 						</div>
+                        <div class="board-add-header" style="border-bottom:1px solid #ddd;">
+                            <ul>
+								<li class="li01">우편번호</li>
+                                <li class="li05">
+                                    <input class="tit-int" type="text" v-model="program.addressNumber" readonly>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn" @click="postPopup">우편번호 검색</button>
+                                </li>
+                                
+                            </ul>
+                            <ul>
+                                <li class="li01">주소</li>
+                                <li>
+                                    <input class="tit-int" v-model="program.address" type="text" readonly>
+                                </li>
+                                <li class="li01">상세 주소</li>
+                                <li>
+                                    
+                                    <input class="tit-int" type="text" v-model="program.addressDetail">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="board-add-header" style="border-bottom:1px solid #ddd;">
+                            <ul>
+                                <li class="li01">이미지파일</li>
+                                <li>
+                                    <p class="con-txt"><img v-if="program.imageFile" :src="`${store.state.basePath}${program.imageFile.resourcePath}/${program.imageFile.virtualName}`" style="height:150px;"/></p>
+                                     <input type="file"  id="image" v-on:change="uploadImage">
+                                </li>
+                            </ul>
+                        </div>
 
                         <div class="border-view-con">
                             <quill v-if="program.content" :qContent.sync="program.content"></quill>

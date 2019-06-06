@@ -64,7 +64,7 @@
                                         <li v-for="pro in narae">
                                             <div class="img-box"><img :src="`${store.state.basePath}${pro.imageFile.resourcePath}/${pro.imageFile.virtualName}`" :alt="pro.title" /></div>
                                             <div class="con-box">
-                                                <strong>{{pro.title}}</strong>
+                                                <strong><router-link :to="{path:`/program/narae/${pro.id}`}">{{pro.title}}</router-link></strong>
                                                 <ul>
                                                     <li><span>신청일</span><p>{{pro.strAppDate|formatDateKo2}}~{{pro.endAppDate|formatDateKo2}}</p></li>
                                                     <li><span>일시</span><p>{{pro.strDate|formatDateKo2}}~{{pro.endDate|formatDateKo2}}</p></li>
@@ -84,7 +84,7 @@
                                         <li v-for="pro in kki">
                                             <div class="img-box"><img :src="`${store.state.basePath}${pro.imageFile.resourcePath}/${pro.imageFile.virtualName}`" :alt="pro.title" /></div>
                                             <div class="con-box">
-                                                <strong>{{pro.title}}</strong>
+                                                <strong><router-link :to="{path:`/program/kki/${pro.id}`}">{{pro.title}}</router-link></strong>
                                                 <ul>
                                                     <li><span>신청일</span><p>{{pro.strAppDate|formatDateKo2}}~{{pro.endAppDate|formatDateKo2}}</p></li>
                                                     <li><span>일시</span><p>{{pro.strDate|formatDateKo2}}~{{pro.endDate|formatDateKo2}}</p></li>
