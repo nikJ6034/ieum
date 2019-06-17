@@ -33,9 +33,9 @@
 					<div>
                         <owl-slide v-if="activity.attachImage.length > 0" :images="activity.attachImage"
                             :options="{
-                                loop:true,
+                                loop:false,
                                 margin:10,
-                                autoplay:true,
+                                autoplay:false,
                                 autoplayTimeout:3000,
                                 autoplayHoverPause:true,
                                 dots : false

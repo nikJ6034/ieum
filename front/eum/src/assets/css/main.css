@@ -159,7 +159,7 @@
 #content .section-02 .slide-box .gallery-list > li .img-box img{display:block;height: 270px;}
 #content .section-02 .slide-box .gallery-list > li .con-box{padding:20px;background-color:#fff;}
 #content .section-02 .slide-box .gallery-list > li .con-box strong{display:block;overflow:hidden;margin-bottom:10px;font-size:19px;font-weight:500;color:#363636;white-space: nowrap;text-overflow: ellipsis;}
-#content .section-02 .slide-box .gallery-list > li .con-box p{overflow:hidden;font-size:14px;color:#777777;white-space: nowrap;text-overflow: ellipsis;}
+#content .section-02 .slide-box .gallery-list > li .con-box p{overflow:hidden;font-size:14px;color:#777777;white-space: nowrap;text-overflow: ellipsis; height: 15px;}
 
 #content .section-02 .slide-box .bx-pager{padding-top:35px;}
 #content .section-02 .slide-box .bx-pager-item {display:inline-block;}

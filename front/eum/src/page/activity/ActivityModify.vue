@@ -67,7 +67,8 @@
 
 											<li>
 												<img :ref="`file_${n}`" style="width:200px;"/> &nbsp;
-												<input type="file" :id="`file_${n}`" accept='image/jpeg,image/gif,image/png' v-on:change="uploadFile">
+												<input style="width:200px" type="file" :id="`file_${n}`" accept='image/jpeg,image/gif,image/png' v-on:change="uploadFile">
+                        <div style="display:inline; width:200px; color:red;">* 이미지 사이즈를 330*270으로 올려주세요.</div>
 											</li>
 
 										</ul>

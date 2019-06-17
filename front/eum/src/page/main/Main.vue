@@ -41,7 +41,7 @@
                                 <li v-for="no in notice">
                                     <router-link :to="{path:`notice/${no.id}`}">
                                         <strong>{{no.title}}</strong>
-                                        <p v-html="no.content"></p>
+                                        <!-- <p v-html="no.content"></p> -->
                                         <span class="date">{{no.regDate|formatDateKo2}}</span>
                                     </router-link>
                                 </li>
@@ -55,6 +55,7 @@
                                 <ul class="tab-tit">
                                     <li><a href="#tab01" class="active">꿈나래학교</a></li>
                                     <li><a href="#tab02">꿈과끼학교</a></li>
+                                    <li><a href="#tab03">마을교사 플랫폼</a></li>
                                 </ul>
                             </div>
 
@@ -97,6 +98,26 @@
                                     </ul>
 
                                     <router-link to="/program/kki" class="more-btn">MORE</router-link>
+                                </div>
+
+                                <div id="tab03" class="tab-con">
+                                    <ul class="program-list">
+                                        <li v-for="pro in teacher">
+                                            <div class="img-box"><img :src="`${store.state.basePath}${pro.imageFile.resourcePath}/${pro.imageFile.virtualName}`" :alt="pro.title" /></div>
+                                            <div class="con-box">
+                                                <strong><router-link :to="{path:`/program/narae/${pro.id}`}">{{pro.title}}</router-link></strong>
+                                                <ul>
+                                                    <li><span>신청일</span><p>{{pro.strAppDate|formatDateKo2}}~{{pro.endAppDate|formatDateKo2}}</p></li>
+                                                    <li><span>일시</span><p>{{pro.strDate|formatDateKo2}}~{{pro.endDate|formatDateKo2}}</p></li>
+                                                    <li><span>장소</span><p>{{pro.address}} {{pro.addressDetail}}</p></li>
+                                                </ul>
+                                                <!--<p class="txt" v-html="pro.content"></p>-->
+                                            </div>
+
+                                        </li>
+                                    </ul>
+
+                                    <router-link to="/program/teacher" class="more-btn">MORE</router-link>
                                 </div>
                             </div>
 
@@ -141,7 +162,8 @@ export default  {
         activity : [],
         banner : [],
         narae : [],
-        kki : []
+        kki : [],
+        teacher : []
       }
     },
     methods: {
@@ -173,6 +195,11 @@ export default  {
             this.$http.get(`${this.store.getters.restWebPath}/program`,{params:{kind:2,currentPage:1,limit:2}})
                 .then(({data})=>{
                     this.kki = data.list.content;
+                })
+
+            this.$http.get(`${this.store.getters.restWebPath}/program`,{params:{kind:3,currentPage:1,limit:2}})
+                .then(({data})=>{
+                    this.teacher = data.list.content;
                 })
         }
     },

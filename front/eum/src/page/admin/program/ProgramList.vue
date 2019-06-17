@@ -3,7 +3,7 @@
         <sub-layout>
             <div id="content">
 				<div id="navigator">
-					<h3>{{kindName}}</h3>
+					<h3>프로그램</h3>
 					<ul>
 						<li><img :src="require('@/assets/images/custom/navi_home_i.png')" alt="home" /></li>
                         <li> > </li>

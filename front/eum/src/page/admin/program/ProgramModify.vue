@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="border-view-con">
-                            <quill v-if="program.content" :qContent.sync="program.content"></quill>
+                            <quill v-if="edit" :qContent.sync="program.content"></quill>
                         </div>
 
                         <div class="board-file-box" v-if="program.attachFile.length != 0">
@@ -156,7 +156,8 @@ export default {
     name: "ProgramModify"
     ,mounted() {
         this.programKindList = ProgramProp.getProgramList();
-        this.search()
+        this.search();
+        
     },
     data() {
         return {
@@ -170,7 +171,8 @@ export default {
             image : null,
             en: en,
             ko: ko,
-            programKindList : []
+            programKindList : [],
+            edit : false
         }
     },
     methods: {
@@ -178,6 +180,7 @@ export default {
             this.$http.get(`${this.store.getters.restWebPath}/program/${this.$route.params.id}`)
                 .then(({data})=>{
                     this.program = data.data;
+                    this.edit = true;
                 })
         },
         modify : function(){

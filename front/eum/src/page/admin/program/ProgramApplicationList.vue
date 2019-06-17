@@ -57,7 +57,6 @@
                                     <th>이름</th>
                                     <th>전화번호</th>
                                     <th>신청 이유</th>
-                                    <th>삭제 유무</th>
                                     <th>삭제</th>
                                 </tr>
                                 </thead>
@@ -67,7 +66,6 @@
                                         <td>{{app.name}}</td>
                                         <td>{{app.tel}}</td>
                                         <td>{{app.etc}}</td>
-                                        <td>{{app.deleteYN}}</td>
                                         <td><button @click="deleteApp(app)" class="btn">{{(app.deleteYN == 'N')?"삭제":"복구"}}</button></td>
                                     </tr>
                                 </tbody>

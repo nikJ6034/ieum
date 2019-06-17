@@ -69,20 +69,7 @@
 
 						<!-- //첨부파일 -->
 
-                        <div v-if="exists" class="board-add-header">
-                            <ul>
-								<li class="li01">신청자</li>
-								<li class="li05">
-									<p class="con-txt">{{programApplication.name}}</p>
-								</li>
-								<li class="li01">연락처</li>
-								<li class="li05">
-									<p class="con-txt">{{programApplication.tel}}</p>
-								</li>
-							</ul>
-                        </div>
-
-						<!-- 버튼 -->
+                        <!-- 버튼 -->
 						<div class="board-btn-list">
                             <router-link role="button" class="btn" :to="`/admin/program/application/${program.id}`">신청</router-link>
                             <router-link role="button" class="btn li01" :to="`/admin/program/application/${program.id}/mng`">신청자 관리</router-link>

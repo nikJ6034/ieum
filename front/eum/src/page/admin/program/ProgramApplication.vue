@@ -59,8 +59,8 @@
 									<p class="con-txt"><input type="text" v-model="programApplication.tel"></p>
 								</li>
                                 <li class="li01">특이사항</li>
-								<li class="li05">
-									<p class="con-txt"><input type="text" v-model="programApplication.etc"></p>
+								<li class="li04">
+									<p class="con-txt"><textarea style="width:80%;" rows="5" v-model="programApplication.etc"></textarea></p>
 								</li>
 							</ul>
                             
