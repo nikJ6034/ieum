@@ -61,7 +61,7 @@ public class BannerService {
 				for(int i = 0; i < files.size(); i++){
 					MultipartFile mf = files.get(i);
 					BannerImage bi = bannerImage.get(i);
-					AttachFile attachFile = uploadResourceImageFileUtil.imageUpload(mf.getOriginalFilename(), mf.getBytes(), save.getWidth(), save.getHeight());
+					AttachFile attachFile = uploadResourceImageFileUtil.imageUpload(mf.getOriginalFilename(), mf.getBytes(), save.getHeight());
 					entityManager.persist(attachFile);
 					bi.setBanner(save);
 					bi.setAttachFile(attachFile);

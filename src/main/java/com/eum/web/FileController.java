@@ -1,13 +1,8 @@
 package com.eum.web;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import com.eum.attachFile.entity.AttachFile;
+import com.eum.attachFile.service.FileService;
+import com.eum.util.file.image.UploadResourceImageFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -21,9 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.eum.attachFile.entity.AttachFile;
-import com.eum.attachFile.service.FileService;
-import com.eum.util.file.image.UploadResourceImageFileUtil;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * FileDownloadController
@@ -64,13 +63,13 @@ public class FileController {
     }
     
     @RequestMapping(value = "/api/web/resource/img", method = RequestMethod.POST, consumes = "multipart/form-data")
-	public List<AttachFile> insert(MultipartHttpServletRequest mtfRequest) throws IOException, Exception {
+	public List<AttachFile> insert(MultipartHttpServletRequest mtfRequest) {
 		List<MultipartFile> files = mtfRequest.getFiles("files");
 		List<AttachFile> list = new ArrayList<AttachFile>();
 		
 		files.forEach(f->{
 			try {
-				AttachFile imageUploadWithThumbnail = uploadResourceImageFileUtil.imageUploadWithThumbnail(f.getOriginalFilename(), f.getBytes());
+				AttachFile imageUploadWithThumbnail = uploadResourceImageFileUtil.imageUpload(f.getOriginalFilename(), f.getBytes(),500);
 				imageUploadWithThumbnail.setFullPath(""); //전체 경로는 보안상 이유로 삭제함.
 				list.add(imageUploadWithThumbnail);
 			} catch (IOException e) {

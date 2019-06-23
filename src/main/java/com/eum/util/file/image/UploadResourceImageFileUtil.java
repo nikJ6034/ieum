@@ -34,11 +34,11 @@ import com.eum.util.file.FileUtil;
        
     }
     
-    public AttachFile imageUpload(String originalName, byte[] fileData, int width, int height) throws Exception {
+    public AttachFile imageUpload(String originalName, byte[] fileData, int height) throws Exception {
     	AttachFile imageUpload = imageUpload(originalName,fileData);
     	File file = new File(imageUpload.getFullPath()+File.separator+imageUpload.getVirtualName());
     	BufferedImage sourceImg = ImageIO.read(file);
-		BufferedImage destImg = Scalr.resize(sourceImg,Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, height);
+		BufferedImage destImg = Scalr.resize(sourceImg,Scalr.Method.BALANCED, Scalr.Mode.FIT_TO_HEIGHT, height);
 		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
 		ImageIO.write(destImg, formatName.toUpperCase(), file);
 		return imageUpload;
