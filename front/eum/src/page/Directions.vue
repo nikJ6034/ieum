@@ -15,7 +15,7 @@
             </div>
 
             <div id="con">
-                <h4 class="tit-01">안녕하세요. 이음 마을학교를 찾아주셔서 짐심으로 감사합니다.</h4>
+                <h4 class="tit-01">안녕하세요. 이음 마을학교를 찾아주셔서 진심으로 감사합니다.</h4>
 
                 <strong class="tit-i-01">약도</strong>
                 <div id="map" style="width:100%;height:400px;border: solid 2px #ffad55;"></div>
@@ -24,7 +24,7 @@
                 <ul class="location-list">
                     <li>
                         <span>주소</span>
-                        <p>34406 대전광역시 대덕구 계족산로 5번길 82(법동)</p>
+                        <p>34406 대전광역시 대덕구 계족산로 5번길 82(대덕구 법동 204-12)</p>
                     </li>
                     <li>
                         <span>전화</span>

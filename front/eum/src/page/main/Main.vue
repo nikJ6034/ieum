@@ -53,14 +53,14 @@
                             <div class="con-h">
                                 <h2>프로그램</h2>
                                 <ul class="tab-tit">
-                                    <li><a href="#tab01" class="active">꿈나래학교</a></li>
+                                    <li><a href="#tab03" class="active">마을교사 플랫폼</a></li>
+                                    <li><a href="#tab01" >꿈나래학교</a></li>
                                     <li><a href="#tab02">꿈과끼학교</a></li>
-                                    <li><a href="#tab03">마을교사 플랫폼</a></li>
                                 </ul>
                             </div>
 
                             <div class="tab-content">
-                                <div id="tab01" class="tab-con active">
+                                <div id="tab01" class="tab-con">
                                     <ul class="program-list">
                                         <li v-for="pro in narae">
                                             <div class="img-box"><img :src="`${store.state.basePath}${pro.imageFile.resourcePath}/${pro.imageFile.virtualName}`" :alt="pro.title" /></div>
@@ -100,7 +100,7 @@
                                     <router-link to="/program/kki" class="more-btn">MORE</router-link>
                                 </div>
 
-                                <div id="tab03" class="tab-con">
+                                <div id="tab03" class="tab-con active">
                                     <ul class="program-list">
                                         <li v-for="pro in teacher">
                                             <div class="img-box"><img :src="`${store.state.basePath}${pro.imageFile.resourcePath}/${pro.imageFile.virtualName}`" :alt="pro.title" /></div>
