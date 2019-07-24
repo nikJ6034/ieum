@@ -69,7 +69,7 @@ public class ActivityService {
 				List<AttachFile> attachFiles = files.stream().map(mf -> {
 					AttachFile attachFile = null;
 					try {
-						attachFile = uploadResourceImageFileUtil.imageUploadWithThumbnail(mf.getOriginalFilename(), mf.getBytes());
+						attachFile = uploadResourceImageFileUtil.imageUploadWithThumbnail(mf.getOriginalFilename(), mf.getBytes(),800);
 						System.out.println(attachFile);
 						entityManager.persist(attachFile);
 						return attachFile;

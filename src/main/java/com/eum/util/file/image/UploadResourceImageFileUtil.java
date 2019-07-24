@@ -50,6 +50,13 @@ import com.eum.util.file.FileUtil;
         imageUpload.setThumbnailYN("Y");
        return imageUpload;
     }
+
+	public AttachFile imageUploadWithThumbnail(String originalName, byte[] fileData, int height) throws Exception {
+		AttachFile imageUpload = imageUpload(originalName, fileData,height);
+		makeThumbnail(imageUpload.getFullPath(),imageUpload.getVirtualName());
+		imageUpload.setThumbnailYN("Y");
+		return imageUpload;
+	}
     
     public void imageDelete(String path, String fileName) {
     	File file = null;
