@@ -1,8 +1,8 @@
 <template>
     <section class="owl-slide owl-carousel owl-theme">
-        <template v-for="image in images">
-            <img :src="`${store.state.basePath}${image.resourcePath}/${image.virtualName}`">
-        </template>
+        <viewer  v-for="image in images">
+               <img style="" :src="`${store.state.basePath}${image.resourcePath}/${image.virtualName}`" width="278px" height="180px">
+        </viewer >
     </section>
 </template>
 
@@ -10,6 +10,11 @@
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'owl.carousel';
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+import VueGallery from 'vue-gallery';
+import Vue from 'vue'
+Vue.use(Viewer);
 export default  {
     name: 'owl-slide',
     props: {images:Array, options:Object},
@@ -26,6 +31,9 @@ export default  {
     },
     computed: {
 
+    },
+    components: {
+        'gallery': VueGallery
     }
 }
 </script>
