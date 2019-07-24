@@ -1,7 +1,7 @@
 <template>
     <section class="owl-slide owl-carousel owl-theme">
         <viewer  v-for="image in images">
-               <img style="" :src="`${store.state.basePath}${image.resourcePath}/${image.virtualName}`" width="278px" height="180px">
+               <img :src="`${store.state.basePath}${image.resourcePath}/${image.virtualName}`" width="300px" height="246px">
         </viewer >
     </section>
 </template>
