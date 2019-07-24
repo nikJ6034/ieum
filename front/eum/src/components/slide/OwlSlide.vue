@@ -12,7 +12,6 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'owl.carousel';
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
-import VueGallery from 'vue-gallery';
 import Vue from 'vue'
 Vue.use(Viewer);
 export default  {
@@ -31,9 +30,6 @@ export default  {
     },
     computed: {
 
-    },
-    components: {
-        'gallery': VueGallery
     }
 }
 </script>
