@@ -149,10 +149,10 @@ const vueRouter = new Router({
         beforeEnter : requireAdmin()
     },
     {
-	    path: '/admin/banner',
-	    name: 'banner',
-	    component: () => import('@/page/admin/banner/BannerList.vue'),
-	    beforeEnter : requireAdmin()
+        path: '/admin/banner',
+        name: 'banner',
+        component: () => import('@/page/admin/banner/BannerList.vue'),
+        beforeEnter : requireAdmin()
 	},
     {
         path: '/admin/banner/modify/:id',
@@ -161,15 +161,15 @@ const vueRouter = new Router({
         beforeEnter : requireAdmin()
     },
     {
-	    path: '/reservation',
-	    name: 'reservation',
-	    component: () => import('@/page/reservation/Reservation.vue'),
+        path: '/reservation',
+        name: 'reservation',
+        component: () => import('@/page/reservation/Reservation.vue'),
         beforeEnter: requireAuth()
 	},
 	{
-	    path: '/admin/reservation',
-	    name: 'adminReservation',
-	    component: () => import('@/page/admin/reservation/ReservationMng.vue'),
+        path: '/admin/reservation',
+        name: 'adminReservation',
+        component: () => import('@/page/admin/reservation/ReservationMng.vue'),
         beforeEnter : requireAdmin()
 	},
     {
@@ -251,15 +251,19 @@ function level(m, to){
 	if(to.path == "/") return level;
     if(!to) return level;
     (function find(m){
-        return m.some(function(cm){
-            level[cm.level] = cm;
+		return m.some(function(cm){
+			level[cm.level] = cm;
             let text = null;
             if(cm.url){
-                text = cm.url.replace(/:\w+/g,"\\S+")+"$";
-            }
-            let re = new RegExp(text);
-            if(re && re.test(to.path)){
-				return true;
+				text = cm.url.replace(/:\w+/g,"\\S+")+"$";
+			}
+			let re = new RegExp(text);
+            if(re && re.test(to.path) ){
+				if(to.path.match(/\//g).length != text.match(/\//g).length){
+					return find(cm.menuList);
+				}else{
+					return true;
+				}
 			}else{
 				if(cm.menuList.length > 0){
 					return find(cm.menuList);
@@ -283,7 +287,7 @@ vueRouter.beforeEach(async(to, from, next) => {
   
 });
 
-vueRouter.afterEach( (to, from) => {
+vueRouter.afterEach( (to) => {
     // ...후
 
 //  window.console.log("라우터 변경이 일어날 때 후처리 하는 부분 입니다."+from);

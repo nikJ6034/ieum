@@ -31,27 +31,20 @@
                         <p><strong>이음 마을 학교</strong>입니다.</p>
                     </div>
                     <ul class="menu">
-                        <li v-if="store.state.menu[0]" v-for="menu in store.state.menu">
-                            <a href="#" :class="active(menu.id)"><span>{{menu.menuName}}</span></a>
-                            <ul class="snb1">
-                                <li v-if="menu.menuList" v-for="chMenu in menu.menuList"><router-link :to="chMenu.url||''" >{{chMenu.menuName}}</router-link></li>
-                            </ul>
-                        </li>
-                        <li v-if="store.state.isAdmin">
-                            <!-- 관리자 메뉴  -->
-                            <a  href="#">관리자 메뉴</a>
-                            <ul class="snb1">
-                                <li >
-                                    <router-link to="/admin/banner" >배너 관리</router-link>
-                                </li>
-                                <li >
-                                    <router-link to="/admin/reservation" >대관신청 관리</router-link>
-                                </li>
-                                <li >
-                                    <router-link to="/admin/program" >프로그램 관리</router-link>
-                                </li>
-                            </ul>
-                        </li>
+						<template v-if="store.state.menu[0]">
+							<li v-for="menu in store.state.menu" v-bind:key="menu.id">
+								<template v-if="menu.menuName !='관리자 메뉴' || (menu.menuName =='관리자 메뉴' && store.state.isAdmin)">
+									<a href="#" :class="active(menu.id)"><span>{{menu.menuName}}</span></a>
+									<ul class="snb1">
+										<template v-if="menu.menuList">
+											<li v-for="chMenu in menu.menuList" v-bind:key="chMenu.id">
+												<router-link :to="chMenu.url||''" >{{chMenu.menuName}}</router-link>
+											</li>
+										</template>
+									</ul>
+								</template>
+							</li>
+                        </template>
                     </ul>
                 </nav>
                 <ul class="top-menu">
@@ -72,18 +65,20 @@
                 <span class="mo-menu-btn"></span>
             </div>
 
-
-
             <div class="mo-gnb-wrap">
                 <div class="mo-menu">
                     <div class="con-box">
                         <ul class="mo-gnb" id="moMenu">
-                            <li :class="active(menu.id)" v-if="store.state.menu[0]" v-for="menu in store.state.menu">
-                                <a href="#" class="active(menu.id)"><span>{{menu.menuName}}</span></a>
-                                <ul>
-                                    <li v-if="menu.menuList" v-for="chMenu in menu.menuList"><router-link :to="chMenu.url||''" >{{chMenu.menuName}}</router-link></li>
-                                </ul>
-                            </li>
+							<template v-if="store.state.menu[0]">
+								<li :class="active(menu.id)"  v-for="menu in store.state.menu" v-bind:key="menu.id">
+									<a href="#" class="active(menu.id)"><span>{{menu.menuName}}</span></a>
+									<ul>
+										<template v-if="menu.menuList">
+											<li v-for="chMenu in menu.menuList" v-bind:key="chMenu.id"><router-link :to="chMenu.url||''" >{{chMenu.menuName}}</router-link></li>
+										</template>
+									</ul>
+								</li>
+							</template>
                             <li v-if="store.state.isAdmin">
                                 <!-- 관리자 메뉴  -->
                                 <a  href="#">관리자 메뉴</a>
@@ -154,9 +149,3 @@
     }
 }
 </script>
-
-<style scoped lang="scss">
-    .header {
-
-    }
-</style>

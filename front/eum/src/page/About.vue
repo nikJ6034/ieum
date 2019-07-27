@@ -91,8 +91,6 @@ import SubLayout from '@/components/layouts/SubLayout'
 </script>
 
 <style scoped lang="scss">
-  .about {
-
-  }
+  
 </style>
 <style scoped src="@/assets/css/custom.css"></style>
